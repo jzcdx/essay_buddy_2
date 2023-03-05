@@ -1,0 +1,26 @@
+{
+    "name": "Essay Buddy",
+    "version": "0.1",
+    "description": "Someone to keep you company while you write",
+    "permissions": ["storage", "tabs"],
+    "host_permissions": ["https://*.youtube.com/*"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://docs.google.com/*"],
+        "js": ["contentScript.js"]
+      }
+    ],
+    "action": {
+      "default_icon": {
+        "16": "assets/icons/icon16.png",
+        "24": "assets/icons/icon16.png",
+        "32": "assets/icons/icon16.png"
+      },
+      "default_title": "hi",
+      "default_popup": "popup.html"
+    },
+    "manifest_version": 3
+}
