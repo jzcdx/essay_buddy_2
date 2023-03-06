@@ -51,6 +51,16 @@ chrome.contextMenus.remove('pauseTimer', function() {
         title: "Pause Timer",
         contexts: ["all"],
         targetUrlPatterns: ["*://*/*"],
+        visible: false,
+    });
+});
+
+chrome.contextMenus.remove('startTimer', function() {
+    chrome.contextMenus.create({
+        id: "startTimer",
+        title: "Start Timer",
+        contexts: ["all"],
+        targetUrlPatterns: ["*://*/*"],
         visible: true,
     });
 });
@@ -76,14 +86,14 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     }
 });
 
-/*
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === "showContextMenu") {
     sendResponse({ success: true, menus: chrome.contextMenus });
-
+    //honestly, this doesn't really do much lol
     //chrome.contextMenus.update("myContextMenu", {visible: true});
   }
-});*/
+});
 
 
 

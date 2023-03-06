@@ -1,7 +1,5 @@
 (() => {
-
     const documentbody = document.getElementsByTagName("BODY")[0];
-
 
     chrome.runtime.onMessage.addListener((obj, sender, response) => {
         const {type, value, videoId } = obj;
@@ -10,22 +8,21 @@
             console.log("drs: " + document.readyState);
             currentVideo = videoId;
             console.log("new received");
-            newVideoLoaded();
+            newPageLoaded();
         }
     });
 
-    const newVideoLoaded = async () => {
-        console.log("nvloaded");
+    const newPageLoaded = async () => {
         const worldExists = document.getElementById("buddy_world");
         let world;
         if (!worldExists) {
             world = document.createElement("div");
             world.id = "buddy_world";
+            world.title = "right click to access the menu";
             let shimai = document.getElementById("shimai-world")
             documentbody.removeChild(shimai);
             documentbody.prepend(world)
         }
-
 
         let buddy;
         const buddyExists = document.getElementById("squareslo");
@@ -38,6 +35,36 @@
             world.prepend(buddy);
             //buddy.addEventListener("contextmenu", addNewBookmarkEventHandler);
         }
+
+        let bubbleDiv;
+        const bubbleDivExists = document.getElementById("bubble-div");
+        if (!bubbleDivExists) {
+            bubbleDiv = document.createElement("div");
+            bubbleDiv.id = "bubble-div";
+            world.prepend(bubbleDiv);
+        }
+
+        const bubbleExists = document.getElementById("bubble-img");
+        if (!bubbleExists) {
+            bubble = document.createElement("img");
+            bubble.src = chrome.runtime.getURL("assets/bubble.png");
+            bubble.title = "click for the menu";
+            bubble.id = "bubble-img";
+            
+
+            bubbleDiv.append(bubble);
+            //bubble.addEventListener("click", addNewBookmarkEventHandler);
+        }
+
+        const timerLabelExists = document.getElementById("timer-label");
+        if (!timerLabelExists) {
+            var timerLabel = document.createElement("label");
+            timerLabel.id = "timer-label";
+            timerLabel.innerHTML = "Time Left: 00:00";
+
+            bubbleDiv.append(timerLabel);
+        }
+
         buddy.addEventListener("contextmenu", function(event) {
             console.log("henlo");
             var menutarget = "squareslo"
@@ -46,20 +73,9 @@
                 chrome.runtime.sendMessage({action: "showContextMenu"}, function(response) {
                     console.log("response received: " , response);
                 });
-                
-                
             }
         });
     }
-
-    const addNewBookmarkEventHandler = async () => {
-        console.log("bookmark handler");
-
-        
-    }
-    
-    
-
-    newVideoLoaded();
+    newPageLoaded();
 })();
 

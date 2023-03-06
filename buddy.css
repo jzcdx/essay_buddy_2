@@ -28,18 +28,37 @@
 
 }
 
+#timer-label {
+    position: absolute;
+    right: 0px; top: 0px;
+    z-index: 10002; 
+    margin-right:16%;
+    margin-top:35%;
+}
+
 #bubble-img {
+    position: absolute;
+    right: 0px; top: 0px;
+    z-index: 10001; 
+    width:100%; 
+    height:100%;
+
+    background:transparent;
+    /*margin-right:0px;
+    margin-bottom:150px;*/
+    background:blue;
+}
+
+#bubble-div {
     position: absolute;
     right: 0px; top: 0px;
     z-index: 10000; 
     width:150px; 
     height:150px;
 
-    background-color:rgb(177, 161, 161);
-    /*margin-right:0px;
-    margin-bottom:150px;*/
+    /*background-color:rgb(137, 109, 109);
+*/
 }
-
 
 #buddy_world {
     position: fixed; 
