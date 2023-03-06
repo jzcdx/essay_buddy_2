@@ -1,5 +1,4 @@
 .buddy-img {
-
     position: fixed;
     right: 0px; bottom: 0px;
     background-color:blue;
@@ -13,21 +12,47 @@
     background-color:blue;
 
     position: fixed;
-    right: 0px; bottom: 0px;
+    left: 0px; bottom: 0px;
     z-index: 9999;  
 }
 
-.buddy_world {
+#squareslo {
+    position: absolute;
+    left: 0px; 
+    bottom: 0px;
+    z-index: 9999; 
+    width:150px; 
+    height:150px;
+
+    background-color:rgb(177, 161, 161);
+
+}
+
+#bubble-img {
+    position: absolute;
+    right: 0px; top: 0px;
+    z-index: 10000; 
+    width:150px; 
+    height:150px;
+
+    background-color:rgb(177, 161, 161);
+    /*margin-right:0px;
+    margin-bottom:150px;*/
+}
+
+
+#buddy_world {
     position: fixed; 
-    right: 0px; bottom: 0px;
+    right: 0px; 
+    bottom: 0px;
     width: 250px; 
     height: 250px; 
     
     
     z-index: 1; 
     pointer-events: none; 
-    background: transparent;
-    /*background-color:gainsboro;*/
+    /*background: transparent;*/
+    background-color:gainsboro;
 }
 
 

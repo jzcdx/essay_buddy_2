@@ -2,17 +2,24 @@
     "name": "Essay Buddy",
     "version": "0.1",
     "description": "Someone to keep you company while you write",
-    "permissions": ["storage", "tabs"],
-    "host_permissions": ["https://*.google.com/*"],
-    "content_security_policy": {"script-src": "self", "object-src": "self", "style-src": "buddy.css"},
+    "permissions": ["storage", "tabs", "contextMenus"],
+    "host_permissions": ["<all_urls>"],
+
+    "content_security_policy": {
+        "script-src": "self", 
+        "object-src": "self", 
+        "style-src": ["self", "buddy.css"]
+      },
+
+    
     "background": {
       "service_worker": "background.js"
     },
     "content_scripts": [
       {
-        "matches": ["https://*.google.com/*"],
+        "matches": ["<all_urls>"],
         "js": ["contentScript.js"],
-        "css": ["buddy.css"]
+        "css": ["./buddy.css"]
       }
     ],
     "action": {
@@ -26,8 +33,8 @@
     },
     "web_accessible_resources": [
       { 
-        "resources": [ "assets/sprites/angus/talk/*" ],
-        "matches": [ "https://*.google.com/*" ]
+        "resources": [ "assets/*", "assets/sprites/angus/*", "buddy.css"],
+        "matches": [ "<all_urls>" ]
       }
     ],
     "manifest_version": 3
