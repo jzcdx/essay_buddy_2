@@ -50,7 +50,7 @@
     
     
     z-index: 1; 
-    pointer-events: none; 
+    /*pointer-events: none;*/ /*this line prevents listeners lol*/ 
     /*background: transparent;*/
     background-color:gainsboro;
 }
