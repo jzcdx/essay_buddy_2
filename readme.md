@@ -14,3 +14,8 @@
   - While you're working
 - Dance
   - When you're on break
+
+## Future Features
+- detect if you're on google docs and only run timer if you're on it
+  - (auto pause)
+  - doesn't sound too hard
