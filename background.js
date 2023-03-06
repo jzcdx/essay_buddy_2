@@ -10,12 +10,6 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
         })
     }
 });
-/*
-chrome.runtime.onInstalled.addListener(() => {
-    
-
-});
-*/
 
 chrome.contextMenus.remove('item2', function() {
     chrome.contextMenus.create({
@@ -39,7 +33,6 @@ chrome.contextMenus.remove('item3', function() {
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
   if (info.menuItemId === "item2") {
-    // Your code here to handle the click event
     console.log("ctx 1 clicked");
   } else if (info.menuItemId === "item3") {
     console.log("ctx 2 clicked");
