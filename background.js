@@ -9,7 +9,61 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
             videoId: urlParameters.get("v")
         })
     }
+});
+/*
+chrome.runtime.onInstalled.addListener(() => {
+    
 
-})
+});
+*/
+
+chrome.contextMenus.remove('item2', function() {
+    chrome.contextMenus.create({
+        id: "item2",
+        title: "helo",
+        contexts: ["all"],
+        targetUrlPatterns: ["*://*/*"],
+        visible: true,
+    });
+});
+
+chrome.contextMenus.remove('item3', function() {
+    chrome.contextMenus.create({
+        id: "item3",
+        title: "helo 2",
+        contexts: ["all"],
+        targetUrlPatterns: ["*://*/*"],
+        visible: true,
+    });
+});
+
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+  if (info.menuItemId === "item2") {
+    // Your code here to handle the click event
+    console.log("ctx 1 clicked");
+  } else if (info.menuItemId === "item3") {
+    console.log("ctx 2 clicked");
+  }
+});
+
+/*
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.action === "showContextMenu") {
+    sendResponse({ success: true, menus: chrome.contextMenus });
+
+    //chrome.contextMenus.update("myContextMenu", {visible: true});
+  }
+});*/
 
 
+
+/*
+chrome.contextMenus.onClicked.addListener(function (info, tab) {
+  if (info.menuItemId === "myContextMenu") {
+    // Your code here to handle the click event
+    console.log("Context menu item clicked");
+  }
+});
+
+
+*/

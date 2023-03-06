@@ -36,14 +36,29 @@
             buddy.id = "squareslo";
             
             world.prepend(buddy);
-            buddy.addEventListener("contextmenu", addNewBookmarkEventHandler);
+            //buddy.addEventListener("contextmenu", addNewBookmarkEventHandler);
         }
+        buddy.addEventListener("contextmenu", function(event) {
+            console.log("henlo");
+            var menutarget = "squareslo"
+            if (event.target.id == menutarget) {
+                //event.preventDefault();
+                chrome.runtime.sendMessage({action: "showContextMenu"}, function(response) {
+                    console.log("response received: " , response);
+                });
+                
+                
+            }
+        });
     }
 
     const addNewBookmarkEventHandler = async () => {
         console.log("bookmark handler");
-    }
 
+        
+    }
+    
+    
 
     newVideoLoaded();
 })();
