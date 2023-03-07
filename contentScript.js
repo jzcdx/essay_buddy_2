@@ -48,7 +48,7 @@ class Timer {
     updateLabel(elementID) { 
         //element should be "timer_label" as a string
         //content will be timeString
-        this.document.getElementById(elementID).innerHTML = "Time Passed: " + this.timeString;
+        this.document.getElementById(elementID).innerHTML = "Time Passed: <br>" + this.timeString;
     }
 }
 
