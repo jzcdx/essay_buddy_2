@@ -1,5 +1,62 @@
+
+class Timer {
+    constructor(length, document, elementID) { //length in minutes
+        this.length = length;
+        this.timerInterval;
+        this.startTime;
+        this.elapsedTime = 0;
+        this.isPaused = false;
+        this.timeString;
+        this.document = document;
+        this.elementID = elementID;
+    }
+
+
+    startTimer() {
+        this.startTime = Date.now() - this.elapsedTime;
+        this.timerInterval = setInterval(this.updateTimer.bind(this), 10);
+    }
+
+    pauseTimer() {
+        clearInterval(this.timerInterval);
+        this.isPaused = true;
+    }
+    
+    updateTimer() {
+        let elapsedTimeMillis = Date.now() - this.startTime;
+        this.elapsedTime = Math.floor(elapsedTimeMillis / 10) * 10;
+        let minutes = Math.floor(this.elapsedTime / 60000);
+        let seconds = Math.floor((this.elapsedTime % 60000) / 1000);
+        let milliseconds = Math.floor((this.elapsedTime % 1000) / 10);
+        this.timeString =
+            this.padNumber(minutes) +
+            ":" +
+            this.padNumber(seconds) +
+            "." +
+            this.padNumber(milliseconds);
+        this.updateLabel(this.elementID);
+    }
+
+    padNumber(num) {
+        return num.toString().padStart(2, "0");
+    }
+
+    getTime() { //returns in milliseconds
+        return this.elapsedTime;
+    }
+
+    updateLabel(elementID) { 
+        //element should be "timer_label" as a string
+        //content will be timeString
+        this.document.getElementById(elementID).innerHTML = "Time Passed: " + this.timeString;
+    }
+}
+
+
+
 (() => {
     const documentbody = document.getElementsByTagName("BODY")[0];
+    
 
     chrome.runtime.onMessage.addListener((obj, sender, response) => {
         const {type, value, videoId } = obj;
@@ -56,9 +113,10 @@
             //bubble.addEventListener("click", addNewBookmarkEventHandler);
         }
 
+        var timerLabel;
         const timerLabelExists = document.getElementById("timer-label");
         if (!timerLabelExists) {
-            var timerLabel = document.createElement("label");
+            timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
             timerLabel.innerHTML = "Time Left: 00:00";
 
@@ -75,7 +133,12 @@
                 });
             }
         });
+
+        const timer = new Timer(15, document, timerLabel.id);
+        timer.startTimer();
     }
     newPageLoaded();
+
 })();
+
 

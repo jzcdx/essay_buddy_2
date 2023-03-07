@@ -32,8 +32,10 @@
     position: absolute;
     right: 0px; top: 0px;
     z-index: 10002; 
-    margin-right:16%;
+    margin-right:10%;
     margin-top:35%;
+
+    color:black;
 }
 
 #bubble-img {
@@ -46,7 +48,6 @@
     background:transparent;
     /*margin-right:0px;
     margin-bottom:150px;*/
-    background:blue;
 }
 
 #bubble-div {
