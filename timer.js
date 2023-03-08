@@ -1,4 +1,4 @@
-export class Timer {
+class Timer {
     constructor(length) { //length in minutes
         this.length = length;
         this.timerInterval;
