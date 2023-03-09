@@ -35,7 +35,6 @@ importScripts("timer.js");
             buddy.id = "squareslo";
             
             world.prepend(buddy);
-            //buddy.addEventListener("contextmenu", addNewBookmarkEventHandler);
         }
 
         let bubbleDiv;
@@ -55,7 +54,6 @@ importScripts("timer.js");
             
 
             bubbleDiv.append(bubble);
-            //bubble.addEventListener("click", addNewBookmarkEventHandler);
         }
 
         var timerLabel;
