@@ -13,8 +13,6 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
     }
 });
 
-//chrome.contextMenus.removeAll();
-
 chrome.contextMenus.remove('toggleGoal', function() {
     chrome.contextMenus.create({ //time or words //We'll implement this much later
         id: "toggleGoal",
