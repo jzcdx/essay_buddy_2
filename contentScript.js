@@ -1,7 +1,24 @@
-importScripts("timer.js");
 (() => {
     const documentbody = document.getElementsByTagName("BODY")[0];
     
+    chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
+        const {type, value, videoId } = obj;
+        if (type === "GETDOCUMENT") {
+            console.log("message received");
+            sendResponse({ success: true, doc: document});
+        }
+        
+    });
+
+    /*
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === "showContextMenu") {
+            sendResponse({ success: true, menus: chrome.contextMenus });
+            //honestly, this doesn't really do much lol
+            //chrome.contextMenus.update("myContextMenu", {visible: true});
+        }
+    });*/
+
 
     chrome.runtime.onMessage.addListener((obj, sender, response) => {
         const {type, value, videoId } = obj;
