@@ -1,12 +1,15 @@
 import {Timer} from "./timer.js";
 
 var goalType = "TIMER"; //options: TIMER or WORDS 
-var timer_len = 15; //in minutes
-var temp = new Timer(timer_len);
+var timer_len = 0.25; //in minutes
+var timer = new Timer(timer_len);
+//var timerState = "ACTIVE"; //alternatively PAUSED or INACTIVE
 var document;
 
 
 //we need the document object of the current tab
+//The stuff below triggers when you switch tabs
+/*
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     console.log("tab active, sending message:")
 
@@ -16,16 +19,13 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     function(response) {
         console.log("response received 2: " , response);
         
-        //console.log(response["doc"]);
     })
 
-    
 });
+*/
 
-
+//remnants from the boilerplate
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
-    console.log("here");
-    console.log
     if (tab.url && tab.url.includes("youtube.com/watch")) {
         
         const queryParameters = tab.url.split("?")[1];
@@ -40,34 +40,71 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
 });
 
 
+function handleGoalToggling() {
+    console.log("toggling goal");
+    if (goalType === "TIMER") {
+        goalType = "WORDS";
+    } else if (goalType === "WORDS") {
+        goalType = "TIMER";
+    }
+    chrome.contextMenus.update("toggleGoal", {
+        //you cannot update the id in here (in chrome.contextMenus.update)
+        title: "Toggle Goal Type (" + goalType.toLowerCase() + ")"  
+    }); 
+}
+
+function handleStartToggling() {
+    //the cosmetic stuff and also interacting with the timer itself.
+    if (!timer.isRunning && !timer.isPaused) {
+        //not running not paused > timer hasn't started
+        timer.startTimer();
+        chrome.contextMenus.update("startTimer", {
+            title: "Pause Timer"  
+        }); 
+    } else {
+        //toggle pause
+        timer.togglePause();
+        if (timer.isRunning) {
+            chrome.contextMenus.update("startTimer", {
+                title: "Pause Timer"  
+            }); 
+        } else {
+            chrome.contextMenus.update("startTimer", {
+                title: "Start Timer"  
+            }); 
+        }
+    }
+
+ 
+    //stores current time in chrome storage
+    //change this to store remaining time later
+    var storeMe = Date.now();
+    chrome.storage.sync.set({
+        ["startTime"]: JSON.stringify(Date.now())
+    }, function() {
+        console.log("Stored this: " + storeMe);
+    });
+    console.log("here");
+    //We're gonna let our contentscript know that we're starting the timer here
+    
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, { type: "TIMERSTARTING" });
+    });
+    
+}
+
+//This code runs when you click on something in the context menu
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
     if (info.menuItemId === "toggleGoal") {
-        console.log("toggling goal");
-        if (goalType === "TIMER") {
-            goalType = "WORDS";
-        } else if (goalType === "WORDS") {
-            goalType = "TIMER";
-        }
-        chrome.contextMenus.update("toggleGoal", {
-            //you cannot update the id in here (in chrome.contextMenus.update)
-            title: "Toggle Goal Type (" + goalType.toLowerCase() + ")"  
-        }); 
-
+        handleGoalToggling();
     } else if (info.menuItemId === "startTimer") {
-        console.log("timer starting");
-        console.log()
-        var storeMe = Date.now();
-        chrome.storage.sync.set({
-            ["startTime"]: JSON.stringify(Date.now())
-        }, function() {
-            console.log("Stored this: " + storeMe);
-        });
-
-        chrome.tabs.sendMessage(tab.id, {
-            type: "TIMERSTARTING"
-        });
-    
+        handleStartToggling();
+    } else if (info.menuItemId === "pauseTimer") {
+        console.log("pausing timer");
     }
+
+
 });
 
 
@@ -86,7 +123,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 createContextMenus();
-
+//if you don't remove the old context menus first, it'll duplicate lol
 function createContextMenus() {
     chrome.contextMenus.remove('toggleGoal', function() {
         chrome.contextMenus.create({ //time or words //We'll implement this much later

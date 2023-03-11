@@ -6,6 +6,9 @@ export class Timer {
         this.elapsedTime = 0;
         this.isPaused = false;
         this.timeString;
+        this.maxInterval = length * 60 * 1000;
+        this.isRunning = false;
+        this.remainingTime = 0;
         //this.document = document;
         //this.elementID = elementID;
     }
@@ -14,16 +17,38 @@ export class Timer {
     startTimer() {
         this.startTime = Date.now() - this.elapsedTime;
         this.timerInterval = setInterval(this.updateTimer.bind(this), 10);
+        this.isRunning = true;
+        this.updateDisplay();
     }
 
-    pauseTimer() {
-        clearInterval(this.timerInterval);
-        this.isPaused = true;
+    togglePause() {
+        if (this.isPaused) {
+            this.isPaused = false;
+            this.isRunning = true;
+            this.maxInterval = this.remainingTime; 
+            this.timerInterval = setInterval(this.updateTimer.bind(this), 10);
+            
+        } else if (!this.isPaused && this.isRunning) {
+            this.isPaused = true;
+            this.isRunning = false;
+            this.remainingTime = this.maxInterval - this.elapsedTime; 
+            clearInterval(this.timerInterval);
+        }
     }
     
     updateTimer() {
         let elapsedTimeMillis = Date.now() - this.startTime;
         this.elapsedTime = Math.floor(elapsedTimeMillis / 10) * 10;
+        if (this.elapsedTime >= this.maxInterval) {
+            clearInterval(this.timerInterval)
+            this.isRunning = false;
+        }
+        this.updateTimeString();
+        
+    }
+
+
+    updateTimeString() {
         let minutes = Math.floor(this.elapsedTime / 60000);
         let seconds = Math.floor((this.elapsedTime % 60000) / 1000);
         let milliseconds = Math.floor((this.elapsedTime % 1000) / 10);
@@ -33,8 +58,8 @@ export class Timer {
             this.padNumber(seconds) +
             "." +
             this.padNumber(milliseconds);
-        this.updateLabel(this.elementID);
     }
+    
 
     padNumber(num) {
         return num.toString().padStart(2, "0");
@@ -44,16 +69,36 @@ export class Timer {
         return this.elapsedTime;
     }
 
-    updateLabel(element) { 
+    getTimeString() { 
         //element should be "timer_label" as a string
         //content will be timeString
         
         //document.getElementById(elementID).innerHTML = "Time Passed: <br>" + this.timeString;
-        element.innerHTML = "hi";
+        return this.timeString
     }
 
     test(message) {
         console.log("testing message: " + message);
+    }
+
+    getRunState() {
+        return this.isRunning;
+    }
+
+    updateDisplay() {
+        console.log("before");
+
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const activeTab = tabs[0];
+            //this works to send a message to contentScript
+            chrome.tabs.sendMessage(activeTab.id, { type: "CURRENTTIME" });
+        });
+
+        /*
+        chrome.runtime.sendMessage({type: "CURRENTTIME"}, function(response) {
+            console.log("timer initiated, this is timer.js. ");
+        });
+        console.log("hi");*/
     }
 }
 /*

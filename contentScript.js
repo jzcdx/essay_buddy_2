@@ -5,7 +5,7 @@
         const {type, value, videoId } = obj;
         if (type === "GETDOCUMENT") {
             console.log("message received");
-            sendResponse({ success: true, doc: document.getElementById("timer-label")});
+            sendResponse({ success: true });
             
         } else if (type === "TIMERSTARTING") {
             console.log("started timer: ");
@@ -22,6 +22,8 @@
             viewBookmarks(currentVideoBookmarks);
 
             })*/
+        } else if (type === "CURRENTTIME") {
+            console.log("cur time received");
         }
         
     });
