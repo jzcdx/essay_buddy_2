@@ -7,18 +7,24 @@
             console.log("message received");
             sendResponse({ success: true, doc: document.getElementById("timer-label")});
             
+        } else if (type === "TIMERSTARTING") {
+            console.log("started timer: ");
+            chrome.storage.sync.get("startTime", (data) => {
+                const startTime = data["startTime"];
+                console.log("start time: " + startTime);
+            });
+            /*
+            chrome.storage.sync.get([currentVideo], (data) => {
+            const currentVideoBookmarks = data[currentVideo] ? JSON.parse(data[currentVideo]): [];
+            console.log("cvb: " + currentVideoBookmarks);
+            console.log("data: " + Object.keys(data));
+            // view Bookmarks
+            viewBookmarks(currentVideoBookmarks);
+
+            })*/
         }
         
     });
-
-    /*
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.action === "showContextMenu") {
-            sendResponse({ success: true, menus: chrome.contextMenus });
-            //honestly, this doesn't really do much lol
-            //chrome.contextMenus.update("myContextMenu", {visible: true});
-        }
-    });*/
 
 
     chrome.runtime.onMessage.addListener((obj, sender, response) => {
@@ -28,7 +34,6 @@
             console.log("drs: " + document.readyState);
             currentVideo = videoId;
             console.log("new received");
-            newPageLoaded();
         }
     });
 
@@ -97,8 +102,17 @@
 
         
     }
-    newPageLoaded();
+    
+    newPageLoaded(); //important
 
 })();
 
 
+/*
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === "showContextMenu") {
+            sendResponse({ success: true, menus: chrome.contextMenus });
+            //honestly, this doesn't really do much lol
+            //chrome.contextMenus.update("myContextMenu", {visible: true});
+        }
+    });*/

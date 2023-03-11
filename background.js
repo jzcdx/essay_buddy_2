@@ -1,11 +1,10 @@
 import {Timer} from "./timer.js";
 
-var temp = new Timer(15);
-
 var goalType = "TIMER"; //options: TIMER or WORDS 
 var timer_len = 15; //in minutes
-var timer = new Timer(timer_len);
+var temp = new Timer(timer_len);
 var document;
+
 
 //we need the document object of the current tab
 chrome.tabs.onActivated.addListener(function(activeInfo) {
@@ -16,8 +15,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     }, 
     function(response) {
         console.log("response received 2: " , response);
-        doc = response["doc"];
-        console.log(doc.innerHTML);
+        
         //console.log(response["doc"]);
     })
 
@@ -41,8 +39,6 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
     }
 });
 
-createContextMenus();
-
 
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
     if (info.menuItemId === "toggleGoal") {
@@ -59,9 +55,18 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
     } else if (info.menuItemId === "startTimer") {
         console.log("timer starting");
+        console.log()
+        var storeMe = Date.now();
         chrome.storage.sync.set({
-            ["startTime"]: JSON.stringify([this.startTime = Date.now() - this.elapsedTime])
+            ["startTime"]: JSON.stringify(Date.now())
+        }, function() {
+            console.log("Stored this: " + storeMe);
         });
+
+        chrome.tabs.sendMessage(tab.id, {
+            type: "TIMERSTARTING"
+        });
+    
     }
 });
 
@@ -76,18 +81,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 
-/*
-chrome.contextMenus.onClicked.addListener(function (info, tab) {
-  if (info.menuItemId === "myContextMenu") {
-    // Your code here to handle the click event
-    console.log("Context menu item clicked");
-  }
-});
 
 
-*/
 
 
+createContextMenus();
 
 function createContextMenus() {
     chrome.contextMenus.remove('toggleGoal', function() {
