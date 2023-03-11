@@ -1,4 +1,4 @@
-class Timer {
+export class Timer {
     constructor(length) { //length in minutes
         this.length = length;
         this.timerInterval;
@@ -6,7 +6,10 @@ class Timer {
         this.elapsedTime = 0;
         this.isPaused = false;
         this.timeString;
+        //this.document = document;
+        //this.elementID = elementID;
     }
+
 
     startTimer() {
         this.startTime = Date.now() - this.elapsedTime;
@@ -30,6 +33,7 @@ class Timer {
             this.padNumber(seconds) +
             "." +
             this.padNumber(milliseconds);
+        this.updateLabel(this.elementID);
     }
 
     padNumber(num) {
@@ -40,10 +44,16 @@ class Timer {
         return this.elapsedTime;
     }
 
-    updateLabel(document, elementID) { 
+    updateLabel(element) { 
         //element should be "timer_label" as a string
         //content will be timeString
-        document.getElementById(elementID).innerHTML = this.timeString;
+        
+        //document.getElementById(elementID).innerHTML = "Time Passed: <br>" + this.timeString;
+        element.innerHTML = "hi";
+    }
+
+    test(message) {
+        console.log("testing message: " + message);
     }
 }
 /*
