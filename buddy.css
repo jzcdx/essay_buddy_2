@@ -29,14 +29,7 @@
 }
 
 #timer-label {
-    /*position: absolute;
-    
-    right: 0px; top: 0px;
-    */
     z-index: 10002; 
-    
-    /*margin-right:10%;
-    margin-top:35%;*/
     text-align:center;
     margin-bottom:15%;
     color:black;

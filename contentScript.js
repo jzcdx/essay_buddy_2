@@ -5,7 +5,8 @@
         const {type, value, videoId } = obj;
         if (type === "GETDOCUMENT") {
             console.log("message received");
-            sendResponse({ success: true, doc: document});
+            sendResponse({ success: true, doc: document.getElementById("timer-label")});
+            
         }
         
     });

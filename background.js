@@ -44,10 +44,12 @@ class Timer {
         return this.elapsedTime;
     }
 
-    updateLabel(elementID, document) { 
+    updateLabel(element) { 
         //element should be "timer_label" as a string
         //content will be timeString
-        document.getElementById(elementID).innerHTML = "Time Passed: <br>" + this.timeString;
+        
+        //document.getElementById(elementID).innerHTML = "Time Passed: <br>" + this.timeString;
+        element.innerHTML = "hi";
     }
 }
 
@@ -69,6 +71,8 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     }, 
     function(response) {
         console.log("response received 2: " , response);
+        doc = response["doc"];
+        console.log(doc.innerHTML);
         //console.log(response["doc"]);
     })
 
