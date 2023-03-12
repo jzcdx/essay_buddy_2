@@ -1,7 +1,7 @@
 import {Timer} from "./timer.js";
 
 var goalType = "TIMER"; //options: TIMER or WORDS 
-var timer_len = 0.25; //in minutes
+var timer_len = 0.5; //in minutes
 var timer = new Timer(timer_len);
 //var timerState = "ACTIVE"; //alternatively PAUSED or INACTIVE
 var document;

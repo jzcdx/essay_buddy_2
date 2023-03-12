@@ -91,12 +91,6 @@ export class Timer {
             //this works to send a message to contentScript
             chrome.tabs.sendMessage(activeTab.id, { type: "NEWTIME", value: this.timeString });
         });
-
-        /*
-        chrome.runtime.sendMessage({type: "CURRENTTIME"}, function(response) {
-            console.log("timer initiated, this is timer.js. ");
-        });
-        console.log("hi");*/
     }
 }
 /*

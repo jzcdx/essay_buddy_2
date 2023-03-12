@@ -1,45 +1,5 @@
 (() => {
     const documentbody = document.getElementsByTagName("BODY")[0];
-    
-    chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
-        const {type, value, videoId } = obj;
-        if (type === "GETDOCUMENT") {
-            console.log("message received");
-            sendResponse({ success: true });
-            
-        } else if (type === "TIMERSTARTING") {
-            console.log("started timer: ");
-            chrome.storage.sync.get("startTime", (data) => {
-                const startTime = data["startTime"];
-                console.log("start time: " + startTime);
-            });
-            /*
-            chrome.storage.sync.get([currentVideo], (data) => {
-            const currentVideoBookmarks = data[currentVideo] ? JSON.parse(data[currentVideo]): [];
-            console.log("cvb: " + currentVideoBookmarks);
-            console.log("data: " + Object.keys(data));
-            // view Bookmarks
-            viewBookmarks(currentVideoBookmarks);
-
-            })*/
-        } else if (type === "NEWTIME") {
-            console.log("cur time received");
-            cur_time = value;
-            console.log("updated timestring: " + cur_time)
-        }
-        
-    });
-
-
-    chrome.runtime.onMessage.addListener((obj, sender, response) => {
-        const {type, value, videoId } = obj;
-        if (type === "NEW") {
-            console.log("--");
-            console.log("drs: " + document.readyState);
-            currentVideo = videoId;
-            console.log("new received");
-        }
-    });
 
     const newPageLoaded = async () => {
         const worldExists = document.getElementById("buddy_world");
@@ -84,14 +44,18 @@
         }
 
         var timerLabel;
-        const timerLabelExists = document.getElementById("timer-label");
+        var timerLabelExists = document.getElementById("timer-label");
         if (!timerLabelExists) {
+            console.log("heeeeeeeeere");
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
             timerLabel.innerHTML = "Time Left: 00:00";
 
             bubbleDiv.append(timerLabel);
+            timerLabelExists = document.getElementById("timer-label");
         }
+        console.log("money shot right here: " + timerLabelExists)
+
 
         buddy.addEventListener("contextmenu", function(event) {
             console.log("henlo");
@@ -104,7 +68,35 @@
             }
         });
 
-        
+        function updateTimerLabel(cur_time) {
+            console.log("updating timer label")
+            if (timerLabelExists) {
+                console.log("exists")
+                timerLabel.innerHTML = "Time Left: <br>" + cur_time;
+            } else {
+                console.log(timerLabelExists);
+            }
+        }
+
+        chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
+            const {type, value, videoId } = obj;
+            if (type === "GETDOCUMENT") {
+                sendResponse({ success: true });
+            } else if (type === "TIMERSTARTING") {
+                console.log("started timer: ");
+                chrome.storage.sync.get("startTime", (data) => {
+                    const startTime = data["startTime"];
+                    console.log("start time: " + startTime);
+                });
+            } else if (type === "NEWTIME") {
+                //console.log("cur time received");
+                cur_time = value;
+                //console.log("updated timestring: " + cur_time)
+
+                updateTimerLabel(cur_time);
+            }
+            
+        });
     }
     
     newPageLoaded(); //important
@@ -113,10 +105,10 @@
 
 
 /*
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.action === "showContextMenu") {
-            sendResponse({ success: true, menus: chrome.contextMenus });
-            //honestly, this doesn't really do much lol
-            //chrome.contextMenus.update("myContextMenu", {visible: true});
-        }
-    });*/
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === "showContextMenu") {
+        sendResponse({ success: true, menus: chrome.contextMenus });
+        //honestly, this doesn't really do much lol
+        //chrome.contextMenus.update("myContextMenu", {visible: true});
+    }
+});*/
