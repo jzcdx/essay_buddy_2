@@ -44,25 +44,34 @@ export class Timer {
     updateTimer() {
         let elapsedTimeMillis = Date.now() - this.startTime;
         this.elapsedTime = Math.floor(elapsedTimeMillis / 10) * 10;
+        
         if (this.elapsedTime >= this.maxInterval) {
             clearInterval(this.timerInterval)
             this.isRunning = false;
         }
+
         this.updateTimeString();
         this.updateDisplay();
     }
 
 
     updateTimeString() {
+        let inverse = this.maxInterval - this.elapsedTime 
+        /*
         let minutes = Math.floor(this.elapsedTime / 60000);
         let seconds = Math.floor((this.elapsedTime % 60000) / 1000);
         let milliseconds = Math.floor((this.elapsedTime % 1000) / 10);
+        */
+        let minutes = Math.floor(inverse / 60000);
+        let seconds = Math.floor((inverse % 60000) / 1000);
+        let milliseconds = Math.floor((inverse % 1000) / 10);
         this.timeString =
             this.padNumber(minutes) +
             ":" +
             this.padNumber(seconds) +
             "." +
             this.padNumber(milliseconds);
+        
     }
     
 
