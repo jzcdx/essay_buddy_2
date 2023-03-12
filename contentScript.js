@@ -22,8 +22,10 @@
             viewBookmarks(currentVideoBookmarks);
 
             })*/
-        } else if (type === "CURRENTTIME") {
+        } else if (type === "NEWTIME") {
             console.log("cur time received");
+            cur_time = value;
+            console.log("updated timestring: " + cur_time)
         }
         
     });

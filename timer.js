@@ -44,7 +44,7 @@ export class Timer {
             this.isRunning = false;
         }
         this.updateTimeString();
-        
+        this.updateDisplay();
     }
 
 
@@ -86,12 +86,10 @@ export class Timer {
     }
 
     updateDisplay() {
-        console.log("before");
-
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
             //this works to send a message to contentScript
-            chrome.tabs.sendMessage(activeTab.id, { type: "CURRENTTIME" });
+            chrome.tabs.sendMessage(activeTab.id, { type: "NEWTIME", value: this.timeString });
         });
 
         /*
