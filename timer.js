@@ -1,6 +1,5 @@
 export class Timer {
     constructor(length) { //length in minutes
-        this.length = length;
         this.timerInterval;
         this.startTime;
         this.elapsedTime = 0;
@@ -9,9 +8,10 @@ export class Timer {
         this.maxInterval = length * 60 * 1000;
         this.isRunning = false;
         this.remainingTime = 0;
-
+        
         this.pauseStart;
         this.pauseEnd;
+        this.updateTimeString();
     }
 
 
@@ -103,11 +103,27 @@ export class Timer {
     }
 
     updateDisplay() {
+        console.log("running " + this.startTime)
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
             //this works to send a message to contentScript
             chrome.tabs.sendMessage(activeTab.id, { type: "NEWTIME", value: this.timeString });
         });
+    }
+
+    reset() {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+        this.startTime = null;
+        this.elapsedTime = null;
+        this.isPaused = null;
+        this.timeString = null;
+        this.maxInterval = null;
+        this.isRunning = null;
+        this.remainingTime = null;
+
+        this.pauseStart = null;
+        this.pauseEnd = null;
     }
 }
 /*

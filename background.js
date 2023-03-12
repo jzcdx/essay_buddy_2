@@ -4,7 +4,6 @@ var goalType = "TIMER"; //options: TIMER or WORDS
 var timer_len = 0.5; //in minutes
 var timer = new Timer(timer_len);
 //var timerState = "ACTIVE"; //alternatively PAUSED or INACTIVE
-var document;
 
 
 //The stuff below triggers when you switch tabs
@@ -106,8 +105,21 @@ function handleStartToggling() {
         const activeTab = tabs[0];
         chrome.tabs.sendMessage(activeTab.id, { type: "TIMERSTARTING" });
     });
-    
 }
+
+function handleTimerReset() {
+    handleStartToggling();
+    timer.reset();
+    timer = new Timer(timer_len);
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
+        const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+        chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
+            type: "NEWTIME",
+            value: timer.getTimeString()
+        });
+    });
+}
+
 
 //This code runs when you click on something in the context menu
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
@@ -117,6 +129,9 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         handleStartToggling();
     } else if (info.menuItemId === "pauseTimer") {
         console.log("pausing timer");
+    } else if (info.menuItemId === "restartTimer") {
+        console.log("(bg js) resetting Timer");
+        handleTimerReset();
     }
 });
 
@@ -185,6 +200,16 @@ function createContextMenus() {
         chrome.contextMenus.create({
             id: "startTimer",
             title: "Start Timer",
+            contexts: ["all"],
+            targetUrlPatterns: ["*://*/*"],
+            visible: true,
+        });
+    });
+
+    chrome.contextMenus.remove('restartTimer', function() {
+        chrome.contextMenus.create({
+            id: "restartTimer",
+            title: "Reset Timer",
             contexts: ["all"],
             targetUrlPatterns: ["*://*/*"],
             visible: true,
