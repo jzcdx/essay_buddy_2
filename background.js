@@ -14,17 +14,15 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 });
 */
 
-//lets save our ellapsed time 
+//activates when we switch tabs
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-
-    //console.log("switching tab, updating time for the last time:");
-    //console.log("(bg.js): " + timer.getTimeString());
+    //if timer is currently running or currently paused, 
     if (timer.getRunState() || timer.getPauseState()) {
-        console.log("sending: (bg.js) " + timer.getTimeString())
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, {
-                type: "NEWTIMESYNC",
+        //console.log("sending: (bg.js) " + timer.getTimeString())
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
+            const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+            chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
+                type: "NEWTIME",
                 value: timer.getTimeString()
             });
         });
@@ -33,11 +31,19 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     }
 });
 
+chrome.tabs.onUpdated.addListener((tabId, tab) => {
+    if (timer.getRunState() || timer.getPauseState()) {
+        chrome.tabs.sendMessage(tabId, { //We're going to update the timer on that tab when we switch to it by sending a message.
+            type: "NEWTIME",
+            value: timer.getTimeString()
+        });
+    }
+});
+
 
 //remnants from the boilerplate
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
     if (tab.url && tab.url.includes("youtube.com/watch")) {
-        
         const queryParameters = tab.url.split("?")[1];
         const urlParameters = new URLSearchParams(queryParameters);
         console.log(urlParameters);
