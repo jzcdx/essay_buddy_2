@@ -9,8 +9,9 @@ export class Timer {
         this.maxInterval = length * 60 * 1000;
         this.isRunning = false;
         this.remainingTime = 0;
-        //this.document = document;
-        //this.elementID = elementID;
+
+        this.pauseStart;
+        this.pauseEnd;
     }
 
 
@@ -25,14 +26,18 @@ export class Timer {
         if (this.isPaused) {
             this.isPaused = false;
             this.isRunning = true;
-            this.maxInterval = this.remainingTime; 
+            //this.maxInterval = this.remainingTime; 
+            this.pauseEnd = Date.now();
+            this.startTime += this.pauseEnd - this.pauseStart 
+
             this.timerInterval = setInterval(this.updateTimer.bind(this), 10);
-            
         } else if (!this.isPaused && this.isRunning) {
             this.isPaused = true;
             this.isRunning = false;
-            this.remainingTime = this.maxInterval - this.elapsedTime; 
+            //this.remainingTime = this.maxInterval - this.elapsedTime; 
+            this.pauseStart = Date.now();
             clearInterval(this.timerInterval);
+            //console.log("remaining time: " , this.remainingTime);
         }
     }
     
@@ -73,7 +78,6 @@ export class Timer {
         //element should be "timer_label" as a string
         //content will be timeString
         
-        //document.getElementById(elementID).innerHTML = "Time Passed: <br>" + this.timeString;
         return this.timeString
     }
 
