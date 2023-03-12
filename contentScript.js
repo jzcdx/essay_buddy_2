@@ -46,7 +46,6 @@
         var timerLabel;
         var timerLabelExists = document.getElementById("timer-label");
         if (!timerLabelExists) {
-            console.log("heeeeeeeeere");
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
             timerLabel.innerHTML = "Time Left: 00:00";
@@ -54,11 +53,10 @@
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
         }
-        console.log("money shot right here: " + timerLabelExists)
 
 
         buddy.addEventListener("contextmenu", function(event) {
-            console.log("henlo");
+            console.log("context menu clicked (contentScript.js) ");
             var menutarget = "squareslo"
             if (event.target.id == menutarget) {
                 //event.preventDefault();
@@ -68,39 +66,44 @@
             }
         });
 
+        world.addEventListener("click", function(event) {
+            console.log("left clicked world");
+            var menutarget = "bubble-img";
+            console.log(event.target.id);
+            console.log(menutarget);
+            if (event.target.id == menutarget) {
+                //event.preventDefault();
+                chrome.runtime.sendMessage({action: "toggleStart"}, function(response) {
+                    console.log("response received: " , response);
+                });
+            }
+        });
+
+        //updates the innerhtml of our timer label
         function updateTimerLabel(cur_time) {
-            console.log("updating timer label")
             if (timerLabelExists) {
-                console.log("exists")
                 timerLabel.innerHTML = "Time Left: <br>" + cur_time;
             } else {
-                console.log(timerLabelExists);
+                console.log("timer label doesnt exist yet: " + timerLabelExists);
             }
         }
 
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, value, videoId } = obj;
-            if (type === "GETDOCUMENT") {
-                sendResponse({ success: true });
-            } else if (type === "TIMERSTARTING") {
-                console.log("started timer: ");
+            if (type === "TIMERSTARTING") {
+                //console.log("started timer: ");
                 chrome.storage.sync.get("startTime", (data) => {
                     const startTime = data["startTime"];
                     console.log("start time: " + startTime);
                 });
             } else if (type === "NEWTIME") {
-                //console.log("cur time received");
                 cur_time = value;
-                //console.log("updated timestring: " + cur_time)
-
                 updateTimerLabel(cur_time);
             }
-            
         });
     }
     
     newPageLoaded(); //important
-
 })();
 
 

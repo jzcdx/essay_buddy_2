@@ -7,20 +7,10 @@ var timer = new Timer(timer_len);
 var document;
 
 
-//we need the document object of the current tab
 //The stuff below triggers when you switch tabs
 /*
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     console.log("tab active, sending message:")
-
-    chrome.tabs.sendMessage(activeInfo.tabId, {
-        type: "GETDOCUMENT"
-    }, 
-    function(response) {
-        console.log("response received 2: " , response);
-        
-    })
-
 });
 */
 
@@ -113,6 +103,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     sendResponse({ success: true, menus: chrome.contextMenus });
     //honestly, this doesn't really do much lol
     //chrome.contextMenus.update("myContextMenu", {visible: true});
+  } else if (request.action === "toggleStart") {
+    sendResponse({ success: true });
+    handleStartToggling();
   }
 });
 
