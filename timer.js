@@ -26,7 +26,6 @@ export class Timer {
         if (this.isPaused) {
             this.isPaused = false;
             this.isRunning = true;
-            //this.maxInterval = this.remainingTime; 
             this.pauseEnd = Date.now();
             this.startTime += this.pauseEnd - this.pauseStart 
 
@@ -34,10 +33,8 @@ export class Timer {
         } else if (!this.isPaused && this.isRunning) {
             this.isPaused = true;
             this.isRunning = false;
-            //this.remainingTime = this.maxInterval - this.elapsedTime; 
             this.pauseStart = Date.now();
             clearInterval(this.timerInterval);
-            //console.log("remaining time: " , this.remainingTime);
         }
     }
     
@@ -58,6 +55,7 @@ export class Timer {
     updateTimeString() {
         let inverse = this.maxInterval - this.elapsedTime 
         /*
+        //use this instead if you want it to count up to the goal instead of vice versa.
         let minutes = Math.floor(this.elapsedTime / 60000);
         let seconds = Math.floor((this.elapsedTime % 60000) / 1000);
         let milliseconds = Math.floor((this.elapsedTime % 1000) / 10);
@@ -84,12 +82,10 @@ export class Timer {
     }
 
     getTimeString() { 
-        //element should be "timer_label" as a string
-        //content will be timeString
-        
         return this.timeString
     }
 
+    //self explanatory
     test(message) {
         console.log("testing message: " + message);
     }
@@ -103,14 +99,15 @@ export class Timer {
     }
 
     updateDisplay() {
-        console.log("running " + this.startTime)
+        //gets active tab
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
-            //this works to send a message to contentScript
+            //this works to send a message to the contentscript of the tab that's active
             chrome.tabs.sendMessage(activeTab.id, { type: "NEWTIME", value: this.timeString });
         });
     }
 
+    //for the timer reset button
     reset() {
         clearInterval(this.timerInterval);
         this.timerInterval = null;
