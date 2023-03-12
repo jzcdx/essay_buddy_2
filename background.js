@@ -13,6 +13,15 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     console.log("tab active, sending message:")
 });
 */
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    
+    console.log("switching tab, updating time for the last time:")
+    chrome.tabs.sendMessage(tabId, {
+        type: "NEWTIME",
+        value: timer.getTimeString()
+    })
+});
+
 
 //remnants from the boilerplate
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
@@ -74,7 +83,6 @@ function handleStartToggling() {
     }, function() {
         console.log("Stored this: " + storeMe);
     });
-    console.log("here");
     //We're gonna let our contentscript know that we're starting the timer here
     
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -93,8 +101,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     } else if (info.menuItemId === "pauseTimer") {
         console.log("pausing timer");
     }
-
-
 });
 
 

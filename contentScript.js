@@ -48,7 +48,7 @@
         if (!timerLabelExists) {
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
-            timerLabel.innerHTML = "Time Left: 00:00";
+            timerLabel.innerHTML = "Time Left: <br>00:00";
 
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
@@ -69,12 +69,13 @@
         world.addEventListener("click", function(event) {
             console.log("left clicked world");
             var menutarget = "bubble-img";
+            var menutarget2 = "timer-label";
             console.log(event.target.id);
             console.log(menutarget);
-            if (event.target.id == menutarget) {
-                //event.preventDefault();
+            if (event.target.id == menutarget || event.target.id == menutarget2) {
+                event.preventDefault();
                 chrome.runtime.sendMessage({action: "toggleStart"}, function(response) {
-                    console.log("response received: " , response);
+                    //console.log("response received: " , response);
                 });
             }
         });
@@ -94,7 +95,7 @@
                 //console.log("started timer: ");
                 chrome.storage.sync.get("startTime", (data) => {
                     const startTime = data["startTime"];
-                    console.log("start time: " + startTime);
+                    //console.log("start time: " + startTime);
                 });
             } else if (type === "NEWTIME") {
                 cur_time = value;
