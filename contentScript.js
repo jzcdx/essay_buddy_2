@@ -100,6 +100,10 @@
             } else if (type === "NEWTIME") {
                 cur_time = value;
                 updateTimerLabel(cur_time);
+            } else if (type === "NEWTIMESYNC") {
+                cur_time = value;
+                console.log("(contentscript.js) " + cur_time);
+                updateTimerLabel(cur_time);
             }
         });
     }

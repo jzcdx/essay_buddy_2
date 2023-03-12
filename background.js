@@ -13,13 +13,24 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     console.log("tab active, sending message:")
 });
 */
+
+//lets save our ellapsed time 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-    
-    console.log("switching tab, updating time for the last time:")
-    chrome.tabs.sendMessage(tabId, {
-        type: "NEWTIME",
-        value: timer.getTimeString()
-    })
+
+    //console.log("switching tab, updating time for the last time:");
+    //console.log("(bg.js): " + timer.getTimeString());
+    if (timer.getRunState() || timer.getPauseState()) {
+        console.log("sending: (bg.js) " + timer.getTimeString())
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, {
+                type: "NEWTIMESYNC",
+                value: timer.getTimeString()
+            });
+        });
+    } else {
+        console.log("not running (bg.js)")
+    }
 });
 
 
@@ -81,7 +92,7 @@ function handleStartToggling() {
     chrome.storage.sync.set({
         ["startTime"]: JSON.stringify(Date.now())
     }, function() {
-        console.log("Stored this: " + storeMe);
+        //console.log("Stored this: " + storeMe);
     });
     //We're gonna let our contentscript know that we're starting the timer here
     

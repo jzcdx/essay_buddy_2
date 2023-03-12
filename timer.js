@@ -98,6 +98,10 @@ export class Timer {
         return this.isRunning;
     }
 
+    getPauseState() {
+        return this.isPaused;
+    }
+
     updateDisplay() {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
