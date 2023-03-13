@@ -12,8 +12,14 @@ export class Timer {
         this.pauseStart;
         this.pauseEnd;
         this.updateTimeString();
+        this.phase = "WORK";
     }
 
+    syncPhase() {
+        chrome.storage.sync.set({
+            ["phase"]: JSON.stringify(this.phase)
+        });
+    }   
 
     startTimer() {
         this.startTime = Date.now() - this.elapsedTime;
@@ -50,6 +56,8 @@ export class Timer {
             //this works to send a message to the contentscript of the tab that's active
             chrome.tabs.sendMessage(activeTab.id, { 
                 type: "TOGGLEPHASE"
+            }, () => { //once this message is sent, sync the phase with chrome storage.
+                this.syncPhase();
             });
         });
     }

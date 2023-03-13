@@ -16,7 +16,7 @@ function toggleWorkPhase() {
     console.log("1b");
     chrome.storage.sync.get("phase", (data) => {
         if (data.phase !== undefined) {
-            //flips phase
+            //flips phase if phase has been set
             if (phase === "WORK") {
                 phase = "BREAK";
             } else {
@@ -29,6 +29,7 @@ function toggleWorkPhase() {
         });
     });
     
+    //changes length of new timer based on whether or not we're taking a break now or working
     if (phase === "BREAK") {
         timer_len = work_len;
     } else if (phase === "WORK") {
@@ -40,13 +41,6 @@ function toggleWorkPhase() {
 createContextMenus();
 
 
-
-//The stuff below triggers when you switch tabs
-/*
-chrome.tabs.onActivated.addListener(function(activeInfo) {
-    console.log("tab active, sending message:")
-});
-*/
 
 //activates when we switch tabs
 chrome.tabs.onActivated.addListener(function(activeInfo) {
@@ -75,22 +69,6 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
         });
     }
 });
-
-
-//remnants from the boilerplate
-chrome.tabs.onUpdated.addListener((tabId, tab) => {
-    if (tab.url && tab.url.includes("youtube.com/watch")) {
-        const queryParameters = tab.url.split("?")[1];
-        const urlParameters = new URLSearchParams(queryParameters);
-        console.log(urlParameters);
-
-        chrome.tabs.sendMessage(tabId, {
-            type: "NEW",
-            videoId: urlParameters.get("v")
-        })
-    }
-});
-
 
 function handleGoalToggling() {
     console.log("toggling goal");

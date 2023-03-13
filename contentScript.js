@@ -126,14 +126,57 @@
             document.body.appendChild(popup);
         }
 
+            /*
+            chrome.storage.sync.get("phase", (data) => {
+                console.log("phase in getphase: " + data["phase"])
+                ret_me = data["phase"];
+                console.log("------------------**")
+            });
+            console.log("---------------------------------")
+            */
+            
+
+
+        async function getPhase() {
+            var ret_me = "";
+
+            await chrome.storage.sync.get(["phase"]).then((result) => {
+                //DO NOT FORGET JSON.parse OR ELSE YOUR RESULT STRING WILL INCLUDE QUOTES.
+                ret_me = JSON.parse(result.phase);
+                console.log("rm: " + ret_me)
+                console.log(typeof ret_me)    
+            });
+            
+            return ret_me;
+        }
+
 
         //updates the innerhtml of our timer label
-        function updateTimerLabel(cur_time) {
-            if (timerLabelExists) {
-                timerLabel.innerHTML = "Time Left: <br>" + cur_time;
-            } else {
-                console.log("timer label doesnt exist yet: " + timerLabelExists);
+        async function updateTimerLabel(cur_time) {
+            var phase = await getPhase();
+            console.log("phase: " + phase + " // " + typeof phase);
+            
+            //phase = "WORK";
+            if (phase !== undefined) {
+                console.log("---------------------------x")
+                var flavorString = "";
+                if (phase === "WORK") {
+                    
+                    console.log("a")
+                    flavorString = "Work time Left: <br>";
+                } else if (phase === "BREAK") {  
+                    console.log("b")
+                    flavorString = "Break time Left: <br>";
+                }
+
+                console.log("flavorString: " + flavorString);
+                if (timerLabelExists) {
+                    timerLabel.innerHTML = flavorString + cur_time;
+                } else {
+                    console.log("timer label doesnt exist yet: " + timerLabelExists);
+                }
             }
+            
         }
 
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
