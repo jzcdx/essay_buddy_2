@@ -1,8 +1,9 @@
 import {Timer} from "./timer.js";
 
 var goalType = "TIMER"; //options: TIMER or WORDS 
-var timer_len = 30; //in minutes //work timer
-var break_len = 5;
+var work_len = 0.1;
+var break_len = 0.05;
+var timer_len = work_len; //in minutes
 var timer = new Timer(timer_len);
 var phase = "WORK"; //WORK or BREAK
 //var timerState = "ACTIVE"; //alternatively PAUSED or INACTIVE
@@ -12,21 +13,30 @@ chrome.storage.sync.set({
 });
 
 function toggleWorkPhase() {
+    console.log("1b");
     chrome.storage.sync.get("phase", (data) => {
         if (data.phase !== undefined) {
             //flips phase
-            if (phase == "WORK") {
+            if (phase === "WORK") {
                 phase = "BREAK";
             } else {
                 phase = "WORK";
             }
         }
-        //
         //sets phase in chrome storage
         chrome.storage.sync.set({
             ["phase"]: JSON.stringify(phase)
         });
     });
+    
+    if (phase === "WORK") {
+        console.log("1c")
+        timer_len = work_len;
+    } else if (phase === "BREAK") {
+        console.log("1d")
+        timer_len = break_len;
+    }
+    createNewTimer();
 }
 
 createContextMenus();
@@ -187,6 +197,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 //Handling messages received from context menu clicks, start toggling, 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log("here 1");
     if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
         sendResponse({ success: true, menus: chrome.contextMenus });
     } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
@@ -196,9 +207,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         timer_len = request.value;
         createNewTimer();
         updateContentScriptTimerDisplay();
-    }
+    } else if (request.action === "togglePhase") {
+        console.log("1a");
+        toggleWorkPhase();
+    } 
 });
-
 
 
 

@@ -38,13 +38,28 @@ export class Timer {
         }
     }
     
+    endTimer() {
+        console.log("endtimer");
+
+        clearInterval(this.timerInterval)
+        this.isRunning = false;
+        //the below code doesn't work yet
+        
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const activeTab = tabs[0];
+            //this works to send a message to the contentscript of the tab that's active
+            chrome.tabs.sendMessage(activeTab.id, { 
+                type: "TOGGLEPHASE"
+            });
+        });
+    }
+
     updateTimer() {
         let elapsedTimeMillis = Date.now() - this.startTime;
         this.elapsedTime = Math.floor(elapsedTimeMillis / 10) * 10;
         
         if (this.elapsedTime >= this.maxInterval) {
-            clearInterval(this.timerInterval)
-            this.isRunning = false;
+            this.endTimer();
         }
 
         this.updateTimeString();

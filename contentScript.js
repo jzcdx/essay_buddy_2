@@ -73,9 +73,9 @@
             console.log(event.target.id);
             console.log(menutarget);
             if (event.target.id == menutarget || event.target.id == menutarget2) {
-                event.preventDefault();
+                //event.preventDefault();
                 chrome.runtime.sendMessage({action: "toggleStart"}, function(response) {
-                    //console.log("response received: " , response);
+                    console.log("response received: " , response);
                 });
             }
         });
@@ -147,6 +147,11 @@
                 updateTimerLabel(cur_time);
             } else if (type === "CHANGEGOAL") {
                 togglePopup();
+            } else if (type === "TOGGLEPHASE") {
+                chrome.runtime.sendMessage({
+                    action: "togglePhase",
+                    value: 2
+                });
             }
         });
     }
