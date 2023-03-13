@@ -83,26 +83,40 @@
 
         var popup;
         function createPopup() {
+            
             popup = document.createElement("div");
             popup.id = "goal-change-popup";
-            popup.innerHTML = "<h1>My Extension Popup</h1><p>Hello, world!</p>";
-
+            //popup.innerHTML = "<h1>New Goal:</h1>";
 
             var closeButton = document.createElement("button");
             closeButton.innerText = "x";
-            closeButton.style.position = "absolute";
-            closeButton.style.top = "5px";
-            closeButton.style.right = "5px";
-            closeButton.style.padding = "5px";
-            closeButton.style.border = "none";
-            closeButton.style.backgroundColor = "transparent";
-            closeButton.style.cursor = "pointer";
+            closeButton.id = "goal-change-close"
             closeButton.addEventListener("click", function() {
                 document.body.removeChild(popup);
                 popup = null;
             });
-
             popup.appendChild(closeButton);
+        
+            var input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "New Goal";
+            popup.appendChild(input);
+
+            
+            var goalSubmit = document.createElement("button");
+            goalSubmit.innerHTML = "Submit";
+            popup.appendChild(goalSubmit);
+
+            goalSubmit.addEventListener("click", () => {
+                var newGoal = input.value;
+                chrome.runtime.sendMessage({
+                    action: "changeGoal",
+                    value: newGoal
+                });
+                //close popup after submitting new goal;
+                document.body.removeChild(popup);
+                popup = null;
+            })
         }
 
         function togglePopup() {
