@@ -29,14 +29,12 @@ function toggleWorkPhase() {
         });
     });
     
-    if (phase === "WORK") {
-        console.log("1c")
+    if (phase === "BREAK") {
         timer_len = work_len;
-    } else if (phase === "BREAK") {
-        console.log("1d")
+    } else if (phase === "WORK") {
         timer_len = break_len;
     }
-    createNewTimer();
+    handleTimerReset();
 }
 
 createContextMenus();
