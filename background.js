@@ -21,7 +21,7 @@ function toggleWorkPhase() {
                 phase = "WORK";
             }
         }
-
+        //
         //sets phase in chrome storage
         chrome.storage.sync.set({
             ["phase"]: JSON.stringify(phase)
