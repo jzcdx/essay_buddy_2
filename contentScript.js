@@ -92,10 +92,8 @@
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, value, videoId } = obj;
             if (type === "TIMERSTARTING") {
-                //console.log("started timer: ");
                 chrome.storage.sync.get("startTime", (data) => {
                     const startTime = data["startTime"];
-                    //console.log("start time: " + startTime);
                 });
             } else if (type === "NEWTIME") {
                 cur_time = value;

@@ -30,6 +30,8 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
     }
 });
 
+
+//Note to self, comment the below code later
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
     if (timer.getRunState() || timer.getPauseState()) {
         chrome.tabs.sendMessage(tabId, { //We're going to update the timer on that tab when we switch to it by sending a message.
@@ -107,10 +109,18 @@ function handleStartToggling() {
     });
 }
 
-function handleTimerReset() {
-    handleStartToggling();
+function createNewTimer() {
     timer.reset();
     timer = new Timer(timer_len);
+}
+
+function handleTimerReset() {
+    handleStartToggling();
+    createNewTimer();
+    updateContentScriptTimerDisplay();
+}
+
+function updateContentScriptTimerDisplay() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
@@ -144,6 +154,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   } else if (request.action === "toggleStart") {
     sendResponse({ success: true });
     handleStartToggling();
+  } else if (request.action === "changeGoal") {
+    console.log("changegoal request received: " + request.value);
+    timer_len = request.value;
+    createNewTimer();
+    updateContentScriptTimerDisplay();
   }
 });
 

@@ -1,7 +1,38 @@
 //This function fires when you open the popup.
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("hi asdasfas");
+    addElements();
 });
+
+function addElements() {
+    console.log("helo helo");
+    const submitGoalChange = document.createElement("button");
+    submitGoalChange.textContent = "submit me";
+    submitGoalChange.id = "submit-btn";
+    addGoalListener(submitGoalChange);
+
+    
+}
+
+function addGoalListener(submitGoalChange) {
+    submitGoalChange.onclick = function() {
+        console.log("submit clicked");
+        var input = document.getElementById("newGoal");
+        var inputValue = input.value;
+        sendNewGoal(inputValue);
+    }
+    //also appends our button to our popup
+    var main = document.getElementById("container");
+    main.appendChild(submitGoalChange);
+}
+
+function sendNewGoal(newGoal) {
+    chrome.runtime.sendMessage({ 
+        action: "changeGoal", 
+        value: newGoal 
+    });
+}
+
 
 /*
 import { getActiveTabURL } from "./utils.js";
