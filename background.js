@@ -1,10 +1,33 @@
 import {Timer} from "./timer.js";
 
 var goalType = "TIMER"; //options: TIMER or WORDS 
-var timer_len = 30; //in minutes
+var timer_len = 30; //in minutes //work timer
+var break_len = 5;
 var timer = new Timer(timer_len);
+var phase = "WORK"; //WORK or BREAK
 //var timerState = "ACTIVE"; //alternatively PAUSED or INACTIVE
 
+chrome.storage.sync.set({
+    ["phase"]: JSON.stringify(phase)
+});
+
+function toggleWorkPhase() {
+    chrome.storage.sync.get("phase", (data) => {
+        if (data.phase !== undefined) {
+            //flips phase
+            if (phase == "WORK") {
+                phase = "BREAK";
+            } else {
+                phase = "WORK";
+            }
+        }
+
+        //sets phase in chrome storage
+        chrome.storage.sync.set({
+            ["phase"]: JSON.stringify(phase)
+        });
+    });
+}
 
 createContextMenus();
 

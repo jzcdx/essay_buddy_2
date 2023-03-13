@@ -1,11 +1,10 @@
 //This function fires when you open the popup.
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("hi asdasfas");
+    console.log("popup loaded");
     addElements();
 });
 
 function addElements() {
-    console.log("helo helo");
     const submitGoalChange = document.createElement("button");
     submitGoalChange.textContent = "submit me";
     submitGoalChange.id = "submit-btn";
@@ -17,7 +16,7 @@ function addElements() {
 function addGoalListener(submitGoalChange) {
     submitGoalChange.onclick = function() {
         console.log("submit clicked");
-        var input = document.getElementById("newGoal");
+        var input = document.getElementById("newGoal"); //newGoal is made in the html file
         var inputValue = input.value;
         sendNewGoal(inputValue);
     }
