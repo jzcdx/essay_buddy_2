@@ -48,7 +48,7 @@
         if (!timerLabelExists) {
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
-            timerLabel.innerHTML = "Time Left: <br>00:00";
+            timerLabel.innerHTML = "Time Left: <br>00:00:00";
 
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
@@ -80,6 +80,39 @@
             }
         });
 
+
+        var popup;
+        function createPopup() {
+            popup = document.createElement("div");
+            popup.id = "goal-change-popup";
+            popup.innerHTML = "<h1>My Extension Popup</h1><p>Hello, world!</p>";
+
+
+            var closeButton = document.createElement("button");
+            closeButton.innerText = "x";
+            closeButton.style.position = "absolute";
+            closeButton.style.top = "5px";
+            closeButton.style.right = "5px";
+            closeButton.style.padding = "5px";
+            closeButton.style.border = "none";
+            closeButton.style.backgroundColor = "transparent";
+            closeButton.style.cursor = "pointer";
+            closeButton.addEventListener("click", function() {
+                document.body.removeChild(popup);
+                popup = null;
+            });
+
+            popup.appendChild(closeButton);
+        }
+
+        function togglePopup() {
+            if (popup === undefined || popup === null) {
+                createPopup();
+            }
+            document.body.appendChild(popup);
+        }
+
+
         //updates the innerhtml of our timer label
         function updateTimerLabel(cur_time) {
             if (timerLabelExists) {
@@ -98,6 +131,8 @@
             } else if (type === "NEWTIME") {
                 cur_time = value;
                 updateTimerLabel(cur_time);
+            } else if (type === "CHANGEGOAL") {
+                togglePopup();
             }
         });
     }

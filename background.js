@@ -6,6 +6,10 @@ var timer = new Timer(timer_len);
 //var timerState = "ACTIVE"; //alternatively PAUSED or INACTIVE
 
 
+createContextMenus();
+
+
+
 //The stuff below triggers when you switch tabs
 /*
 chrome.tabs.onActivated.addListener(function(activeInfo) {
@@ -87,7 +91,7 @@ function handleStartToggling() {
             }); 
         } else {
             chrome.contextMenus.update("startTimer", {
-                title: "Start Timer"  
+                title: "Resume Timer"  
             }); 
         }
     }
@@ -106,6 +110,15 @@ function handleStartToggling() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
         chrome.tabs.sendMessage(activeTab.id, { type: "TIMERSTARTING" });
+    });
+}
+
+function sendGoalChangePopupMessage() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
+        const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+        chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
+            type: "CHANGEGOAL"
+        });
     });
 }
 
@@ -139,28 +152,31 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         handleStartToggling();
     } else if (info.menuItemId === "pauseTimer") {
         console.log("pausing timer");
+        handleStartToggling();
     } else if (info.menuItemId === "restartTimer") {
         console.log("(bg js) resetting Timer");
         handleTimerReset();
+    } else if (info.menuItemId === "changeGoal") {
+        console.log("changing goal from ctx menu");
+        sendGoalChangePopupMessage();
+    }
+});
+
+//Handling messages received from context menu clicks, start toggling, 
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
+        sendResponse({ success: true, menus: chrome.contextMenus });
+    } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
+        sendResponse({ success: true });
+        handleStartToggling();
+    } else if (request.action === "changeGoal") { //this is from popup js
+        timer_len = request.value;
+        createNewTimer();
+        updateContentScriptTimerDisplay();
     }
 });
 
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  if (request.action === "showContextMenu") {
-    sendResponse({ success: true, menus: chrome.contextMenus });
-    //honestly, this doesn't really do much lol
-    //chrome.contextMenus.update("myContextMenu", {visible: true});
-  } else if (request.action === "toggleStart") {
-    sendResponse({ success: true });
-    handleStartToggling();
-  } else if (request.action === "changeGoal") {
-    console.log("changegoal request received: " + request.value);
-    timer_len = request.value;
-    createNewTimer();
-    updateContentScriptTimerDisplay();
-  }
-});
 
 
 
@@ -168,7 +184,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 
-createContextMenus();
 //if you don't remove the old context menus first, it'll duplicate lol
 function createContextMenus() {
     chrome.contextMenus.remove('toggleGoal', function() {
