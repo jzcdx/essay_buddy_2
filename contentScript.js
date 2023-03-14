@@ -73,8 +73,6 @@ next feature: changing break length;
             console.log("left clicked world");
             var menutarget = "bubble-img";
             var menutarget2 = "timer-label";
-            console.log(event.target.id);
-            console.log(menutarget);
             if (event.target.id == menutarget || event.target.id == menutarget2) {
                 //event.preventDefault();
                 chrome.runtime.sendMessage({action: "toggleStart"}, function(response) {
@@ -152,8 +150,6 @@ next feature: changing break length;
             await chrome.storage.sync.get(["phase"]).then((result) => {
                 //DO NOT FORGET JSON.parse OR ELSE YOUR RESULT STRING WILL INCLUDE QUOTES.
                 ret_me = JSON.parse(result.phase);
-                console.log("rm: " + ret_me)
-                console.log(typeof ret_me)    
             });
             
             return ret_me;

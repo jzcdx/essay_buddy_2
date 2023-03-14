@@ -173,7 +173,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
 
 //Handling messages received from context menu clicks, start toggling, 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log("here 1");
     if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
         sendResponse({ success: true, menus: chrome.contextMenus });
     } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
@@ -194,7 +193,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             updateContentScriptTimerDisplay();
         }
     } else if (request.action === "togglePhase") {
-        console.log("1a");
         toggleWorkPhase();
     } 
 });
