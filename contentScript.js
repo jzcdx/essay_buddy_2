@@ -1,3 +1,6 @@
+/*
+next feature: changing break length;
+*/
 (() => {
     const documentbody = document.getElementsByTagName("BODY")[0];
 
@@ -83,7 +86,6 @@
 
         var popup;
         function createPopup() {
-            
             popup = document.createElement("div");
             popup.id = "goal-change-popup";
             //popup.innerHTML = "<h1>New Goal:</h1>";
@@ -96,23 +98,41 @@
                 popup = null;
             });
             popup.appendChild(closeButton);
-        
-            var input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "New Goal";
-            popup.appendChild(input);
 
+            var titleLabel = document.createElement("label");
+            titleLabel.innerHTML = "Update Timers: (In Minutes)";
+            popup.appendChild(titleLabel);
+
+            var newGoalInput = document.createElement("input");
+            newGoalInput.type = "text";
+            newGoalInput.placeholder = "New Work Timer";
+            popup.appendChild(newGoalInput);
             
+            var newBreaklInput = document.createElement("input");
+            newBreaklInput.type = "text";
+            newBreaklInput.placeholder = "New Break Timer";
+            popup.appendChild(newBreaklInput);
+
             var goalSubmit = document.createElement("button");
             goalSubmit.innerHTML = "Submit";
             popup.appendChild(goalSubmit);
 
             goalSubmit.addEventListener("click", () => {
-                var newGoal = input.value;
-                chrome.runtime.sendMessage({
-                    action: "changeGoal",
-                    value: newGoal
-                });
+                var newGoal = newGoalInput.value;
+                var newBreak = newBreaklInput.value;
+
+                if (newGoal != "") {
+                    chrome.runtime.sendMessage({
+                        action: "changeGoal",
+                        value: newGoal
+                    });
+                }
+                if (newBreak != "") {
+                    chrome.runtime.sendMessage({
+                        action: "changeBreak",
+                        value: newBreak
+                    });
+                }
                 //close popup after submitting new goal;
                 document.body.removeChild(popup);
                 popup = null;
@@ -125,17 +145,6 @@
             }
             document.body.appendChild(popup);
         }
-
-            /*
-            chrome.storage.sync.get("phase", (data) => {
-                console.log("phase in getphase: " + data["phase"])
-                ret_me = data["phase"];
-                console.log("------------------**")
-            });
-            console.log("---------------------------------")
-            */
-            
-
 
         async function getPhase() {
             var ret_me = "";
@@ -154,11 +163,9 @@
         //updates the innerhtml of our timer label
         async function updateTimerLabel(cur_time) {
             var phase = await getPhase();
-            console.log("phase: " + phase + " // " + typeof phase);
-            
+
             //phase = "WORK";
             if (phase !== undefined) {
-                console.log("---------------------------x")
                 var flavorString = "";
                 if (phase === "WORK") {
                     
@@ -190,10 +197,12 @@
                 updateTimerLabel(cur_time);
             } else if (type === "CHANGEGOAL") {
                 togglePopup();
+            } else if (type === "CHANGEBREAK") {
+                togglePopup();
+
             } else if (type === "TOGGLEPHASE") {
                 chrome.runtime.sendMessage({
-                    action: "togglePhase",
-                    value: 2
+                    action: "togglePhase"
                 });
             }
         });

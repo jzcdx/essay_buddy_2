@@ -36,7 +36,7 @@
     
     margin-bottom:15%;
     color:black;
-    font-size: 20px;
+    font-size: 17px;
     z-index: 10002;
     user-select: none;
     
@@ -91,6 +91,15 @@
     background-color: gainsboro;
     padding: 20px;
     border: 1px solid black;
+    
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+#goal-change-popup * {
+    margin:5px;
 }
 
 #goal-change-close {

@@ -180,9 +180,19 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         sendResponse({ success: true });
         handleStartToggling();
     } else if (request.action === "changeGoal") { //this is from popup js
-        timer_len = request.value;
-        createNewTimer();
-        updateContentScriptTimerDisplay();
+        work_len = request.value;
+        if (phase === "WORK") {
+            timer_len = work_len;
+            createNewTimer();
+            updateContentScriptTimerDisplay();
+        }
+    } else if (request.action === "changeBreak") {
+        break_len = request.value;
+        if (phase === "BREAK") {
+            timer_len = break_len;
+            createNewTimer();
+            updateContentScriptTimerDisplay();
+        }
     } else if (request.action === "togglePhase") {
         console.log("1a");
         toggleWorkPhase();
