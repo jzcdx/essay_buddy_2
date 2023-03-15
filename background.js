@@ -6,7 +6,6 @@ var break_len = 0.05;
 var timer_len = work_len; //in minutes
 var timer = new Timer(timer_len);
 var phase = "WORK"; //WORK or BREAK
-//var timerState = "ACTIVE"; //alternatively PAUSED or INACTIVE
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
