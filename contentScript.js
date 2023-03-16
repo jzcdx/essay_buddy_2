@@ -1,6 +1,3 @@
-/*
-next feature: changing break length;
-*/
 (() => {
     const documentbody = document.getElementsByTagName("BODY")[0];
 
@@ -101,10 +98,18 @@ next feature: changing break length;
             titleLabel.innerHTML = "Update Timers: (In Minutes)";
             popup.appendChild(titleLabel);
 
+            var goalLabel = document.createElement("label");
+            goalLabel.innerHTML = "New Goal Length";
+            popup.appendChild(goalLabel);
+
             var newGoalInput = document.createElement("input");
             newGoalInput.type = "text";
             newGoalInput.placeholder = "New Work Timer";
             popup.appendChild(newGoalInput);
+
+            var breakLabel = document.createElement("label");
+            breakLabel.innerHTML = "New Break Length";
+            popup.appendChild(breakLabel);
             
             var newBreaklInput = document.createElement("input");
             newBreaklInput.type = "text";
