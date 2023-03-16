@@ -17,7 +17,9 @@
         const buddyExists = document.getElementById("squareslo");
         if (!buddyExists) {
             buddy = document.createElement("img");
-            buddy.src = chrome.runtime.getURL("assets/sprites/angus/talk/Bonfire_angus_talk1_00000.png");
+            //buddy.src = chrome.runtime.getURL("assets/sprites/angus/talk/Bonfire_angus_talk1_00000.png");
+            buddy.src = chrome.runtime.getURL("assets/sprites/potion/active/1-active.png");
+            //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
             
@@ -96,6 +98,7 @@
 
             var titleLabel = document.createElement("label");
             titleLabel.innerHTML = "Update Timers: (In Minutes)";
+            titleLabel.id = "popup-title-label";
             popup.appendChild(titleLabel);
 
             var goalLabel = document.createElement("label");
@@ -160,6 +163,9 @@
             return ret_me;
         }
 
+        function updateBuddySprite() {
+            buddy.src = chrome.runtime.getURL("assets/sprites/potion/" + spriteState + "/" + spriteIndex + "-" + spriteState + ".png");
+        }
 
         //updates the innerhtml of our timer label
         async function updateTimerLabel(cur_time) {

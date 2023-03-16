@@ -112,3 +112,7 @@
     background-color: transparent;
     cursor: pointer;
 }
+
+#popup-title-label {
+    font-weight: bold;
+}

@@ -199,6 +199,30 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 
+function updateSprite() {
+    //console.log("sprite update running");
+    var spriteState = "";
+    var spriteIndex = "";
+    var character = "";
+    
+    var newURLPath = "assets/sprites/potion/" + spriteState + "/" + spriteIndex + "-" + spriteState + ".png";
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        //this works to send a message to the contentscript of the tab that's active
+        chrome.tabs.sendMessage(activeTab.id, { type: "NEWSPRITE", value: newURLPath });
+    });
+}
+
+function startSpriteLoop() {
+    var fps = 15;
+    var timeInterval = 12;
+    var spriteInterval = setInterval(updateSprite.bind(), 10);
+}
+//startSpriteLoop();
+
+
+
+
 
 
 
