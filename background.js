@@ -200,7 +200,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 function updateSprite() {
-    //console.log("sprite update running");
     var spriteState = "";
     var spriteIndex = "";
     var character = "";
