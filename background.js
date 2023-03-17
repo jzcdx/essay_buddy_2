@@ -196,28 +196,43 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } 
 });
 
+function setMaxSpriteIndex(characterName) {
+    return 0;
+}
 
-
-
-function updateSprite() {
-    var spriteState = "";
-    var spriteIndex = "";
-    var character = "";
+var spriteIndex = 1;
+var maxSpriteIndex; //is undefined right now
+maxSpriteIndex = 6; //for testing purposes
     
-    var newURLPath = "assets/sprites/potion/" + spriteState + "/" + spriteIndex + "-" + spriteState + ".png";
+var curCharacter = "potion";
+var spriteState = "WORK";
+function updateSprite() {
+    if (maxSpriteIndex == undefined) { //also check if the character changes. Maybe use a message later to set maxSpriteIndex back to undefined.
+        maxSpriteIndex = setMaxSpriteIndex(curCharacter);
+    }
+
+    if (spriteIndex > maxSpriteIndex) {
+        spriteIndex = 1;
+    }
+    var newURLPath = "assets/sprites/" + curCharacter + "/" + spriteState + "/" + spriteIndex + "-" + spriteState + ".png";
+    spriteIndex++;
+    
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
         //this works to send a message to the contentscript of the tab that's active
-        chrome.tabs.sendMessage(activeTab.id, { type: "NEWSPRITE", value: newURLPath });
+        console.log("at: " + activeTab);
+        if (activeTab != undefined) {
+            chrome.tabs.sendMessage(activeTab.id, { type: "NEWSPRITE", newURL: newURLPath });
+        }
     });
 }
 
 function startSpriteLoop() {
     var fps = 15;
-    var timeInterval = 12;
-    var spriteInterval = setInterval(updateSprite.bind(), 10);
+    var timeInterval = 1000 / fps; //this is how often we gotta update the loop to maintain our fps. //this is in ms, so 1000ms per second.
+    var spriteInterval = setInterval(updateSprite.bind(), timeInterval);
 }
-//startSpriteLoop();
+startSpriteLoop();
 
 
 

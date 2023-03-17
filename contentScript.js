@@ -163,9 +163,14 @@
             return ret_me;
         }
 
-        function updateBuddySprite() {
-            buddy.src = chrome.runtime.getURL("assets/sprites/potion/" + spriteState + "/" + spriteIndex + "-" + spriteState + ".png");
-        }
+        chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
+            const {type, newURL} = obj;
+            if (type === "NEWSPRITE") {
+                console.log("nurl: " + newURL);
+                buddy.src = chrome.runtime.getURL(newURL);
+                //buddy.src = chrome.runtime.getURL("assets/sprites/potion/active/1-active.png");
+            }
+        });
 
         //updates the innerhtml of our timer label
         async function updateTimerLabel(cur_time) {
