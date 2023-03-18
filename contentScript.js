@@ -80,6 +80,13 @@
             }
         });
 
+        function setDeploymentBackgrounds() {
+            world.style.background = "transparent";
+            bubbleDiv.style.background = "transparent";
+            buddy.style.background = "transparent";
+        }
+
+        setDeploymentBackgrounds()
 
         var popup;
         function createPopup() {
@@ -154,18 +161,10 @@
 
         async function getPhase() {
             var ret_me = "";
-            /*
-            await chrome.storage.sync.get(["phase"]).then((result) => {
-                //DO NOT FORGET JSON.parse OR ELSE YOUR RESULT STRING WILL INCLUDE QUOTES.
-                ret_me = JSON.parse(result.phase);
-                console.log("-----------res phase: " + ret_me)
-            });
-            */
-
             const data = await new Promise((resolve) => {
                 chrome.storage.sync.get("phase", resolve);
             });
-
+            //DO NOT FORGET JSON.parse OR ELSE YOUR RESULT STRING WILL INCLUDE QUOTES.
             ret_me = JSON.parse(data.phase);
             return ret_me;
         }
