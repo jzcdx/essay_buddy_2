@@ -44,7 +44,7 @@ export class Timer {
         }
     }
     
-    endTimer() {
+    endTimer() { //used in timer.updateTimer when time goes past
         console.log("endtimer");
 
         clearInterval(this.timerInterval)

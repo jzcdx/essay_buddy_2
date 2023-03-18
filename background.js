@@ -1,8 +1,8 @@
 import {Timer} from "./timer.js";
 
 var goalType = "TIMER"; //options: TIMER or WORDS 
-var work_len = 0.1;
-var break_len = 0.05;
+var work_len = 0.05;
+var break_len = 0.025;
 var timer_len = work_len; //in minutes
 var timer = new Timer(timer_len);
 var phase = "WORK"; //WORK or BREAK
@@ -11,30 +11,68 @@ chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
 });
 
-function toggleWorkPhase() {
-    console.log("1b");
-    chrome.storage.sync.get("phase", (data) => {
-        if (data.phase !== undefined) {
-            //flips phase if phase has been set
-            if (phase === "WORK") {
-                phase = "BREAK";
-            } else {
-                phase = "WORK";
-            }
-        }
-        //sets phase in chrome storage
-        chrome.storage.sync.set({
-            ["phase"]: JSON.stringify(phase)
-        });
+async function toggleWorkPhase() {
+    console.log("toggling " + phase);
+    const result = await new Promise((resolve) => {
+        chrome.storage.sync.get("phase", resolve);
     });
     
+    if (result.phase !== undefined) {
+        if (phase === "WORK") {
+            console.log("a")
+            phase = "BREAK";
+        } else {
+            console.log("b")
+            phase = "WORK";
+        }
+    }
+    
+    /*
+    await chrome.storage.sync.get("phase", (data) => {
+        //i forgot phase is set to work by default /////
+        if (data.phase !== undefined) {
+            console.log(phase === "WORK")
+            //flips phase if phase has been set
+            if (phase === "WORK") {
+                console.log("a")
+                phase = "BREAK";
+            } else {
+                console.log("b")
+                phase = "WORK";
+            }
+        } else {
+            console.log("undefined data phase");
+        }////
+        //sets phase in chrome storage 
+        console.log("imp: " + data.phase + phase);
+    });*/
+    
+    //phase = "work";
+    console.log("1 stringify: " + JSON.stringify(phase));
+    await chrome.storage.sync.set({
+        ["phase"]: JSON.stringify(phase)
+    });
+
+    /*
+    await chrome.storage.sync.get("phase", (data) => {
+        console.log("verification: " + JSON.parse(data.phase));
+        
+    });*/
+    
+    const data = await new Promise((resolve) => {
+        chrome.storage.sync.get("phase", resolve);
+    });
+    console.log("2 verification: " + JSON.parse(data.phase));
+   
     //changes length of new timer based on whether or not we're taking a break now or working
     if (phase === "BREAK") {
-        timer_len = work_len;
-    } else if (phase === "WORK") {
         timer_len = break_len;
+    } else if (phase === "WORK") {
+        timer_len = work_len;
     }
+    console.log("end toggling " + phase);
     handleTimerReset();
+    updateSpritePhase();
 }
 
 createContextMenus();
@@ -139,6 +177,7 @@ function handleTimerReset() {
     handleStartToggling();
     createNewTimer();
     updateContentScriptTimerDisplay();
+    console.log("timer resetting")
 }
 
 function updateContentScriptTimerDisplay() {
@@ -191,10 +230,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             createNewTimer();
             updateContentScriptTimerDisplay();
         }
-    } else if (request.action === "togglePhase") {
+    } else if (request.action === "togglePhase") { //from contentScripts.js (which receives a message from timer.js) 
+        
         toggleWorkPhase();
+        return true;
     } 
 });
+
+function updateSpritePhase() {
+    spriteState = phase;
+    console.log("------------------------- sprite phase update: " + spriteState);
+}
 
 function setMaxSpriteIndex(characterName) {
     return 0;
@@ -206,6 +252,7 @@ maxSpriteIndex = 6; //for testing purposes
     
 var curCharacter = "potion";
 var spriteState = "WORK";
+
 function updateSprite() {
     if (maxSpriteIndex == undefined) { //also check if the character changes. Maybe use a message later to set maxSpriteIndex back to undefined.
         maxSpriteIndex = setMaxSpriteIndex(curCharacter);
@@ -220,7 +267,7 @@ function updateSprite() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
         //this works to send a message to the contentscript of the tab that's active
-        console.log("at: " + activeTab);
+        //console.log("at: " + activeTab);
         if (activeTab != undefined) {
             chrome.tabs.sendMessage(activeTab.id, { type: "NEWSPRITE", newURL: newURLPath });
         }

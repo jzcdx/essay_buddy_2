@@ -154,41 +154,45 @@
 
         async function getPhase() {
             var ret_me = "";
-
+            /*
             await chrome.storage.sync.get(["phase"]).then((result) => {
                 //DO NOT FORGET JSON.parse OR ELSE YOUR RESULT STRING WILL INCLUDE QUOTES.
                 ret_me = JSON.parse(result.phase);
+                console.log("-----------res phase: " + ret_me)
             });
-            
+            */
+
+            const data = await new Promise((resolve) => {
+                chrome.storage.sync.get("phase", resolve);
+            });
+
+            ret_me = JSON.parse(data.phase);
             return ret_me;
         }
+
 
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, newURL} = obj;
             if (type === "NEWSPRITE") {
-                console.log("nurl: " + newURL);
                 buddy.src = chrome.runtime.getURL(newURL);
-                //buddy.src = chrome.runtime.getURL("assets/sprites/potion/active/1-active.png");
             }
         });
 
         //updates the innerhtml of our timer label
         async function updateTimerLabel(cur_time) {
             var phase = await getPhase();
-
+            console.log("--------------phase: " + phase)
             //phase = "WORK";
             if (phase !== undefined) {
                 var flavorString = "";
                 if (phase === "WORK") {
-                    
-                    console.log("a")
+                    console.log("a");
                     flavorString = "Work time Left: <br>";
-                } else if (phase === "BREAK") {  
-                    console.log("b")
+                } else if (phase === "BREAK") {
+                    console.log("b");  
                     flavorString = "Break time Left: <br>";
                 }
 
-                console.log("flavorString: " + flavorString);
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
                 } else {
@@ -216,6 +220,7 @@
                 chrome.runtime.sendMessage({
                     action: "togglePhase"
                 });
+                return true;
             }
         });
     }
