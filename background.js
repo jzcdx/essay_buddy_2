@@ -16,53 +16,20 @@ async function toggleWorkPhase() {
     const result = await new Promise((resolve) => {
         chrome.storage.sync.get("phase", resolve);
     });
-    
+
     if (result.phase !== undefined) {
         if (phase === "WORK") {
-            console.log("a")
             phase = "BREAK";
         } else {
-            console.log("b")
             phase = "WORK";
         }
     }
-    
-    /*
-    await chrome.storage.sync.get("phase", (data) => {
-        //i forgot phase is set to work by default /////
-        if (data.phase !== undefined) {
-            console.log(phase === "WORK")
-            //flips phase if phase has been set
-            if (phase === "WORK") {
-                console.log("a")
-                phase = "BREAK";
-            } else {
-                console.log("b")
-                phase = "WORK";
-            }
-        } else {
-            console.log("undefined data phase");
-        }////
-        //sets phase in chrome storage 
-        console.log("imp: " + data.phase + phase);
-    });*/
-    
-    //phase = "work";
+
     console.log("1 stringify: " + JSON.stringify(phase));
     await chrome.storage.sync.set({
         ["phase"]: JSON.stringify(phase)
     });
 
-    /*
-    await chrome.storage.sync.get("phase", (data) => {
-        console.log("verification: " + JSON.parse(data.phase));
-        
-    });*/
-    
-    const data = await new Promise((resolve) => {
-        chrome.storage.sync.get("phase", resolve);
-    });
-    console.log("2 verification: " + JSON.parse(data.phase));
    
     //changes length of new timer based on whether or not we're taking a break now or working
     if (phase === "BREAK") {
@@ -70,7 +37,6 @@ async function toggleWorkPhase() {
     } else if (phase === "WORK") {
         timer_len = work_len;
     }
-    console.log("end toggling " + phase);
     handleTimerReset();
     updateSpritePhase();
 }
