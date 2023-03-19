@@ -35,7 +35,7 @@ export class Timer {
             this.pauseEnd = Date.now();
             this.startTime += this.pauseEnd - this.pauseStart 
 
-            this.timerInterval = setInterval(this.updateTimer.bind(this), 10);
+            this.timerInterval = setInterval(this.updateTimer.bind(this), 50);
         } else if (!this.isPaused && this.isRunning) {
             this.isPaused = true;
             this.isRunning = false;
@@ -89,9 +89,9 @@ export class Timer {
         this.timeString =
             this.padNumber(minutes) +
             ":" +
-            this.padNumber(seconds) +
+            this.padNumber(seconds)/* +
             "." +
-            this.padNumber(milliseconds);
+            this.padNumber(milliseconds);*/
         
     }
     

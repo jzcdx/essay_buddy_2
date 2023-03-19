@@ -1,8 +1,11 @@
 import {Timer} from "./timer.js";
 
 var goalType = "TIMER"; //options: TIMER or WORDS 
-var work_len = 0.05;
-var break_len = 0.025;
+var work_len = 5;
+var break_len = 2.5;
+//work_len = 1;
+//break_len = 0.5;
+
 var timer_len = work_len; //in minutes
 var timer = new Timer(timer_len);
 var phase = "WORK"; //WORK or BREAK

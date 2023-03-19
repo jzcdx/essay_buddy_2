@@ -8,8 +8,10 @@
             world = document.createElement("div");
             world.id = "buddy_world";
             world.title = "right click to access the menu";
-            let shimai = document.getElementById("shimai-world")
-            documentbody.removeChild(shimai);
+            let shimai = document.getElementById("shimai-world");
+            if (shimai !== null) {
+                documentbody.removeChild(shimai);
+            }
             documentbody.prepend(world)
         }
 
@@ -50,7 +52,7 @@
         if (!timerLabelExists) {
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
-            timerLabel.innerHTML = "Time Left: <br>00:00:00";
+            timerLabel.innerHTML = "Click Me <br>To Start";
 
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
@@ -85,8 +87,7 @@
             bubbleDiv.style.background = "transparent";
             buddy.style.background = "transparent";
         }
-
-        setDeploymentBackgrounds()
+        //setDeploymentBackgrounds()
 
         var popup;
         function createPopup() {
@@ -219,7 +220,6 @@
                 chrome.runtime.sendMessage({
                     action: "togglePhase"
                 });
-                return true;
             }
         });
     }
