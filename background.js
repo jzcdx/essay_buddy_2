@@ -46,8 +46,6 @@ async function toggleWorkPhase() {
     updateSpritePhase();
 }
 
-createContextMenus();
-
 function updatedAndActivatedHandler() {
     //if timer is currently running or currently paused 
     if (timer.getRunState() || timer.getPauseState()) {
@@ -352,4 +350,4 @@ function createContextMenus() {
         });
     });
 }
-
+createContextMenus();

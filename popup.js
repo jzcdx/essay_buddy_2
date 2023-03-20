@@ -12,12 +12,10 @@ function addElements() {
 
     const hideButton = document.getElementById("hideButton");
     addHideListener(hideButton);
-    
 }
 
 function addGoalListener(submitGoalChange) {
     submitGoalChange.onclick = function() {
-        console.log("submit clicked");
         var input = document.getElementById("newGoal"); //newGoal is made in the html file
         var inputValue = input.value;
         sendNewGoal(inputValue);
@@ -37,6 +35,11 @@ function sendNewGoal(newGoal) {
 function addHideListener(hideButton) {
     hideButton.onclick = function() {
         sendHideBuddy();
+        if (hideButton.innerHTML === "Hide Buddy") {
+            hideButton.innerHTML = "Show Buddy";
+        } else {
+            hideButton.innerHTML = "Hide Buddy";
+        }
     }
 }
 
