@@ -87,7 +87,7 @@
             bubbleDiv.style.background = "transparent";
             buddy.style.background = "transparent";
         }
-        //setDeploymentBackgrounds()
+        setDeploymentBackgrounds();
 
         var popup;
         function createPopup() {
