@@ -2,7 +2,7 @@
     const documentbody = document.getElementsByTagName("BODY")[0];
 
     const newPageLoaded = async () => {
-        const worldExists = document.getElementById("buddy_world");
+        let worldExists = document.getElementById("buddy_world");
         let world;
         if (!worldExists) {
             world = document.createElement("div");
@@ -193,8 +193,17 @@
                 } else {
                     console.log("timer label doesnt exist yet: " + timerLabelExists);
                 }
+            }   
+        }
+
+        function setVisibility(new_visibility) {
+            //worldExists = document.getElementById("buddy_world");
+            worldExists = document.getElementById("buddy_world")
+            if (new_visibility && (!worldExists)) {//the second condition is so we don't append world again if it exists already
+                documentbody.appendChild(world);
+            } else if (!new_visibility && (worldExists)) {
+                documentbody.removeChild(world);
             }
-            
         }
 
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
@@ -217,6 +226,7 @@
             } else if (type === "TOGGLEVISIBILITY") {
                 console.log("new visibility: " + value);
                 new_visibility = value;
+                setVisibility(new_visibility);
             }
         });
     }

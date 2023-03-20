@@ -70,7 +70,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
         const activeTab = tabs[0];
         chrome.tabs.sendMessage(activeTab.id, { 
             type: "TOGGLEVISIBILITY",
-            value: visibility
+            value: visible
         });
     });
 });
