@@ -48,10 +48,7 @@ async function toggleWorkPhase() {
 
 createContextMenus();
 
-
-
-//activates when we switch tabs
-chrome.tabs.onActivated.addListener(function(activeInfo) {
+function updatedAndActivatedHandler() {
     //if timer is currently running or currently paused 
     if (timer.getRunState() || timer.getPauseState()) {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
@@ -73,6 +70,16 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
             value: visible
         });
     });
+}
+
+chrome.tabs.onUpdated.addListener(function() {
+    console.log("on UPDATED triggered");
+    updatedAndActivatedHandler();
+})
+//activates when we switch tabs
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    console.log("on ACTIVATED triggered");
+    updatedAndActivatedHandler();
 });
 
 
