@@ -1,6 +1,5 @@
 import {Timer} from "./timer.js";
 
-var goalType = "TIMER"; //options: TIMER or WORDS 
 var work_len = 55;
 var break_len = 15;
 //work_len = 1;
@@ -8,7 +7,10 @@ var break_len = 15;
 
 var timer_len = work_len; //in minutes
 var timer = new Timer(timer_len);
+
 var phase = "WORK"; //WORK or BREAK
+var visible = true;
+var goalType = "TIMER"; //options: TIMER or WORDS 
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
@@ -50,9 +52,8 @@ createContextMenus();
 
 //activates when we switch tabs
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-    //if timer is currently running or currently paused, 
+    //if timer is currently running or currently paused 
     if (timer.getRunState() || timer.getPauseState()) {
-        //console.log("sending: (bg.js) " + timer.getTimeString())
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
             const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
             chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
@@ -61,8 +62,17 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
             });
         });
     } else {
-        console.log("not running (bg.js)")
+        console.log("tab switching, timer not running (bg.js)")
     }
+
+    //we're gonna make sure the visibility settings are the same between tabs when we switch by querying and msging contentscript
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, { 
+            type: "TOGGLEVISIBILITY",
+            value: visibility
+        });
+    });
 });
 
 
@@ -200,11 +210,27 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             updateContentScriptTimerDisplay();
         }
     } else if (request.action === "togglePhase") { //from contentScripts.js (which receives a message from timer.js) 
-        
         toggleWorkPhase();
-        return true;
-    } 
+        
+    } else if (request.action === "hideBuddy") {
+        toggleBuddyVisibility();
+    }
 });
+
+function toggleBuddyVisibility() {
+    // 1) we'll toggle the variable to track visibility.
+    visible = !visible;
+    // 2) we're gonna message our current tab to flip the visibility.
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
+        const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+        chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
+            type: "TOGGLEVISIBILITY",
+            value: visible
+        });
+    });
+    // 3) update the code for tab switching to message contentScript the current state of visibility.
+
+}
 
 function updateSpritePhase() {
     spriteState = phase;

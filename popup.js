@@ -10,6 +10,8 @@ function addElements() {
     submitGoalChange.id = "submit-btn";
     addGoalListener(submitGoalChange);
 
+    const hideButton = document.getElementById("hideButton");
+    addHideListener(hideButton);
     
 }
 
@@ -32,6 +34,17 @@ function sendNewGoal(newGoal) {
     });
 }
 
+function addHideListener(hideButton) {
+    hideButton.onclick = function() {
+        sendHideBuddy();
+    }
+}
+
+function sendHideBuddy() {
+    chrome.runtime.sendMessage({
+        action: "hideBuddy"    
+    })
+}
 
 /*
 import { getActiveTabURL } from "./utils.js";

@@ -19,7 +19,6 @@
         const buddyExists = document.getElementById("squareslo");
         if (!buddyExists) {
             buddy = document.createElement("img");
-            //buddy.src = chrome.runtime.getURL("assets/sprites/angus/talk/Bonfire_angus_talk1_00000.png");
             buddy.src = chrome.runtime.getURL("assets/sprites/potion/active/1-active.png");
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
@@ -181,15 +180,11 @@
         //updates the innerhtml of our timer label
         async function updateTimerLabel(cur_time) {
             var phase = await getPhase();
-            console.log("--------------phase: " + phase)
-            //phase = "WORK";
             if (phase !== undefined) {
                 var flavorString = "";
                 if (phase === "WORK") {
-                    console.log("a");
                     flavorString = "Work time Left: <br>";
                 } else if (phase === "BREAK") {
-                    console.log("b");  
                     flavorString = "Break time Left: <br>";
                 }
 
@@ -215,11 +210,13 @@
                 togglePopup();
             } else if (type === "CHANGEBREAK") {
                 togglePopup();
-
             } else if (type === "TOGGLEPHASE") {
                 chrome.runtime.sendMessage({
                     action: "togglePhase"
                 });
+            } else if (type === "TOGGLEVISIBILITY") {
+                console.log("new visibility: " + value);
+                new_visibility = value;
             }
         });
     }
