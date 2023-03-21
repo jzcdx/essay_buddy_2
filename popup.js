@@ -1,15 +1,9 @@
 //This function fires when you open the popup.
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("popup loaded");
     addElements();
 });
 
 function addElements() {
-    /*
-    const submitGoalChange = document.createElement("button");
-    submitGoalChange.textContent = "submit me";
-    submitGoalChange.id = "submit-btn";
-    */
     const submitGoalChange = document.getElementById("submit-btn");
     addGoalListener(submitGoalChange);
 
@@ -20,24 +14,17 @@ function addElements() {
 function addGoalListener(submitGoalChange) {
     submitGoalChange.onclick = function() {
         var goalInput = document.getElementById("newGoal"); //newGoal is made in the html file
-        var goalValue = goalInput.value;
+        var goalValue = goalInput.value; //so no input gives you an empty string
         if (goalValue !== "") {
             sendNewGoal(goalValue);
-        } else {
-            console.log("null goal");
         }
         
         var breakInput = document.getElementById("newBreak"); //newBreak is made in the html file
-        var breakValue = breakInput.value; //so no input gives you an empty string
+        var breakValue = breakInput.value; 
         if (breakValue !== "") {
             sendNewBreak(breakValue);
-        } else {
-            console.log("null break");
         }
-
     }
-    //also appends our button to our popup
-    
 }
 
 function sendNewGoal(newGoal) {
@@ -62,7 +49,7 @@ function addHideListener(hideButton) {
             hideButton.innerHTML = "Show Buddy";
         } else {
             hideButton.innerHTML = "Hide Buddy";
-        }
+        }   
     }
 }
 
@@ -71,6 +58,8 @@ function sendHideBuddy() {
         action: "hideBuddy"    
     })
 }
+
+
 
 /*
 import { getActiveTabURL } from "./utils.js";

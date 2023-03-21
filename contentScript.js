@@ -183,9 +183,9 @@
             if (phase !== undefined) {
                 var flavorString = "";
                 if (phase === "WORK") {
-                    flavorString = "Work time Left: <br>";
+                    flavorString = "Work time <br> Left: <br>";
                 } else if (phase === "BREAK") {
-                    flavorString = "Break time Left: <br>";
+                    flavorString = "Break time <br> Left: <br>";
                 }
 
                 if (timerLabelExists) {

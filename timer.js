@@ -89,9 +89,9 @@ export class Timer {
         this.timeString =
             this.padNumber(minutes) +
             ":" +
-            this.padNumber(seconds)/* +
+            this.padNumber(seconds) +
             "." +
-            this.padNumber(milliseconds);*/
+            this.padNumber(milliseconds);
         
     }
     

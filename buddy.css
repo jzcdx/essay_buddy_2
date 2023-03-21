@@ -13,11 +13,12 @@
 #timer-label {
     /*note to self, set the font lol*/
     text-align: center;
-    font-family: 'Comic Sans MS', 'Comic Sans';
-    
+    /*font-family: 'Comic Sans MS', 'Comic Sans';*/
+    font-family: 'Courier New'; /*so changing to a monospace font like courier new fixes the number jiggling problem lol*/
+
     margin-bottom:15%;
     color:black;
-    font-size: 16px;
+    font-size: 18px;
     z-index: 19002;
     user-select: none;
     
