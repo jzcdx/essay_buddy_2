@@ -5,9 +5,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 function addElements() {
+    /*
     const submitGoalChange = document.createElement("button");
     submitGoalChange.textContent = "submit me";
     submitGoalChange.id = "submit-btn";
+    */
+    const submitGoalChange = document.getElementById("submit-btn");
     addGoalListener(submitGoalChange);
 
     const hideButton = document.getElementById("hideButton");
@@ -22,7 +25,7 @@ function addGoalListener(submitGoalChange) {
     }
     //also appends our button to our popup
     var main = document.getElementById("container");
-    main.appendChild(submitGoalChange);
+    //main.appendChild(submitGoalChange);
 }
 
 function sendNewGoal(newGoal) {
