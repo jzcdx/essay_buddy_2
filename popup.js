@@ -19,13 +19,25 @@ function addElements() {
 
 function addGoalListener(submitGoalChange) {
     submitGoalChange.onclick = function() {
-        var input = document.getElementById("newGoal"); //newGoal is made in the html file
-        var inputValue = input.value;
-        sendNewGoal(inputValue);
+        var goalInput = document.getElementById("newGoal"); //newGoal is made in the html file
+        var goalValue = goalInput.value;
+        if (goalValue !== "") {
+            sendNewGoal(goalValue);
+        } else {
+            console.log("null goal");
+        }
+        
+        var breakInput = document.getElementById("newBreak"); //newBreak is made in the html file
+        var breakValue = breakInput.value; //so no input gives you an empty string
+        if (breakValue !== "") {
+            sendNewBreak(breakValue);
+        } else {
+            console.log("null break");
+        }
+
     }
     //also appends our button to our popup
-    var main = document.getElementById("container");
-    //main.appendChild(submitGoalChange);
+    
 }
 
 function sendNewGoal(newGoal) {
@@ -34,6 +46,14 @@ function sendNewGoal(newGoal) {
         value: newGoal 
     });
 }
+
+function sendNewBreak(newBreak) {
+    chrome.runtime.sendMessage({ 
+        action: "changeBreak", 
+        value: newBreak 
+    });
+}
+
 
 function addHideListener(hideButton) {
     hideButton.onclick = function() {
