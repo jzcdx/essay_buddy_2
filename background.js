@@ -13,8 +13,8 @@ var timer = new Timer(timer_len);
 var phase = "WORK"; //WORK or BREAK
 var visible = true;
 var goalType = "TIMER"; //options: TIMER or WORDS 
-console.log("hi")
-console.log(constants.barry.active.frames);
+
+//console.log(constants.sprites.barry.active.frames);
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
