@@ -2,8 +2,8 @@ import {Timer} from "./timer.js";
 import { constants } from './constants.js';
 //const constants = require('./spriteConstants.json');
 
-var work_len = 0.15;
-var break_len = 0.15;
+var work_len = 25;
+var break_len = 5;
 //work_len = 1;
 //break_len = 0.5;
 
