@@ -1,4 +1,6 @@
 import {Timer} from "./timer.js";
+import { constants } from './constants.js';
+//const constants = require('./spriteConstants.json');
 
 var work_len = 55;
 var break_len = 15;
@@ -11,6 +13,8 @@ var timer = new Timer(timer_len);
 var phase = "WORK"; //WORK or BREAK
 var visible = true;
 var goalType = "TIMER"; //options: TIMER or WORDS 
+console.log("hi")
+console.log(constants.barry.active.frames);
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)

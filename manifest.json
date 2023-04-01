@@ -2,7 +2,7 @@
     "name": "Essay Buddy",
     "version": "0.1",
     "description": "Someone to keep you company while you write",
-    "permissions": ["storage", "tabs", "contextMenus", "filesystem", "activeTab"],
+    "permissions": ["storage", "tabs", "contextMenus", "activeTab"],
     "host_permissions": ["<all_urls>"],
 
     "content_security_policy": {
