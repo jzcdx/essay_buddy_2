@@ -173,7 +173,7 @@
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, newURL} = obj;
             if (type === "NEWSPRITE") {
-                console.log("new sprite url: " + newURL);
+                //console.log("new sprite url: " + newURL);
                 buddy.src = chrome.runtime.getURL(newURL);
             }
         });
@@ -192,7 +192,7 @@
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
                 } else {
-                    console.log("timer label doesnt exist yet: " + timerLabelExists);
+                    //console.log("timer label doesnt exist yet: " + timerLabelExists);
                 }
             }   
         }
@@ -225,7 +225,7 @@
                     action: "togglePhase"
                 });
             } else if (type === "TOGGLEVISIBILITY") {
-                console.log("new visibility: " + value);
+                //console.log("new visibility: " + value);
                 new_visibility = value;
                 setVisibility(new_visibility);
             }

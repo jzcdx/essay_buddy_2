@@ -24,7 +24,7 @@ chrome.storage.sync.set({
 });
 
 async function toggleWorkPhase() {
-    console.log("toggling " + phase);
+    //console.log("toggling " + phase);
     const result = await new Promise((resolve) => {
         chrome.storage.sync.get("phase", resolve);
     });
@@ -37,7 +37,7 @@ async function toggleWorkPhase() {
         }
     }
 
-    console.log("1 stringify: " + JSON.stringify(phase));
+    //console.log("1 stringify: " + JSON.stringify(phase));
     await chrome.storage.sync.set({
         ["phase"]: JSON.stringify(phase)
     });
@@ -64,7 +64,7 @@ function updatedAndActivatedHandler() {
             });
         });
     } else {
-        console.log("tab switching, timer not running (bg.js)")
+        //console.log("tab switching, timer not running (bg.js)")
     }
 
     //we're gonna make sure the visibility settings are the same between tabs when we switch by querying and msging contentscript
@@ -78,12 +78,12 @@ function updatedAndActivatedHandler() {
 }
 
 chrome.tabs.onUpdated.addListener(function() {
-    console.log("on UPDATED triggered");
+    //console.log("on UPDATED triggered");
     updatedAndActivatedHandler();
 })
 //activates when we switch tabs
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-    console.log("on ACTIVATED triggered");
+    //console.log("on ACTIVATED triggered");
     updatedAndActivatedHandler();
 });
 
@@ -99,7 +99,7 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
 });
 
 function handleGoalToggling() {
-    console.log("toggling goal");
+    //console.log("toggling goal");
     if (goalType === "TIMER") {
         goalType = "WORDS";
     } else if (goalType === "WORDS") {
@@ -168,7 +168,7 @@ function handleTimerReset() {
     handleStartToggling();
     createNewTimer();
     updateContentScriptTimerDisplay();
-    console.log("timer resetting")
+    //console.log("timer resetting")
 }
 
 function updateContentScriptTimerDisplay() {
@@ -197,6 +197,9 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     } else if (info.menuItemId === "changeGoal") {
         console.log("changing goal from ctx menu");
         sendGoalChangePopupMessage();
+    } else if (info.menuItemId === "hideBuddy") {
+        console.log("hiding buddy");
+        toggleBuddyVisibility();
     }
 });
 
@@ -258,20 +261,12 @@ function updateSpritePhase() {
     console.log("------------------------- sprite phase update: " + spriteState);
 }
 
-function setMaxSpriteIndex(characterName) {
-    return 0;
-}
-
 var spriteIndex = "00";
 var maxSpriteIndex = curSpriteSet.frames; //is undefined right now
-//maxSpriteIndex = 6; //for testing purposes
-    
-var curCharacter = "potion";
 var spriteState = "WORK";
 
 function updateSprite() {
     var newURLPath = curSpriteSet.path + spriteIndex + ".png"
-    
     
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
@@ -363,6 +358,16 @@ function createContextMenus() {
         chrome.contextMenus.create({
             id: "restartTimer",
             title: "Reset Timer",
+            contexts: ["all"],
+            targetUrlPatterns: ["*://*/*"],
+            visible: true,
+        });
+    });
+
+    chrome.contextMenus.remove('hideBuddy', function() {
+        chrome.contextMenus.create({
+            id: "hideBuddy",
+            title: "Hide Buddy",
             contexts: ["all"],
             targetUrlPatterns: ["*://*/*"],
             visible: true,

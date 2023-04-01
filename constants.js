@@ -15,7 +15,7 @@ const constants = {
         },
 
 
-        "test": {
+        "placeholder": {
             "active": {
                 "path": "assets/sprites/potion/active/tile0",
                 "frames": "1"
