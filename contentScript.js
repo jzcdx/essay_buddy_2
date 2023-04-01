@@ -19,7 +19,7 @@
         const buddyExists = document.getElementById("squareslo");
         if (!buddyExists) {
             buddy = document.createElement("img");
-            buddy.src = chrome.runtime.getURL("assets/sprites/potion/active/1-active.png");
+            buddy.src = chrome.runtime.getURL("assets/sprites/barry/active/tile000.png");
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
@@ -173,6 +173,7 @@
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, newURL} = obj;
             if (type === "NEWSPRITE") {
+                console.log("new sprite url: " + newURL);
                 buddy.src = chrome.runtime.getURL(newURL);
             }
         });

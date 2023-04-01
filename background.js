@@ -2,8 +2,8 @@ import {Timer} from "./timer.js";
 import { constants } from './constants.js';
 //const constants = require('./spriteConstants.json');
 
-var work_len = 55;
-var break_len = 15;
+var work_len = 0.15;
+var break_len = 0.15;
 //work_len = 1;
 //break_len = 0.5;
 
@@ -13,6 +13,9 @@ var timer = new Timer(timer_len);
 var phase = "WORK"; //WORK or BREAK
 var visible = true;
 var goalType = "TIMER"; //options: TIMER or WORDS 
+
+var curSprite = constants.sprites.barry
+var curSpriteSet = curSprite.inactive;
 
 //console.log(constants.sprites.barry.active.frames);
 
@@ -242,6 +245,15 @@ function toggleBuddyVisibility() {
 }
 
 function updateSpritePhase() {
+    if (phase === "WORK") {
+        curSpriteSet = curSprite.inactive;
+    } else if (phase === "BREAK") {
+        curSpriteSet = curSprite.active;
+    }
+    
+    spriteIndex = "00";
+    maxSpriteIndex = curSpriteSet.frames; 
+
     spriteState = phase;
     console.log("------------------------- sprite phase update: " + spriteState);
 }
@@ -250,23 +262,16 @@ function setMaxSpriteIndex(characterName) {
     return 0;
 }
 
-var spriteIndex = 1;
-var maxSpriteIndex; //is undefined right now
-maxSpriteIndex = 6; //for testing purposes
+var spriteIndex = "00";
+var maxSpriteIndex = curSpriteSet.frames; //is undefined right now
+//maxSpriteIndex = 6; //for testing purposes
     
 var curCharacter = "potion";
 var spriteState = "WORK";
 
 function updateSprite() {
-    if (maxSpriteIndex == undefined) { //also check if the character changes. Maybe use a message later to set maxSpriteIndex back to undefined.
-        maxSpriteIndex = setMaxSpriteIndex(curCharacter);
-    }
-
-    if (spriteIndex > maxSpriteIndex) {
-        spriteIndex = 1;
-    }
-    var newURLPath = "assets/sprites/" + curCharacter + "/" + spriteState + "/" + spriteIndex + "-" + spriteState + ".png";
-    spriteIndex++;
+    var newURLPath = curSpriteSet.path + spriteIndex + ".png"
+    
     
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
@@ -276,10 +281,20 @@ function updateSprite() {
             chrome.tabs.sendMessage(activeTab.id, { type: "NEWSPRITE", newURL: newURLPath });
         }
     });
+    spriteIndex = parseInt(spriteIndex)
+    spriteIndex++;
+    if (spriteIndex > maxSpriteIndex) {
+        spriteIndex = "00";
+    }
+    spriteIndex = spriteIndex.toString();
+
+    if (spriteIndex.length === 1) {
+        spriteIndex = "0" + spriteIndex;
+    }
 }
 
 function startSpriteLoop() {
-    var fps = 15;
+    var fps = curSpriteSet.framerate;
     var timeInterval = 1000 / fps; //this is how often we gotta update the loop to maintain our fps. //this is in ms, so 1000ms per second.
     var spriteInterval = setInterval(updateSprite.bind(), timeInterval);
 }

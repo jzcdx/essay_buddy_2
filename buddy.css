@@ -1,11 +1,19 @@
 #squareslo {
     position: absolute;
+    left: -100px; 
+    bottom: -50px;
+    z-index: 18999;
+
+    /*
+    Original values:
     left: 0px; 
     bottom: 0px;
-    z-index: 18999; 
+    */ 
+
+    /*
     width:150px; 
     height:150px;
-
+*/
     background-color:rgb(177, 161, 161);
 
 }
@@ -28,10 +36,11 @@
 #bubble-img {
     position: absolute;
     right: 0px; top: 0px;
-    z-index: 19001; 
+    z-index: 19001;
+    
     width:100%; 
     height:100%;
-
+    
     background:transparent;
     /*margin-right:0px;
     margin-bottom:150px;*/
