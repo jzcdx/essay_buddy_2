@@ -1,5 +1,5 @@
 {
-    "name": "Essay Buddy",
+    "name": "Tiny Timer",
     "version": "0.1",
     "description": "Someone to keep you company while you write",
     "permissions": ["storage", "tabs", "contextMenus", "activeTab"],
@@ -28,7 +28,7 @@
         "24": "assets/icons/icon16.png",
         "32": "assets/icons/icon16.png"
       },
-      "default_title": "hi",
+      "default_title": "Tiny Timer",
       "default_popup": "popup.html"
     },
     "web_accessible_resources": [

@@ -45,7 +45,7 @@ export class Timer {
     }
     
     endTimer() { //used in timer.updateTimer when time goes past
-        console.log("endtimer");
+        //console.log("endtimer");
 
         clearInterval(this.timerInterval)
         this.isRunning = false;
@@ -77,12 +77,7 @@ export class Timer {
 
     updateTimeString() {
         let inverse = this.maxInterval - this.elapsedTime 
-        /*
-        //use this instead if you want it to count up to the goal instead of vice versa.
-        let minutes = Math.floor(this.elapsedTime / 60000);
-        let seconds = Math.floor((this.elapsedTime % 60000) / 1000);
-        let milliseconds = Math.floor((this.elapsedTime % 1000) / 10);
-        */
+        
         let minutes = Math.floor(inverse / 60000);
         let seconds = Math.floor((inverse % 60000) / 1000);
         let milliseconds = Math.floor((inverse % 1000) / 10);
@@ -146,10 +141,3 @@ export class Timer {
         this.pauseEnd = null;
     }
 }
-/*
-const temp = new Timer(15);
-
-temp.startTimer();
-
-console.log(temp.getTime());
-*/
