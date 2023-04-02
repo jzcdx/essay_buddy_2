@@ -2,10 +2,8 @@ import {Timer} from "./timer.js";
 import { constants } from './constants.js';
 //const constants = require('./spriteConstants.json');
 
-var work_len = 25;
+var work_len = 0.05;
 var break_len = 5;
-//work_len = 1;
-//break_len = 0.5;
 
 var timer_len = work_len; //in minutes
 var timer = new Timer(timer_len);
@@ -16,8 +14,6 @@ var goalType = "TIMER"; //options: TIMER or WORDS
 
 var curSprite = constants.sprites.barry
 var curSpriteSet = curSprite.inactive;
-
-//console.log(constants.sprites.barry.active.frames);
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
@@ -37,7 +33,6 @@ async function toggleWorkPhase() {
         }
     }
 
-    //console.log("1 stringify: " + JSON.stringify(phase));
     await chrome.storage.sync.set({
         ["phase"]: JSON.stringify(phase)
     });
