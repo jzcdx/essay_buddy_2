@@ -42,7 +42,6 @@
             bubble.title = "click for the menu";
             bubble.id = "bubble-img";
             
-
             bubbleDiv.append(bubble);
         }
 
@@ -92,7 +91,6 @@
         function createPopup() {
             popup = document.createElement("div");
             popup.id = "goal-change-popup";
-            //popup.innerHTML = "<h1>New Goal:</h1>";
 
             var closeButton = document.createElement("button");
             closeButton.innerText = "x";
@@ -192,13 +190,12 @@
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
                 } else {
-                    //console.log("timer label doesnt exist yet: " + timerLabelExists);
+                    //timer label doesnt exist yet
                 }
             }   
         }
 
         function setVisibility(new_visibility) {
-            //worldExists = document.getElementById("buddy_world");
             worldExists = document.getElementById("buddy_world")
             if (new_visibility && (!worldExists)) {//the second condition is so we don't append world again if it exists already
                 documentbody.appendChild(world);
@@ -225,7 +222,6 @@
                     action: "togglePhase"
                 });
             } else if (type === "TOGGLEVISIBILITY") {
-                //console.log("new visibility: " + value);
                 new_visibility = value;
                 setVisibility(new_visibility);
             }
