@@ -45,7 +45,6 @@ export class Timer {
     }
     
     endTimer() { //used in timer.updateTimer when time goes past
-        //console.log("endtimer");
 
         clearInterval(this.timerInterval)
         this.isRunning = false;
