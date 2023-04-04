@@ -2,7 +2,7 @@
     "name": "Tiny Timer",
     "version": "0.1",
     "description": "Someone to keep you company while you write",
-    "permissions": ["storage", "tabs", "contextMenus", "activeTab"],
+    "permissions": ["storage", "contextMenus", "activeTab"],
     "host_permissions": ["<all_urls>"],
 
     "content_security_policy": {
