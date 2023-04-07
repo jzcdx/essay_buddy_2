@@ -171,7 +171,6 @@
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, newURL} = obj;
             if (type === "NEWSPRITE") {
-                //console.log("new sprite url: " + newURL);
                 buddy.src = chrome.runtime.getURL(newURL);
             }
         });
