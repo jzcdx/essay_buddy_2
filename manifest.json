@@ -1,5 +1,5 @@
 {
-    "name": "Tiny Timer",
+    "name": "Tiny Timer (Test Version)",
     "version": "0.1",
     "description": "Someone to keep you company while you write",
     "permissions": ["storage", "contextMenus", "activeTab"],

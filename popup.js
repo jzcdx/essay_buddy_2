@@ -1,6 +1,7 @@
 //This function fires when you open the popup.
 document.addEventListener("DOMContentLoaded", async () => {
     addElements();
+    testFunctions();
 });
 
 function addElements() {
@@ -59,3 +60,29 @@ function sendHideBuddy() {
     })
 }
 
+var saveF = function() {
+    console.log("sf")
+    var myVal = 12;
+    myVal = document.getElementById("testField").value
+    
+    chrome.storage.local.set({"test": myVal}, () => {
+        console.log('Stored name: ' + myVal)
+    });
+}
+
+var retrieveF = function() {
+    console.log("rf")
+    
+    chrome.storage.local.get("test", (result) => {
+        console.log(result)
+        console.log(result["test"]);
+    });
+    
+}
+
+function testFunctions() {
+    var save = document.getElementById("saveButton")
+    var retrieve = document.getElementById("retrieveButton")
+    save.onclick = saveF;
+    retrieve.onclick = retrieveF;
+}
