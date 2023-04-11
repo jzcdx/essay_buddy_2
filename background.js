@@ -19,8 +19,12 @@ chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
 });
 
+chrome.storage.local.get("visibility", (result) => {
+    console.log(result)
+    visible = result["visibility"]
+});
+
 async function toggleWorkPhase() {
-    //console.log("toggling " + phase);
     const result = await new Promise((resolve) => {
         chrome.storage.sync.get("phase", resolve);
     });
@@ -230,6 +234,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 function toggleBuddyVisibility() {
     // 1) we'll toggle the variable to track visibility.
     visible = !visible;
+    chrome.storage.local.set({"visibility": visible}, () => {
+        console.log('Stored visibility: ' + visible)
+    });
+
     // 2) we're gonna message our current tab to flip the visibility.
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
