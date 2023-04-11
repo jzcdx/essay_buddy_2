@@ -61,7 +61,6 @@ function sendHideBuddy() {
 }
 
 var saveF = function() {
-    console.log("sf")
     var myVal = 12;
     myVal = document.getElementById("testField").value
     
@@ -71,8 +70,6 @@ var saveF = function() {
 }
 
 var retrieveF = function() {
-    console.log("rf")
-    
     chrome.storage.local.get("test", (result) => {
         console.log(result)
         console.log(result["test"]);
