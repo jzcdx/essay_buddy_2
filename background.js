@@ -19,10 +19,29 @@ chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
 });
 
-chrome.storage.local.get("visibility", (result) => {
-    console.log(result)
-    visible = result["visibility"]
-});
+getDefaultSettings();
+
+function getDefaultSettings() {
+    chrome.storage.local.get("visibility", (result) => {
+        if (result["visibility"] !== undefined) {
+            visible = result["visibility"]
+        } 
+    });
+    
+    chrome.storage.local.get("workLen", (result) => {
+        if (result["workLen"] !== undefined) {
+            work_len = result["workLen"]
+        }
+        
+    });
+    chrome.storage.local.get("breakLen", (result) => {
+        if (result["breakLen"] !== undefined) {
+            break_len = result["breakLen"]   
+        }
+    });
+}
+
+
 
 async function toggleWorkPhase() {
     const result = await new Promise((resolve) => {
@@ -211,6 +230,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         handleStartToggling();
     } else if (request.action === "changeGoal") { //this is from popup js
         work_len = request.value;
+        chrome.storage.local.set({"workLen": work_len}, () => {
+            console.log('Stored work Length: ' + work_len)
+        });
         if (phase === "WORK") {
             timer_len = work_len;
             createNewTimer();
@@ -218,6 +240,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
     } else if (request.action === "changeBreak") {
         break_len = request.value;
+        chrome.storage.local.set({"breakLen": break_len}, () => {
+            console.log('Stored work Length: ' + break_len)
+        });
         if (phase === "BREAK") {
             timer_len = break_len;
             createNewTimer();
