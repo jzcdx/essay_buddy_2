@@ -293,7 +293,7 @@ function updateSpritePhase() {
     spriteState = phase;
 }
 
-var spriteIndex = "00";
+var spriteIndex = "00"; //might need to change that later
 var maxSpriteIndex = curSpriteSet.frames; //is undefined right now
 var spriteState = "WORK";
 
