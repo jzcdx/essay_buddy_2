@@ -214,6 +214,10 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         handleTimerReset();
     } else if (info.menuItemId === "changeGoal") {
         console.log("changing goal from ctx menu");
+        /*
+        //opens popup.html in a new tab (maybe we can use this instead of the modal)
+        chrome.tabs.create({url : "popup.html"}); 
+        */
         sendGoalChangePopupMessage();
     } else if (info.menuItemId === "hideBuddy") {
         console.log("hiding buddy");
@@ -226,6 +230,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
         sendResponse({ success: true, menus: chrome.contextMenus });
     } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
+        
         sendResponse({ success: true });
         handleStartToggling();
     } else if (request.action === "changeGoal") { //this is from popup js
@@ -286,7 +291,6 @@ function updateSpritePhase() {
     maxSpriteIndex = curSpriteSet.frames; 
 
     spriteState = phase;
-    console.log("------------------------- sprite phase update: " + spriteState);
 }
 
 var spriteIndex = "00";
