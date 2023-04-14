@@ -105,7 +105,7 @@
         buddyDiv.style.zIndex = "1";
         bubbleDiv.style.zIndex = "1";
         */
-        //setDeploymentBackgrounds();
+        setDeploymentBackgrounds();
 
         var popup;
         function createPopup() {
