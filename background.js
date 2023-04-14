@@ -95,6 +95,8 @@ function updatedAndActivatedHandler() {
             value: visible
         });
     });
+
+    updateContentScriptTimerDisplay()
 }
 
 chrome.tabs.onUpdated.addListener(function() {
