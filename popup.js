@@ -1,6 +1,8 @@
 //This function fires when you open the popup.
 document.addEventListener("DOMContentLoaded", async () => {
     addElements();
+    fillPlaceholders();
+
     testFunctions();
 });
 
@@ -13,6 +15,29 @@ function addElements() {
 
     const submitMSToggle = document.getElementById("msButton");
     addMSListener(submitMSToggle)
+}
+
+function fillPlaceholders() {
+    let goalField = document.getElementById("newGoal")
+    let breakField = document.getElementById("newBreak")
+
+    
+    chrome.storage.local.get("breakLen", (result) => {
+        let break_len;
+        if (result["breakLen"] !== undefined) {
+            break_len = result["breakLen"]   
+        }
+        breakField.setAttribute("value", break_len);
+    });
+
+    chrome.storage.local.get("workLen", (result) => {
+        let work_len;
+        if (result["workLen"] !== undefined) {
+            work_len = result["workLen"]   
+        }
+        goalField.setAttribute("value", work_len);
+    });
+
 }
 
 function addGoalListener(submitGoalChange) {
