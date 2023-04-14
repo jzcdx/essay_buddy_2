@@ -197,7 +197,6 @@ function handleTimerReset() {
     handleStartToggling();
     createNewTimer();
     updateContentScriptTimerDisplay();
-    //console.log("timer resetting")
 }
 
 function updateContentScriptTimerDisplay() {
@@ -280,6 +279,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 function toggleMSVisibility() {
     timer.toggleMSDisplay();
     msDisplay = timer.getMSDisplay();
+    chrome.storage.local.set({"msDisplay": msDisplay}, () => {
+        console.log('Stored msDisplay state: ' + msDisplay)
+    });
     timer.updateDisplay();
 }
 

@@ -69,6 +69,7 @@ function sendHideBuddy() {
 function addMSListener(msButton) {
     msButton.onclick = function() {
         sendMSToggle();
+        
     }
 }
 
