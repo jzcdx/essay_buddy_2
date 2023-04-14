@@ -14,6 +14,16 @@
             }
             documentbody.prepend(world)
         }
+        
+        let buddyDiv;
+        const buddyDivExists = document.getElementById("buddyDiv");
+        if (!buddyDivExists) {
+            buddyDiv = document.createElement("div");
+            //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
+            buddyDiv.id = "buddyDiv";
+            
+            world.prepend(buddyDiv);
+        }
 
         let buddy;
         const buddyExists = document.getElementById("squareslo");
@@ -24,7 +34,8 @@
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
             
-            world.prepend(buddy);
+            //buddyDiv.prepend(buddy);
+            buddyDiv.prepend(buddy)
         }
 
         let bubbleDiv;
@@ -81,11 +92,20 @@
         });
 
         function setDeploymentBackgrounds() {
-            world.style.background = "transparent";
+            
             bubbleDiv.style.background = "transparent";
             buddy.style.background = "transparent";
+            world.style.background = "transparent";
+            buddyDiv.style.background = "transparent";
+            
+            
         }
-        setDeploymentBackgrounds();
+        /*
+        world.style.zIndex = "1";
+        buddyDiv.style.zIndex = "1";
+        bubbleDiv.style.zIndex = "1";
+        */
+        //setDeploymentBackgrounds();
 
         var popup;
         function createPopup() {

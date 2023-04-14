@@ -13,7 +13,7 @@ var visible = true;
 var goalType = "TIMER"; //options: TIMER or WORDS 
 
 var curSprite = constants.sprites.barry
-var curSpriteSet = curSprite.inactive;
+var curSpriteSet = curSprite.active;
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
