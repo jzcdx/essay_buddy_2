@@ -13,8 +13,9 @@ export class Timer {
         this.pauseEnd;
         this.updateTimeString();
         this.phase = "WORK";
+        this.msDisplay = false;
     }
-    
+
     syncPhase() {
         chrome.storage.sync.set({
             ["phase"]: JSON.stringify(this.phase)
@@ -83,10 +84,11 @@ export class Timer {
         this.timeString =
             this.padNumber(minutes) +
             ":" +
-            this.padNumber(seconds) +
-            "." +
-            this.padNumber(milliseconds);
+            this.padNumber(seconds)
         
+        if (this.msDisplay) {
+            this.timeString += "." + this.padNumber(milliseconds);
+        }
     }
     
 
