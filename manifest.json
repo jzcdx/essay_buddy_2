@@ -1,7 +1,7 @@
 {
     "name": "Tiny Timer (Test Version)",
-    "version": "0.1",
-    "description": "Someone to keep you company while you write",
+    "version": "0.2",
+    "description": "A study timer but cuter",
     "permissions": ["storage", "contextMenus", "activeTab"],
     "host_permissions": ["<all_urls>"],
 
