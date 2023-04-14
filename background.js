@@ -5,15 +5,16 @@ import { constants } from './constants.js';
 var work_len = 0.05;
 var break_len = 5;
 
-var timer_len = work_len; //in minutes
-var timer = new Timer(timer_len);
+var timer_len; //in minutes
+//var timer = new Timer(timer_len);
+var timer;
 
 var phase = "WORK"; //WORK or BREAK
 var visible = true;
 var goalType = "TIMER"; //options: TIMER or WORDS 
 
 var curSprite = constants.sprites.barry
-var curSpriteSet = curSprite.active;
+var curSpriteSet = curSprite.inactive;
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
@@ -39,6 +40,7 @@ function getDefaultSettings() {
             break_len = result["breakLen"]   
         }
     });
+    console.log("default settings acquired")
 }
 
 
@@ -230,7 +232,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
         sendResponse({ success: true, menus: chrome.contextMenus });
     } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
-        
+        if (timer === undefined) {
+            timer_len = work_len;
+            timer = new Timer(timer_len)
+        }
         sendResponse({ success: true });
         handleStartToggling();
     } else if (request.action === "changeGoal") { //this is from popup js
