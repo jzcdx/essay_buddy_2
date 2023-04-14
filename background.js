@@ -2,7 +2,7 @@ import {Timer} from "./timer.js";
 import { constants } from './constants.js';
 //const constants = require('./spriteConstants.json');
 
-var work_len = 0.05;
+var work_len = 25;
 var break_len = 5;
 
 var timer_len; //in minutes

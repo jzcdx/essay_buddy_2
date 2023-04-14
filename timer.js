@@ -14,7 +14,7 @@ export class Timer {
         this.updateTimeString();
         this.phase = "WORK";
     }
-
+    
     syncPhase() {
         chrome.storage.sync.set({
             ["phase"]: JSON.stringify(this.phase)
