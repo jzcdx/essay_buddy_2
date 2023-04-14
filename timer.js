@@ -16,6 +16,18 @@ export class Timer {
         this.msDisplay = false;
     }
 
+    setMSDisplay(newMSD) {
+        this.msDisplay = newMSD;
+    }
+
+    toggleMSDisplay() {
+        this.msDisplay = !this.msDisplay;
+    }
+
+    getMSDisplay() {
+        return this.msDisplay;
+    }
+
     syncPhase() {
         chrome.storage.sync.set({
             ["phase"]: JSON.stringify(this.phase)

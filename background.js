@@ -12,6 +12,7 @@ var timer;
 var phase = "WORK"; //WORK or BREAK
 var visible = true;
 var goalType = "TIMER"; //options: TIMER or WORDS 
+var msDisplay = false;
 
 var curSprite = constants.sprites.barry
 var curSpriteSet = curSprite.inactive;
@@ -38,6 +39,11 @@ function getDefaultSettings() {
     chrome.storage.local.get("breakLen", (result) => {
         if (result["breakLen"] !== undefined) {
             break_len = result["breakLen"]   
+        }
+    });
+    chrome.storage.local.get("msDisplay", (result) => {
+        if (result["msDisplay"] !== undefined) {
+            msDisplay = result["msDisplay"]   
         }
     });
     console.log("default settings acquired")
@@ -184,6 +190,7 @@ function sendGoalChangePopupMessage() {
 function createNewTimer() {
     timer.reset();
     timer = new Timer(timer_len);
+    timer.setMSDisplay(msDisplay);
 }
 
 function handleTimerReset() {
@@ -265,8 +272,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         
     } else if (request.action === "hideBuddy") {
         toggleBuddyVisibility();
+    } else if (request.action === "toggleMS") {
+        toggleMSVisibility();
     }
 });
+
+function toggleMSVisibility() {
+    timer.toggleMSDisplay();
+    msDisplay = timer.getMSDisplay();
+    timer.updateDisplay();
+}
 
 function toggleBuddyVisibility() {
     // 1) we'll toggle the variable to track visibility.

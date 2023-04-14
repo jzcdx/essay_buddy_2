@@ -10,6 +10,9 @@ function addElements() {
 
     const hideButton = document.getElementById("hideButton");
     addHideListener(hideButton);
+
+    const submitMSToggle = document.getElementById("msButton");
+    addMSListener(submitMSToggle)
 }
 
 function addGoalListener(submitGoalChange) {
@@ -46,11 +49,12 @@ function sendNewBreak(newBreak) {
 function addHideListener(hideButton) {
     hideButton.onclick = function() {
         sendHideBuddy();
+        /*
         if (hideButton.innerHTML === "Hide Buddy") {
             hideButton.innerHTML = "Show Buddy";
         } else {
             hideButton.innerHTML = "Hide Buddy";
-        }   
+        }*/  
     }
 }
 
@@ -60,6 +64,29 @@ function sendHideBuddy() {
     })
 }
 
+
+
+function addMSListener(msButton) {
+    msButton.onclick = function() {
+        sendMSToggle();
+    }
+}
+
+function sendMSToggle() {
+    chrome.runtime.sendMessage({
+        action: "toggleMS"    
+    })
+}
+
+
+
+
+
+
+
+
+
+//testing functions
 var saveF = function() {
     var myVal = 12;
     myVal = document.getElementById("testField").value
