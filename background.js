@@ -106,12 +106,10 @@ function updatedAndActivatedHandler() {
 }
 
 chrome.tabs.onUpdated.addListener(function() {
-    //console.log("on UPDATED triggered");
     updatedAndActivatedHandler();
 })
 //activates when we switch tabs
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-    //console.log("on ACTIVATED triggered");
     updatedAndActivatedHandler();
 });
 
