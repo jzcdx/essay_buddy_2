@@ -73,6 +73,7 @@ function sendNewBreak(newBreak) {
 
 function addHideListener(hideButton) {
     hideButton.onclick = function() {
+        console.log("heeeeeeer")
         sendHideBuddy();
         /*
         if (hideButton.innerHTML === "Hide Buddy") {
@@ -131,8 +132,8 @@ var retrieveF = function() {
 }
 
 function testFunctions() {
-    var save = document.getElementById("saveButton")
+    /*var save = document.getElementById("saveButton")
     var retrieve = document.getElementById("retrieveButton")
     save.onclick = saveF;
-    retrieve.onclick = retrieveF;
+    retrieve.onclick = retrieveF;*/
 }

@@ -27,6 +27,7 @@ function getDefaultSettings() {
     chrome.storage.local.get("visibility", (result) => {
         if (result["visibility"] !== undefined) {
             visible = result["visibility"]
+            updateVisibility()
         } 
     });
     
@@ -81,26 +82,23 @@ async function toggleWorkPhase() {
 
 function updatedAndActivatedHandler() {
     //if timer is currently running or currently paused 
-    if (timer.getRunState() || timer.getPauseState()) {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
-            const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
-            chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
-                type: "NEWTIME",
-                value: timer.getTimeString()
+    if (timer !== undefined) {
+        if (timer.getRunState() || timer.getPauseState()) {
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
+                const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+                chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
+                    type: "NEWTIME",
+                    value: timer.getTimeString()
+                });
             });
-        });
-    } else {
-        //console.log("tab switching, timer not running (bg.js)")
+        } else {
+            //console.log("tab switching, timer not running (bg.js)")
+        }
     }
+    
 
     //we're gonna make sure the visibility settings are the same between tabs when we switch by querying and msging contentscript
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const activeTab = tabs[0];
-        chrome.tabs.sendMessage(activeTab.id, { 
-            type: "TOGGLEVISIBILITY",
-            value: visible
-        });
-    });
+    updateVisibility();
 
     updateContentScriptTimerDisplay()
 }
@@ -115,14 +113,18 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 
 
 //Note to self, comment the below code later
+/*
 chrome.tabs.onUpdated.addListener((tabId, tab) => {
+    if (timer === undefined) {
+        return;
+    }
     if (timer.getRunState() || timer.getPauseState()) {
         chrome.tabs.sendMessage(tabId, { //We're going to update the timer on that tab when we switch to it by sending a message.
             type: "NEWTIME",
             value: timer.getTimeString()
         });
     }
-});
+});*/
 
 function handleGoalToggling() {
     //console.log("toggling goal");
@@ -267,7 +269,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else if (request.action === "togglePhase") { //from contentScripts.js (which receives a message from timer.js) 
         toggleWorkPhase();
         
-    } else if (request.action === "hideBuddy") {
+    } else if (request.action === "hideBuddy") { // from popup.js
         toggleBuddyVisibility();
     } else if (request.action === "toggleMS") {
         toggleMSVisibility();
@@ -291,6 +293,11 @@ function toggleBuddyVisibility() {
     });
 
     // 2) we're gonna message our current tab to flip the visibility.
+    updateVisibility()
+    // 3) update the code for tab switching to message contentScript the current state of visibility.
+}
+
+function updateVisibility() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
@@ -298,8 +305,6 @@ function toggleBuddyVisibility() {
             value: visible
         });
     });
-    // 3) update the code for tab switching to message contentScript the current state of visibility.
-
 }
 
 function updateSpritePhase() {
