@@ -34,7 +34,6 @@
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
             
-            //buddyDiv.prepend(buddy);
             buddyDiv.prepend(buddy)
         }
 
