@@ -73,7 +73,6 @@ function sendNewBreak(newBreak) {
 
 function addHideListener(hideButton) {
     hideButton.onclick = function() {
-        console.log("heeeeeeer")
         sendHideBuddy();
         /*
         if (hideButton.innerHTML === "Hide Buddy") {

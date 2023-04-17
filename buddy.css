@@ -1,9 +1,15 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+*/
+/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Press+Start+2P&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Press+Start+2P&family=Righteous&display=swap');
 #timer-label {
     /*note to self, set the font lol*/
     text-align: center;
-    /*font-family: 'Comic Sans MS', 'Comic Sans';*/
-    font-family: 'Courier New'; /*so changing to a monospace font like courier new fixes the number jiggling problem lol*/
-
+    /*font-family: 'Courier New';*/ /*so changing to a monospace font like courier new fixes the number jiggling problem lol*/
+    /*font-family: 'Montserrat', sans-serif;*/
+    /*font-family: 'Press Start 2P', cursive;*/
+    font-family: 'Righteous';
     margin-bottom:15%;
     color:black;
     font-size: 18px;
@@ -17,10 +23,12 @@
     position: absolute;
     right: 0px; top: 0px;
     z-index: 19001;
-    
+    /*
     width:100%; 
     height:100%;
+    */
     
+    width:100%;
     background:transparent;
 }
  

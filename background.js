@@ -47,7 +47,6 @@ function getDefaultSettings() {
             msDisplay = result["msDisplay"]   
         }
     });
-    console.log("default settings acquired")
 }
 
 
@@ -80,6 +79,14 @@ async function toggleWorkPhase() {
     updateSpritePhase();
 }
 
+chrome.tabs.onUpdated.addListener(function() {
+    updatedAndActivatedHandler();
+})
+//activates when we switch tabs
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    updatedAndActivatedHandler();
+});
+
 function updatedAndActivatedHandler() {
     //if timer is currently running or currently paused 
     if (timer !== undefined) {
@@ -99,17 +106,8 @@ function updatedAndActivatedHandler() {
 
     //we're gonna make sure the visibility settings are the same between tabs when we switch by querying and msging contentscript
     updateVisibility();
-
     updateContentScriptTimerDisplay()
 }
-
-chrome.tabs.onUpdated.addListener(function() {
-    updatedAndActivatedHandler();
-})
-//activates when we switch tabs
-chrome.tabs.onActivated.addListener(function(activeInfo) {
-    updatedAndActivatedHandler();
-});
 
 
 //Note to self, comment the below code later
