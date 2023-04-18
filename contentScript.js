@@ -248,13 +248,3 @@
     
     newPageLoaded(); //important
 })();
-
-
-/*
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.action === "showContextMenu") {
-        sendResponse({ success: true, menus: chrome.contextMenus });
-        //honestly, this doesn't really do much lol
-        //chrome.contextMenus.update("myContextMenu", {visible: true});
-    }
-});*/
