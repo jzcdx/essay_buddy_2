@@ -189,6 +189,8 @@ function createNewTimer() {
     timer.reset();
     timer = new Timer(timer_len);
     timer.setMSDisplay(msDisplay);
+    timer.updateTimeString();
+    timer.updateDisplay();
 }
 
 function handleTimerReset() {
