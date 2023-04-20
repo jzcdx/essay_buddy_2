@@ -46,7 +46,7 @@
         const bubbleExists = document.getElementById("bubble-img");
         if (!bubbleExists) {
             bubble = document.createElement("img");
-            bubble.src = chrome.runtime.getURL("assets/bubble.png");
+            bubble.src = chrome.runtime.getURL("assets/pbubble3.png");
             bubble.title = "click for the menu";
             bubble.id = "bubble-img";
             
@@ -59,8 +59,9 @@
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
             timerLabel.innerHTML = "Click Me <br>To Start";
+            //timerLabel.innerHTML = "START";
+            
             //console.log(timerLabel.style.fontFamily);
-            //timerLabel.style.fontFamily = "Press Start 2P"
 
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
@@ -89,22 +90,7 @@
                 });
             }
         });
-
-        function setDeploymentBackgrounds() {
-            
-            bubbleDiv.style.background = "transparent";
-            buddy.style.background = "transparent";
-            world.style.background = "transparent";
-            buddyDiv.style.background = "transparent";
-            
-            
-        }
-        /*
-        world.style.zIndex = "1";
-        buddyDiv.style.zIndex = "1";
-        bubbleDiv.style.zIndex = "1";
-        */
-        setDeploymentBackgrounds();
+        
 
         var popup;
         function createPopup() {
@@ -245,11 +231,26 @@
                 setVisibility(new_visibility);
             }
         });
+
+        function setDeploymentBackgrounds() {
+            bubbleDiv.style.background = "transparent";
+            buddy.style.background = "transparent";
+            world.style.background = "transparent";
+            buddyDiv.style.background = "transparent";
+        }
+        /*
+        world.style.zIndex = "1";
+        buddyDiv.style.zIndex = "1";
+        bubbleDiv.style.zIndex = "1";
+        */
+        setDeploymentBackgrounds();
     }
 
     function loadFonts() {
         const fontUrl = chrome.runtime.getURL('assets/fonts/PixelOperator.ttf');
-        console.log(fontUrl)
+        //const fontUrl = chrome.runtime.getURL('assets/fonts/PixelSplitter-Bold.ttf');
+        
+        //console.log(fontUrl)
         const fontCss = `
         @font-face {
             font-family: 'Press Start 2P';

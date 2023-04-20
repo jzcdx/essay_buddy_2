@@ -14,9 +14,12 @@
     /*font-family: 'Montserrat', sans-serif;*/
     /*font-family: 'Righteous';*/
     font-family: "Press Start 2P";
+    margin-top:5px;
     margin-bottom:15%;
     color:black;
-    font-size: 25px;
+    /*font-size: 45px;*/
+    /*pixel operator size: 23px (My choice)*/
+    font-size: 23px;
     z-index: 19002;
     user-select: none;
     
@@ -36,12 +39,14 @@
     background:transparent;
 }
  
+
+ 
 #bubble-div {
     position: absolute;
-    right: 0px; top: 0px;
+    right: 5px; top: 50px;
     z-index: 19003; 
     width:150px; 
-    height:150px;
+    height:100px;
 
     display:flex;
     align-items:center;
