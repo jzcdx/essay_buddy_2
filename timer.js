@@ -134,6 +134,7 @@ export class Timer {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
             //this works to send a message to the contentscript of the tab that's active
+            this.updateTimeString()
             chrome.tabs.sendMessage(activeTab.id, { type: "NEWTIME", value: this.timeString });
         });
     }
