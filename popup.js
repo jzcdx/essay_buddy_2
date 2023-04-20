@@ -26,6 +26,8 @@ function fillPlaceholders() {
         let break_len;
         if (result["breakLen"] !== undefined) {
             break_len = result["breakLen"]   
+        } else {
+            break_len = "";
         }
         breakField.setAttribute("value", break_len);
     });
@@ -34,6 +36,8 @@ function fillPlaceholders() {
         let work_len;
         if (result["workLen"] !== undefined) {
             work_len = result["workLen"]   
+        } else {
+            work_len = "";
         }
         goalField.setAttribute("value", work_len);
     });
