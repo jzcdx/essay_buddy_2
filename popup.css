@@ -58,3 +58,8 @@
   flex: auto;
   text-align: right;
 }
+
+#goals-saved {
+  color:rgb(12, 192, 57);
+  display:none;
+}
