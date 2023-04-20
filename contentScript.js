@@ -201,9 +201,9 @@
             if (phase !== undefined) {
                 var flavorString = "";
                 if (phase === "WORK") {
-                    flavorString = "Work time <br> Left: <br>";
+                    flavorString = "Work time <br> ";
                 } else if (phase === "BREAK") {
-                    flavorString = "Break time <br> Left: <br>";
+                    flavorString = "Break time <br> ";
                 }
 
                 if (timerLabelExists) {
@@ -292,7 +292,7 @@
     document.head.appendChild(style);
     */
 
-    const fontUrl = chrome.runtime.getURL('assets/fonts/PressStart2P-Regular.ttf');
+    const fontUrl = chrome.runtime.getURL('assets/fonts/PixelOperator.ttf');
     console.log(fontUrl)
     const fontCss = `
     @font-face {
@@ -300,7 +300,6 @@
         src: url(${fontUrl}) format('truetype');
         font-weight: normal;
         font-style: normal;
-        font-stretch:ultra-condensed;
     }
     `;
 
