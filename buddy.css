@@ -1,9 +1,11 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Press+Start+2P&family=Righteous&display=swap');
 */
+/*
 @font-face {
   font-family: 'Press Start 2P';
-  src: url('assets/fonts/PressStart2P-Regular.ttf') format('truetype');
-}
+  src: url('PressStart2P-Regular.ttf') format('truetype');
+}*/
+
 
 #timer-label {
     /*note to self, set the font lol*/
@@ -11,11 +13,10 @@
     /*font-family: 'Courier New';*/ /*so changing to a monospace font like courier new fixes the number jiggling problem lol*/
     /*font-family: 'Montserrat', sans-serif;*/
     /*font-family: 'Righteous';*/
-    font-family: 'Press Start 2P';
-    
+    font-family: "Press Start 2P";
     margin-bottom:15%;
     color:black;
-    font-size: 18px;
+    font-size: 12px;
     z-index: 19002;
     user-select: none;
     

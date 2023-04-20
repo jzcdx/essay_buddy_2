@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('PressStart2P-Regular.ttf') format('truetype');
+}
+
 .container {
   width: 280px;
   color: #314d3e;
@@ -7,6 +12,7 @@
   font-size: 14px;
   font-weight: bold;
   padding: 8px;
+  font-family: "Press Start 2P";
 }
 
 .textbox {

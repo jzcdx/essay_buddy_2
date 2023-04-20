@@ -21,7 +21,6 @@
             buddyDiv = document.createElement("div");
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddyDiv.id = "buddyDiv";
-            
             world.prepend(buddyDiv);
         }
 
@@ -33,7 +32,6 @@
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
-            
             buddyDiv.prepend(buddy)
         }
 
@@ -61,6 +59,8 @@
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
             timerLabel.innerHTML = "Click Me <br>To Start";
+            //console.log(timerLabel.style.fontFamily);
+            //timerLabel.style.fontFamily = "Press Start 2P"
 
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
@@ -187,9 +187,10 @@
         }
 
 
-        chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
+        chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => { //from background.js
             const {type, newURL} = obj;
             if (type === "NEWSPRITE") {
+                //console.log(newURL)
                 buddy.src = chrome.runtime.getURL(newURL);
             }
         });
@@ -245,6 +246,81 @@
             }
         });
     }
-    
+    /*
+    var font = new FontFace('Press Start 2P', 'url("PressStart2P-Regular.ttf") format("truetype")');
+    font.load().then(function() {
+        // Font loaded successfully
+        // Load the buddy.css file dynamically
+        var buddyStyles = document.createElement('link');
+        buddyStyles.rel = 'stylesheet';
+        buddyStyles.href = chrome.runtime.getURL('buddy.css');
+        document.head.appendChild(buddyStyles);
+        console.log("success")
+    }).catch(function(error) {
+        // Font failed to load
+        console.log("failed")
+        console.error('Font failed to load:', error);
+    });
+    */
+
+    /*
+    var font = new FontFace("Press Start 2P", "url('assets/fonts/PressStart2P-Regular.ttf')");
+    document.fonts.add(font);
+
+    font.load().then(function() {
+        // The font has been loaded
+        console.log("loaded")
+        document.body.style.fontFamily = "Press Start 2P";
+    }).catch(function(error) {
+        // There was an error loading the font
+        console.log("not loaded")
+        console.error(error);  
+    });
+    */
+
+    /*
+    // Create a new style element
+    var style = document.createElement('style');
+
+    // Define the @font-face rule as a string
+    var fontFaceRule = '@font-face { font-family: "Press Start 2P"; src: ' + chrome.runtime.getURL("PressStart2P-Regular.ttf"); + ' format("truetype"); }';
+
+    // Set the text content of the style element to the @font-face rule
+    style.textContent = fontFaceRule;
+
+    // Append the style element to the head section of your HTML document
+    document.head.appendChild(style);
+    */
+
+    const fontUrl = chrome.runtime.getURL('assets/fonts/PressStart2P-Regular.ttf');
+    console.log(fontUrl)
+    const fontCss = `
+    @font-face {
+        font-family: 'Press Start 2P';
+        src: url(${fontUrl}) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-stretch:ultra-condensed;
+    }
+    `;
+
+    const styleEl = document.createElement('style');
+    styleEl.textContent = fontCss;
+    document.head.appendChild(styleEl);
+
     newPageLoaded(); //important
+    /*
+    var fontUrl = chrome.runtime.getURL("PressStart2P-Regular.ttf");
+
+    // Create a @font-face rule to load the font
+    var fontFace = new FontFace("Press Start 2P", "url(" + fontUrl + ")");
+    document.fonts.add(fontFace);
+
+    // Apply the font to an element
+    var timerLabel = document.getElementById("timer-label");
+
+    timerLabel.style.fontFamily = "Press Start 2P";
+    */
+    
+    
 })();
