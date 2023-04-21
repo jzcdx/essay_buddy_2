@@ -1,6 +1,5 @@
-import {Timer} from "./timer.js";
+import { Timer } from "./timer.js";
 import { constants } from './constants.js';
-//const constants = require('./spriteConstants.json');
 
 var work_len = 25;
 var break_len = 5;
@@ -79,6 +78,9 @@ async function toggleWorkPhase() {
     updateSpritePhase();
 }
 
+
+
+
 chrome.tabs.onUpdated.addListener(function() {
     updatedAndActivatedHandler();
 })
@@ -110,19 +112,7 @@ function updatedAndActivatedHandler() {
 }
 
 
-//Note to self, comment the below code later
-/*
-chrome.tabs.onUpdated.addListener((tabId, tab) => {
-    if (timer === undefined) {
-        return;
-    }
-    if (timer.getRunState() || timer.getPauseState()) {
-        chrome.tabs.sendMessage(tabId, { //We're going to update the timer on that tab when we switch to it by sending a message.
-            type: "NEWTIME",
-            value: timer.getTimeString()
-        });
-    }
-});*/
+
 
 function handleGoalToggling() {
     //console.log("toggling goal");
