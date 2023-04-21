@@ -60,9 +60,6 @@
             timerLabel.id = "timer-label";
             timerLabel.innerHTML = "Click Me <br>To Start";
             //timerLabel.innerHTML = "START";
-            
-            //console.log(timerLabel.style.fontFamily);
-
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
         }
@@ -90,6 +87,10 @@
                 });
             }
         });
+        
+
+
+
         
 
         var popup;
@@ -232,7 +233,7 @@
             }
         });
 
-        function setDeploymentBackgrounds() {
+        function setDeploymentBackgrounds() { //For debug mode
             bubbleDiv.style.background = "transparent";
             buddy.style.background = "transparent";
             world.style.background = "transparent";
@@ -249,8 +250,6 @@
     function loadFonts() {
         const fontUrl = chrome.runtime.getURL('assets/fonts/PixelOperator.ttf');
         //const fontUrl = chrome.runtime.getURL('assets/fonts/PixelSplitter-Bold.ttf');
-        
-        //console.log(fontUrl)
         const fontCss = `
         @font-face {
             font-family: 'Press Start 2P';

@@ -1,5 +1,6 @@
 //This function fires when you open the popup.
 document.addEventListener("DOMContentLoaded", async () => {
+    console.log("here");
     addElements();
     fillPlaceholders();
 
