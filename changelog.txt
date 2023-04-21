@@ -3,12 +3,13 @@ v0.3 (work in progress)
 -Launched Promotional Site (www.tinytimer.ca)
 -New speech bubble
 -New font for speech bubble
+-Bug fixes for msdisplay and visibility settings
 
-v0.2 (out for review)
+v0.2 (deployed)
 -Fixed barry's hitbox
 -Implemented state syncing between browsing sessions (work/break, and visibility)
 -Various Bug Fixes
 
-v0.1 (deployed)
+v0.1
 -We're on the app store!
 

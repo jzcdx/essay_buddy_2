@@ -85,7 +85,7 @@
             var menutarget2 = "timer-label";
             if (event.target.id == menutarget || event.target.id == menutarget2) {
                 //event.preventDefault();
-                chrome.runtime.sendMessage({action: "toggleStart"}, function(response) {
+                chrome.runtime.sendMessage({action: "toggleStart"}, function(response) { //First click to start timer
                     console.log("response received: " , response);
                 });
             }

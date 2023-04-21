@@ -15,7 +15,7 @@ var goalType = "TIMER"; //options: TIMER or WORDS
 var msDisplay = false;
 
 var curSprite = constants.sprites.barry
-var curSpriteSet = curSprite.inactive;
+var curSpriteSet = curSprite.active;
 
 chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
@@ -240,11 +240,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
         sendResponse({ success: true, menus: chrome.contextMenus });
     } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
-        if (timer === undefined) {
+        if (timer === undefined) { //First phase
             timer_len = work_len;
             timer = new Timer(timer_len)
             timer.setMSDisplay(msDisplay)
-            
+            curSpriteSet = curSprite.inactive   
         }
         sendResponse({ success: true });
         handleStartToggling();
