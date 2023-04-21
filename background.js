@@ -50,37 +50,11 @@ function getDefaultSettings() {
 
 
 
-async function toggleWorkPhase() {
-    const result = await new Promise((resolve) => {
-        chrome.storage.sync.get("phase", resolve);
-    });
+//////////////////////////////////////////////////////////////////////////////
+//The next 3 blocks are for maintaining state when we switch tabs or refresh//
+//////////////////////////////////////////////////////////////////////////////
 
-    if (result.phase !== undefined) {
-        if (phase === "WORK") {
-            phase = "BREAK";
-        } else {
-            phase = "WORK";
-        }
-    }
-
-    await chrome.storage.sync.set({
-        ["phase"]: JSON.stringify(phase)
-    });
-
-   
-    //changes length of new timer based on whether or not we're taking a break now or working
-    if (phase === "BREAK") {
-        timer_len = break_len;
-    } else if (phase === "WORK") {
-        timer_len = work_len;
-    }
-    handleTimerReset();
-    updateSpritePhase();
-}
-
-
-
-
+//activates when we refresh a tab
 chrome.tabs.onUpdated.addListener(function() {
     updatedAndActivatedHandler();
 })
@@ -105,7 +79,6 @@ function updatedAndActivatedHandler() {
         }
     }
     
-
     //we're gonna make sure the visibility settings are the same between tabs when we switch by querying and msging contentscript
     updateVisibility();
     updateContentScriptTimerDisplay()
@@ -114,8 +87,11 @@ function updatedAndActivatedHandler() {
 
 
 
+////////////
+//Handlers//
+////////////
+
 function handleGoalToggling() {
-    //console.log("toggling goal");
     if (goalType === "TIMER") {
         goalType = "WORDS";
     } else if (goalType === "WORDS") {
@@ -155,7 +131,6 @@ function handleStartToggling() {
         }
     }
 
- 
     //stores current time in chrome storage
     //change this to store remaining time later
     var storeMe = Date.now();
@@ -172,13 +147,10 @@ function handleStartToggling() {
     });
 }
 
-function sendGoalChangePopupMessage() {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
-        const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
-        chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
-            type: "CHANGEGOAL"
-        });
-    });
+function handleTimerReset() {
+    handleStartToggling();
+    createNewTimer();
+    updateContentScriptTimerDisplay();
 }
 
 function createNewTimer() {
@@ -189,24 +161,19 @@ function createNewTimer() {
     timer.updateDisplay();
 }
 
-function handleTimerReset() {
-    handleStartToggling();
-    createNewTimer();
-    updateContentScriptTimerDisplay();
-}
-
-function updateContentScriptTimerDisplay() {
+function sendGoalChangePopupMessage() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
-            type: "NEWTIME",
-            value: timer.getTimeString()
+            type: "CHANGEGOAL"
         });
     });
 }
 
 
-//This code runs when you click on something in the context menu
+
+
+//This code runs when you click on an element of the context menu
 chrome.contextMenus.onClicked.addListener(function (info, tab) {
     if (info.menuItemId === "toggleGoal") {
         handleGoalToggling();
@@ -231,16 +198,16 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     }
 });
 
-//Handling messages received from context menu clicks, start toggling, 
+//Handling messages received from other parts of this codebase. Mostly popup.js, 
+//but also when you click on the bubble in the main ui, and also when the phase toggles 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
+        //This is literally when the context menu opens (basically just here for testing purposes)
         sendResponse({ success: true, menus: chrome.contextMenus });
     } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
-        console.log("tgl strt");
-
         sendResponse({ success: true });
         handleStartToggling();
-    } else if (request.action === "changeGoal") { //this is from popup js
+    } else if (request.action === "changeGoal") { //this is from popup.js
         work_len = request.value;
         chrome.storage.local.set({"workLen": work_len}, () => {
             console.log('Stored work Length: ' + work_len)
@@ -250,7 +217,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             createNewTimer();
             updateContentScriptTimerDisplay();
         }
-    } else if (request.action === "changeBreak") {
+    } else if (request.action === "changeBreak") { //this is also from popup.js
         break_len = request.value;
         chrome.storage.local.set({"breakLen": break_len}, () => {
             console.log('Stored work Length: ' + break_len)
@@ -262,13 +229,42 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
     } else if (request.action === "togglePhase") { //from contentScripts.js (which receives a message from timer.js) 
         toggleWorkPhase();
-        
     } else if (request.action === "hideBuddy") { // from popup.js
         toggleBuddyVisibility();
-    } else if (request.action === "toggleMS") {
+    } else if (request.action === "toggleMS") { // Also from popup.js
         toggleMSVisibility();
     }
 });
+
+
+
+async function toggleWorkPhase() {
+    const result = await new Promise((resolve) => {
+        chrome.storage.sync.get("phase", resolve);
+    });
+
+    if (result.phase !== undefined) {
+        if (phase === "WORK") {
+            phase = "BREAK";
+        } else {
+            phase = "WORK";
+        }
+    }
+
+    await chrome.storage.sync.set({
+        ["phase"]: JSON.stringify(phase)
+    });
+
+   
+    //changes length of new timer based on whether or not we're taking a break now or working
+    if (phase === "BREAK") {
+        timer_len = break_len;
+    } else if (phase === "WORK") {
+        timer_len = work_len;
+    }
+    handleTimerReset();
+    updateSpritePhase();
+}
 
 function toggleMSVisibility() {
     timer.toggleMSDisplay();
@@ -289,6 +285,20 @@ function toggleBuddyVisibility() {
     // 2) we're gonna message our current tab to flip the visibility.
     updateVisibility()
     // 3) update the code for tab switching to message contentScript the current state of visibility.
+}
+
+
+
+
+
+function updateContentScriptTimerDisplay() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
+        const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+        chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
+            type: "NEWTIME",
+            value: timer.getTimeString()
+        });
+    });
 }
 
 function updateVisibility() {
@@ -313,6 +323,10 @@ function updateSpritePhase() {
 
     spriteState = phase;
 }
+
+
+
+
 
 var spriteIndex = "00"; //might need to change that later
 var maxSpriteIndex = curSpriteSet.frames; //is undefined right now
