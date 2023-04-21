@@ -243,6 +243,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         if (timer === undefined) {
             timer_len = work_len;
             timer = new Timer(timer_len)
+            timer.setMSDisplay(msDisplay)
+            
         }
         sendResponse({ success: true });
         handleStartToggling();
