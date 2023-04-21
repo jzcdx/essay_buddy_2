@@ -2,3 +2,5 @@ contentScript2.js
 sprites
 *.zip
 releases
+promo
+exclude.txt
