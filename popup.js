@@ -57,13 +57,15 @@ function addGoalListener(submitGoalChange) {
         if (breakValue !== "") {
             sendNewBreak(breakValue);
         }
+        
+        if (breakValue !== "" | goalValue !== "") {
+            let goalsSavedLabel = document.getElementById("goals-saved")
+            goalsSavedLabel.style.display = "inline";
 
-        let goalsSavedLabel = document.getElementById("goals-saved")
-        goalsSavedLabel.style.display = "inline";
-
-        setTimeout(() => {
-            goalsSavedLabel.style.display = "none";
-        }, 2000); // change 5000 to the number of milliseconds you want to wait before hiding the label
+            setTimeout(() => {
+                goalsSavedLabel.style.display = "none";
+            }, 2000); // change 5000 to the number of milliseconds you want to wait before hiding the label
+        }
     }
 }
 
