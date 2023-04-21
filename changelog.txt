@@ -1,6 +1,7 @@
 v0.4 (work in progress)
 -Fixed bug where barry's parent div was bigger than he was, so he would (unfortuntately) dynamically 
 change his size depending on unknown site-specific factors
+-Fixed bug where the first work phase used the max Sprite value from the pre-phase spritesheet
 
 v0.3 (Waiting for review)
 -Displaying milliseconds on timer can now be toggled on and off (maintains state between browsing sessions)

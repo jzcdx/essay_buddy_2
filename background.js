@@ -154,6 +154,9 @@ function handleTimerReset() {
     updateContentScriptTimerDisplay();
 }
 
+
+
+
 function createNewTimer() {
     timer.reset();
     timer = new Timer(timer_len);
@@ -162,6 +165,9 @@ function createNewTimer() {
     timer.updateDisplay();
 }
 
+
+
+//Used in the contextmenu listener below
 function sendGoalChangePopupMessage() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
@@ -322,7 +328,6 @@ function updateSpritePhase() {
     spriteIndex = "00";
     maxSpriteIndex = curSpriteSet.frames; 
 
-    spriteState = phase;
 }
 
 
@@ -331,7 +336,6 @@ function updateSpritePhase() {
 
 var spriteIndex = "00"; //might need to change that later
 var maxSpriteIndex = curSpriteSet.frames; //is undefined right now
-var spriteState = "WORK";
 
 function updateSprite() {
     var newURLPath = curSpriteSet.path + spriteIndex + ".png"
