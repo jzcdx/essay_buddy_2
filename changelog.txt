@@ -1,5 +1,5 @@
 v0.3 (work in progress)
--Displaying miliseconds on timer can now be toggled on and off (maintains state between browsing sessions)
+-Displaying milliseconds on timer can now be toggled on and off (maintains state between browsing sessions)
 -Launched Promotional Site (www.tinytimer.ca)
 -New speech bubble
 -New font for speech bubble

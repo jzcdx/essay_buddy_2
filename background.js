@@ -138,6 +138,12 @@ function handleGoalToggling() {
 }
 
 function handleStartToggling() {
+    if (timer === undefined) { //First phase
+        timer_len = work_len;
+        timer = new Timer(timer_len)
+        timer.setMSDisplay(msDisplay)
+        curSpriteSet = curSprite.inactive   
+    }
     //the cosmetic stuff and also interacting with the timer itself.
     if (!timer.isRunning && !timer.isPaused) {
         //not running not paused > timer hasn't started
@@ -240,12 +246,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === "showContextMenu") { // this is from (right click) -> (context menu opens) in contentscript
         sendResponse({ success: true, menus: chrome.contextMenus });
     } else if (request.action === "toggleStart") { //this is from the bubble div getting directly left clicked in contentscript
-        if (timer === undefined) { //First phase
-            timer_len = work_len;
-            timer = new Timer(timer_len)
-            timer.setMSDisplay(msDisplay)
-            curSpriteSet = curSprite.inactive   
-        }
+        console.log("tgl strt");
+
         sendResponse({ success: true });
         handleStartToggling();
     } else if (request.action === "changeGoal") { //this is from popup js
@@ -362,15 +364,17 @@ startSpriteLoop();
 
 
 
+//DEFAULT: targetUrlPatterns: ["*://*/*"],
 
 //if you don't remove the old context menus first, it'll duplicate lol
 function createContextMenus() {
+
+    /*
     chrome.contextMenus.remove('toggleGoal', function() {
         chrome.contextMenus.create({ //time or words //We'll implement this much later
             id: "toggleGoal",
             title: "Toggle Goal Type (" + goalType.toLowerCase() + ")",
             contexts: ["all"],
-            targetUrlPatterns: ["*://*/*"],
             visible: true,
         });
     });
@@ -380,21 +384,19 @@ function createContextMenus() {
             id: "changeGoal",
             title: "Change Goal",
             contexts: ["all"],
-            targetUrlPatterns: ["*://*/*"],
             visible: true,
         });
     });
-
+    
     chrome.contextMenus.remove('changeBreak', function() {
         chrome.contextMenus.create({
             id: "changeBreak",
             title: "Change Break",
             contexts: ["all"],
-            targetUrlPatterns: ["*://*/*"],
             visible: true,
         });
     });
-
+    */
     chrome.contextMenus.remove('pauseTimer', function() {
         chrome.contextMenus.create({
             id: "pauseTimer",
@@ -428,7 +430,7 @@ function createContextMenus() {
     chrome.contextMenus.remove('hideBuddy', function() {
         chrome.contextMenus.create({
             id: "hideBuddy",
-            title: "Hide Buddy",
+            title: "Toggle Buddy Visibility",
             contexts: ["all"],
             targetUrlPatterns: ["*://*/*"],
             visible: true,
