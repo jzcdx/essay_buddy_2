@@ -108,7 +108,8 @@ function handleStartToggling() {
         timer_len = work_len;
         timer = new Timer(timer_len)
         timer.setMSDisplay(msDisplay)
-        curSpriteSet = curSprite.inactive   
+        curSpriteSet = curSprite.inactive
+        maxSpriteIndex = curSpriteSet.frames
     }
     //the cosmetic stuff and also interacting with the timer itself.
     if (!timer.isRunning && !timer.isPaused) {
