@@ -39,12 +39,10 @@ class SpritePlayer {
 
     updateSprite() {
         var newURLPath = this.curSpriteSet.path + this.spriteIndex + ".png"
-        console.log(newURLPath)
         this.img.src = newURLPath;
 
         this.spriteIndex = parseInt(this.spriteIndex)
         this.spriteIndex++;
-        console.log(this.spriteIndex, this.maxSpriteIndex)
         if (this.spriteIndex > this.maxSpriteIndex) {
             this.spriteIndex = "00";
         }
