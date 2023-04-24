@@ -60,7 +60,6 @@ export class Timer {
     endTimer() { //used in timer.updateTimer when time goes past
         clearInterval(this.timerInterval)
         this.isRunning = false;
-        //the below code doesn't work yet
         
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
