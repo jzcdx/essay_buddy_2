@@ -327,7 +327,6 @@ function updateSpritePhase() {
     
     spriteIndex = "00";
     maxSpriteIndex = curSpriteSet.frames; 
-
 }
 
 
@@ -343,8 +342,7 @@ function updateSprite() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
         //this works to send a message to the contentscript of the tab that's active
-        //console.log("at: " + activeTab);
-        if (activeTab != undefined) {
+        if (activeTab != undefined) { //Pretty sure this crashes if you don't have an active tab, I don't remember how you do that
             chrome.tabs.sendMessage(activeTab.id, { type: "NEWSPRITE", newURL: newURLPath });
         }
     });
