@@ -2,15 +2,16 @@ v0.4 (work in progress)
 -Fixed bug where barry's parent div was bigger than he was, so he would (unfortuntately) dynamically 
 change his size depending on unknown site-specific factors
 -Fixed bug where the first work phase used the max Sprite value from the pre-phase spritesheet
+-Implementing sound system for transition noises (probably a meow of some sort)
 
-v0.3 (Waiting for review)
+v0.3 (deployed)
 -Displaying milliseconds on timer can now be toggled on and off (maintains state between browsing sessions)
 -Launched Promotional Site (www.tinytimer.ca)
 -New speech bubble
 -New font for speech bubble
 -Bug fixes for msdisplay and visibility settings
 
-v0.2 (deployed)
+v0.2 
 -Fixed barry's hitbox
 -Implemented state syncing between browsing sessions (work/break, and visibility)
 -Various Bug Fixes

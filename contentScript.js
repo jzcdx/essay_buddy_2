@@ -63,7 +63,15 @@
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
         }
-
+        /*
+        var audioElement;
+        var audioElementExists = document.getElementById("audio-element");
+        if (!audioElementExists) {
+            audioElement = document.createElement("audio");
+            audioElement.id = "audio-element";
+            audioElement.src = "assets/sounds/sfx.mp3";
+            documentbody.append(audioElement);
+        }*/
 
         buddy.addEventListener("contextmenu", function(event) {
             console.log("context menu clicked (contentScript.js) ");
@@ -210,6 +218,19 @@
             }
         }
 
+        function playTransitionSound() {
+            var audio = new Audio();
+
+            // Set the URL of the MP3 file
+            audio.src = chrome.runtime.getURL("assets/sounds/sfx.mp3");
+
+            // Set the volume
+            audio.volume = 0.5;
+
+            // Play the audio file
+            audio.play();
+        }
+
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, value, videoId } = obj;
             if (type === "TIMERSTARTING") {
@@ -224,6 +245,7 @@
             } else if (type === "CHANGEBREAK") {
                 togglePopup();
             } else if (type === "TOGGLEPHASE") {
+                //playTransitionSound();
                 chrome.runtime.sendMessage({
                     action: "togglePhase"
                 });

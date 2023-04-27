@@ -245,7 +245,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 
+
 async function toggleWorkPhase() {
+    
+
     const result = await new Promise((resolve) => {
         chrome.storage.sync.get("phase", resolve);
     });
