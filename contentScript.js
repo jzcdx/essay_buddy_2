@@ -220,13 +220,10 @@
 
         function playTransitionSound() {
             var audio = new Audio();
-
             // Set the URL of the MP3 file
             audio.src = chrome.runtime.getURL("assets/sounds/sfx.mp3");
-
             // Set the volume
             audio.volume = 0.5;
-
             // Play the audio file
             audio.play();
         }

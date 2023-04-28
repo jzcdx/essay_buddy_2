@@ -59,6 +59,7 @@ function addGoalListener(submitGoalChange) {
             sendNewBreak(breakValue);
         }
         
+        //removes the confirmation text after 2 seconds
         if (breakValue !== "" | goalValue !== "") {
             let goalsSavedLabel = document.getElementById("goals-saved")
             goalsSavedLabel.style.display = "inline";
