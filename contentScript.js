@@ -258,11 +258,7 @@
             world.style.background = "transparent";
             buddyDiv.style.background = "transparent";
         }
-        /*
-        world.style.zIndex = "1";
-        buddyDiv.style.zIndex = "1";
-        bubbleDiv.style.zIndex = "1";
-        */
+
         setDeploymentBackgrounds();
     }
 
