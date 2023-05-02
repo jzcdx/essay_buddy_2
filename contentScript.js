@@ -185,7 +185,6 @@
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => { //from background.js
             const {type, newURL} = obj;
             if (type === "NEWSPRITE") {
-                //console.log(newURL)
                 buddy.src = chrome.runtime.getURL(newURL);
             }
         });
