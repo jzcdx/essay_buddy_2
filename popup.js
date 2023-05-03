@@ -117,11 +117,10 @@ function sendMSToggle() {
 
 
 function addVolumeListener() {
-    var volumeButton = document.getElementById("volumeButton");
-    volumeButton.onclick = function() {
-        var slider = document.getElementById('volumeSlider');
+    var slider = document.getElementById('volumeSlider');
+    slider.addEventListener('change', function() {
         console.log(slider.value);
-    }
+    });
 }
 
 
