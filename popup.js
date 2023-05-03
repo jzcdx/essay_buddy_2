@@ -23,7 +23,7 @@ function addElements() {
 function fillPlaceholders() {
     let goalField = document.getElementById("newGoal")
     let breakField = document.getElementById("newBreak")
-
+    let volumeSlider = document.getElementById("volumeSlider")
     
     chrome.storage.local.get("breakLen", (result) => {
         let break_len;
@@ -43,6 +43,14 @@ function fillPlaceholders() {
             work_len = "";
         }
         goalField.setAttribute("value", work_len);
+    });
+    
+
+
+    chrome.storage.local.get("volume", (result) => {
+        let savedVolume = result["volume"];
+        console.log(savedVolume);
+        volumeSlider.setAttribute("value", result["volume"]);
     });
 
 }
@@ -119,7 +127,11 @@ function sendMSToggle() {
 function addVolumeListener() {
     var slider = document.getElementById('volumeSlider');
     slider.addEventListener('change', function() {
-        console.log(slider.value);
+        let newVolume = slider.value;
+
+        chrome.storage.local.set({"volume": newVolume}, () => {
+            console.log('Stored volume: ' + newVolume);
+        });
     });
 }
 
