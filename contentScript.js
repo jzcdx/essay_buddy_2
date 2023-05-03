@@ -218,12 +218,16 @@
         function setVolume(newVol) {
             let convertedVol = newVol / 100;
             audio.volume = convertedVol;
+            playTransitionSound();
         }
 
         var audio = new Audio();
         audio.src = chrome.runtime.getURL("assets/sounds/sfx.mp3");
         audio.volume = 0.5;
         function playTransitionSound() {
+            //Stop all currently running plays of the audio before starting our new one
+            audio.pause();
+            audio.currentTime = 0;
             // Play the audio file
             audio.play();
         }

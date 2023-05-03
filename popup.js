@@ -138,6 +138,7 @@ function addVolumeListener() {
 
 function sendVolumeChange(newVol) {
     //Remember, we're sending this to contentscript, where our audio object is, so we need to query for tab first.
+    
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
         chrome.tabs.sendMessage(activeTab.id, { type: "NEWVOLUME", value: newVol });
