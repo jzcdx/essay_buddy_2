@@ -222,7 +222,7 @@
         }
 
         var audio = new Audio();
-        audio.src = chrome.runtime.getURL("assets/sounds/sfx.mp3");
+        audio.src = chrome.runtime.getURL("assets/sounds/timer_1.mp3");
         audio.volume = 0.5;
         function playTransitionSound() {
             //Stop all currently running plays of the audio before starting our new one
