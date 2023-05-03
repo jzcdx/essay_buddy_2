@@ -49,8 +49,8 @@ function fillPlaceholders() {
 
     chrome.storage.local.get("volume", (result) => {
         let savedVolume = result["volume"];
-        console.log(savedVolume);
-        volumeSlider.setAttribute("value", result["volume"]);
+        //console.log(savedVolume);
+        volumeSlider.setAttribute("value", savedVolume);
     });
 
 }
@@ -131,10 +131,18 @@ function addVolumeListener() {
 
         chrome.storage.local.set({"volume": newVolume}, () => {
             console.log('Stored volume: ' + newVolume);
+            sendVolumeChange(newVolume);
         });
     });
 }
 
+function sendVolumeChange(newVol) {
+    //Remember, we're sending this to contentscript, where our audio object is, so we need to query for tab first.
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, { type: "NEWVOLUME", value: newVol });
+    });
+}
 
 
 
