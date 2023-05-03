@@ -202,8 +202,6 @@
 
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
-                } else {
-                    //timer label doesnt exist yet
                 }
             }   
         }
