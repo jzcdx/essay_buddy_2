@@ -16,6 +16,8 @@ function addElements() {
 
     const submitMSToggle = document.getElementById("msButton");
     addMSListener(submitMSToggle)
+
+    addVolumeListener();
 }
 
 function fillPlaceholders() {
@@ -114,8 +116,13 @@ function sendMSToggle() {
 }
 
 
-
-
+function addVolumeListener() {
+    var volumeButton = document.getElementById("volumeButton");
+    volumeButton.onclick = function() {
+        var slider = document.getElementById('volumeSlider');
+        console.log(slider.value);
+    }
+}
 
 
 

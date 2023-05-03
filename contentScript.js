@@ -239,7 +239,7 @@
             } else if (type === "CHANGEBREAK") {
                 togglePopup();
             } else if (type === "TOGGLEPHASE") {
-                //playTransitionSound();
+                playTransitionSound();
                 chrome.runtime.sendMessage({
                     action: "togglePhase"
                 });
