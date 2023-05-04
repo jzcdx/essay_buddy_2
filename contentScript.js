@@ -63,15 +63,6 @@
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
         }
-        /*
-        var audioElement;
-        var audioElementExists = document.getElementById("audio-element");
-        if (!audioElementExists) {
-            audioElement = document.createElement("audio");
-            audioElement.id = "audio-element";
-            audioElement.src = "assets/sounds/sfx.mp3";
-            documentbody.append(audioElement);
-        }*/
 
         buddy.addEventListener("contextmenu", function(event) {
             console.log("context menu clicked (contentScript.js) ");
@@ -228,7 +219,7 @@
             //Stop all currently running plays of the audio before starting our new one
             audio.pause();
             audio.currentTime = 0;
-            // Play the audio file
+            //Play the audio file
             audio.play();
         }
 
