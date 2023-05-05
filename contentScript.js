@@ -32,7 +32,8 @@
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
-            buddyDiv.prepend(buddy)
+            setBuddySize();
+            buddyDiv.prepend(buddy)            
         }
 
         let bubbleDiv;
@@ -256,8 +257,18 @@
             world.style.background = "transparent";
             buddyDiv.style.background = "transparent";
         }
+        
 
-        setDeploymentBackgrounds();
+        function setBuddySize() {
+            /*
+            const percent = 75; // 50% of original size
+            const width = buddy.width;
+            const height = buddy.height;
+            buddy.style.width = (width * percent / 100) + "px";
+            buddy.style.height = (height * percent / 100) + "px";
+            */
+        }
+        //setDeploymentBackgrounds();
     }
 
     function loadFonts() {
