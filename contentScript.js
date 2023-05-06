@@ -273,8 +273,6 @@
 
     function loadFonts() {
         const fontUrl = chrome.runtime.getURL('assets/fonts/PixelOperator.ttf');
-        //The other font we have
-        //const fontUrl = chrome.runtime.getURL('assets/fonts/PixelSplitter-Bold.ttf');
         const fontCss = `
         @font-face {
             font-family: 'Press Start 2P';
