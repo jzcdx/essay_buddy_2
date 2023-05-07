@@ -144,7 +144,7 @@
         var startY;
         let originalWidth = buddy.width;
         element.addEventListener("mousedown", function(event) {
-            buddyDiv.style.background = "#1b1b1b";
+            buddyDiv.style.background = "rgba(163, 151, 150, 0.7)";
             originalWidth = buddy.width;
             // get the x and y coordinates of the mouse click relative to the viewport
             startX = event.clientX;
