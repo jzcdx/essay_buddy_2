@@ -42,7 +42,7 @@
             bubbleDiv.id = "bubble-div";
             world.prepend(bubbleDiv);
         }
-        setBuddySize();
+        //setBuddySize();
 
         const bubbleExists = document.getElementById("bubble-img");
         if (!bubbleExists) {
@@ -88,24 +88,31 @@
             }
             
         });
-        
-        buddyDiv.addEventListener("mousedown", function(event) {
-            // get the x and y coordinates of the mouse click relative to the viewport
-            var x = event.clientX;
-            var y = event.clientY;
 
-            // do something with the coordinates
-            console.log("Clicked at (" + x + ", " + y + ")");
+        /*This system works, but i want instant feedback*/
+        var startX;
+        var startY;
+        buddyDiv.addEventListener("mousedown", function(event) {
+            startX = event.clientX;
+            startY = event.clientY;
+
+            console.log("Clicked at (" + startX + ", " + startY + ")");
         });
 
-        // add a mouseup event listener to the element
+        var endX;
+        var endY;
         buddyDiv.addEventListener("mouseup", function(event) {
-            // get the x and y coordinates of the mouse release relative to the viewport
-            var x = event.clientX;
-            var y = event.clientY;
+            endX = event.clientX;
+            endY = event.clientY;
 
-            // do something with the coordinates
-            console.log("Released at (" + x + ", " + y + ")");
+            console.log("Released at (" + endX + ", " + endY + ")");
+
+            let xDist = startX - endX;
+            let yDist = startY - endY;
+            console.log("Distances: ",  xDist , ", " , yDist);
+            console.log("width: " , typeof buddy.width)
+            let twidth = buddy.width;
+            setBuddySize(twidth + xDist);
         });
 
         
@@ -275,16 +282,25 @@
             buddyDiv.style.background = "transparent";
         }
         
+        function checkResizeValidity() {
+            //don't forget to implement this
+            return false;
+        }
 
-        function setBuddySize() {
+        function setBuddySize(newSize) {
+            checkResizeValidity();
+            console.log("hi, " , newSize)
             //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
             let newWidth = 100;
+            newWidth = newSize;
             buddy.style.width = newWidth.toString() + "px";
             //bubbleDiv.style.top = newHeight.toString() + "px";
             
         }
         //setDeploymentBackgrounds();
     }
+
+    
 
     function loadFonts() {
         const fontUrl = chrome.runtime.getURL('assets/fonts/PixelOperator.ttf');
