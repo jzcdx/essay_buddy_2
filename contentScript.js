@@ -32,7 +32,6 @@
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
-            setBuddySize();
             buddyDiv.prepend(buddy)            
         }
 
@@ -43,6 +42,7 @@
             bubbleDiv.id = "bubble-div";
             world.prepend(bubbleDiv);
         }
+        setBuddySize();
 
         const bubbleExists = document.getElementById("bubble-img");
         if (!bubbleExists) {
@@ -77,7 +77,7 @@
         });
 
         world.addEventListener("click", function(event) {
-            console.log("left clicked world");
+            //console.log("left clicked world");
             var menutarget = "bubble-img";
             var menutarget2 = "timer-label";
             if (event.target.id == menutarget || event.target.id == menutarget2) {
@@ -86,10 +86,27 @@
                     console.log("response received: " , response);
                 });
             }
+            
         });
         
+        buddyDiv.addEventListener("mousedown", function(event) {
+            // get the x and y coordinates of the mouse click relative to the viewport
+            var x = event.clientX;
+            var y = event.clientY;
 
+            // do something with the coordinates
+            console.log("Clicked at (" + x + ", " + y + ")");
+        });
 
+        // add a mouseup event listener to the element
+        buddyDiv.addEventListener("mouseup", function(event) {
+            // get the x and y coordinates of the mouse release relative to the viewport
+            var x = event.clientX;
+            var y = event.clientY;
+
+            // do something with the coordinates
+            console.log("Released at (" + x + ", " + y + ")");
+        });
 
         
 
@@ -215,7 +232,7 @@
 
         var audio = new Audio();
         audio.src = chrome.runtime.getURL("assets/sounds/timer_1.mp3");
-        audio.volume = 0.5;
+        audio.volume = 0.3;
         function playTransitionSound() {
             //Stop all currently running plays of the audio before starting our new one
             audio.pause();
@@ -243,7 +260,7 @@
                     action: "togglePhase"
                 });
             } else if (type === "TOGGLEVISIBILITY") {
-                new_visibility = value;
+                let new_visibility = value;
                 setVisibility(new_visibility);
             } else if (type === "NEWVOLUME") {
                 newVolume = value;
@@ -261,10 +278,12 @@
 
         function setBuddySize() {
             //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
-            buddy.style.width = "50px"
+            let newWidth = 100;
+            buddy.style.width = newWidth.toString() + "px";
+            //bubbleDiv.style.top = newHeight.toString() + "px";
             
         }
-        setDeploymentBackgrounds();
+        //setDeploymentBackgrounds();
     }
 
     function loadFonts() {

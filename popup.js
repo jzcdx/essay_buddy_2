@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     addElements();
     fillPlaceholders();
-
+    
     testFunctions();
 });
 
@@ -128,7 +128,7 @@ function addVolumeListener() {
     var slider = document.getElementById('volumeSlider');
     slider.addEventListener('change', function() {
         let newVolume = slider.value;
-        volDisplay.innerHTML = newVolume;
+        volDisplay.innerHTML = newVolume + "%";
         chrome.storage.local.set({"volume": newVolume}, () => {
             //console.log('Stored volume: ' + newVolume);
             sendVolumeChange(newVolume);

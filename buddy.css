@@ -45,7 +45,7 @@
  
 #bubble-div {
     position: absolute;
-    right: 5px; top: 50px;
+    right: 5px; bottom: 100px;
     z-index: 19003; 
     width:150px; 
     height:100px;
@@ -77,15 +77,16 @@
     left: 0px; bottom: 0px;
 
     width: 200px; 
-    height: 150px; 
-    background-color:#918787;
+    height: 200px; 
+    background-color:rgb(195, 204, 219);
+    pointer-events: auto;
 }
 
 #squareslo {
     position: absolute;
     /*left: -100px; 
     bottom: -50px;
-*/  
+    */  
     right: 50px;
     bottom: 0px;
     z-index: 18999;
@@ -100,8 +101,16 @@
     width:150px; 
     height:150px;
 */
+    
     background-color:rgb(177, 161, 161);
 
+    pointer-events: none;
+    /*prevents dragging the image off*/
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 
