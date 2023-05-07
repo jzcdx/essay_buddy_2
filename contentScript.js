@@ -144,6 +144,7 @@
         var startY;
         let originalWidth = buddy.width;
         element.addEventListener("mousedown", function(event) {
+            buddyDiv.style.background = "#1b1b1b";
             originalWidth = buddy.width;
             // get the x and y coordinates of the mouse click relative to the viewport
             startX = event.clientX;
@@ -155,15 +156,12 @@
             element.addEventListener("mousemove", mouseMoveHandler);
         });
 
-        // add a mouseup event listener to the element
-        
         document.addEventListener("mouseup", function(event) {
-            console.log("end id: " , event.target.id)
-            // do something with the coordinates
             if (event.target.id === undefined) {
+                //for if you max out the size and click outside bounds
                 setBuddySize(originalWidth);
             }
-            
+            buddyDiv.style.background = "transparent";
             // remove the mousemove event listener
             element.removeEventListener("mousemove", mouseMoveHandler);
             document.removeEventListener("mouseup", mouseMoveHandler);
@@ -385,7 +383,7 @@
             //bubbleDiv.style.top = newHeight.toString() + "px";
             
         }
-        //setDeploymentBackgrounds();
+        setDeploymentBackgrounds();
     }
 
     
