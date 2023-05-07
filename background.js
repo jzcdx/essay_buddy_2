@@ -20,8 +20,8 @@ chrome.storage.sync.set({
     ["phase"]: JSON.stringify(phase)
 });
 
-getDefaultSettings();
 
+getDefaultSettings()
 function getDefaultSettings() {
     chrome.storage.local.get("visibility", (result) => {
         if (result["visibility"] !== undefined) {
@@ -46,6 +46,8 @@ function getDefaultSettings() {
             msDisplay = result["msDisplay"]   
         }
     });
+
+    
 }
 
 
@@ -318,6 +320,7 @@ function updateVisibility() {
         });
     });
 }
+
 
 function updateSpritePhase() {
     if (phase === "WORK") {

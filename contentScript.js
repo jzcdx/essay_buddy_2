@@ -89,7 +89,7 @@
             
         });
 
-        /*This system works, but i want instant feedback*/
+        /*This system works, but i want instant feedback
         var startX;
         var startY;
         buddyDiv.addEventListener("mousedown", function(event) {
@@ -114,8 +114,86 @@
             let twidth = buddy.width;
             setBuddySize(twidth + xDist);
         });
+        */
+
+
+        var element = buddyDiv;
+        // add a mousedown event listener to the element
+        var cornerX;
+        var cornerY;
+
+        function setCornerValues() {
+            let img = document.getElementById("squareslo");
+            cornerX = img.offsetLeft + img.offsetWidth;
+            cornerY = img.offsetTop + img.offsetHeight;
+            //console.log("stats: " , img.offsetWidth, ", ", img.offsetHeight)
+            //console.log("stats 2: " , img.offsetLeft, ", ", img.offsetTop)
+
+            const img2 = document.querySelector('img'); // select the <img> element
+            const rect = img2.getBoundingClientRect(); // get its bounding rect
+
+            const x = rect.right + window.scrollX; // calculate the x coordinate
+            const y = rect.bottom + window.scrollY; // calculate the y coordinate
+
+            //console.log(`Bottom-right corner coordinates: (${x}, ${y})`);
+        }
+        setCornerValues()
+        //console.log("BR corner: " , cornerX, ", ", cornerY)
+
+        var startX;
+        var startY;
+        let originalWidth = buddy.width;
+        element.addEventListener("mousedown", function(event) {
+            originalWidth = buddy.width;
+            // get the x and y coordinates of the mouse click relative to the viewport
+            startX = event.clientX;
+            startY = event.clientY;
+
+            // do something with the coordinates
+
+            // add a mousemove event listener to the element
+            element.addEventListener("mousemove", mouseMoveHandler);
+        });
+
+        // add a mouseup event listener to the element
+        
+        document.addEventListener("mouseup", function(event) {
+            console.log("end id: " , event.target.id)
+            // do something with the coordinates
+            if (event.target.id === undefined) {
+                setBuddySize(originalWidth);
+            }
+            
+            // remove the mousemove event listener
+            element.removeEventListener("mousemove", mouseMoveHandler);
+            document.removeEventListener("mouseup", mouseMoveHandler);
+        });
+
 
         
+
+        var curX;
+        var curY;
+        // function to handle mousemove events
+        function mouseMoveHandler(event) {
+            console.log("")
+            curX = event.clientX;
+            curY = event.clientY;
+
+            console.log("Currently at (" + curX + ", " + curY + ")");
+
+            let xDist = startX - curX;
+            let yDist = startY - curY;
+            console.log("Distances: ",  xDist , ", " , yDist);
+            let twidth = buddy.width;
+            console.log("tw: " , twidth , ", " , xDist)
+            setBuddySize(originalWidth + xDist);
+        }
+
+
+
+
+
 
         var popup;
         function createPopup() {
@@ -242,10 +320,12 @@
         audio.volume = 0.3;
         function playTransitionSound() {
             //Stop all currently running plays of the audio before starting our new one
-            audio.pause();
-            audio.currentTime = 0;
-            //Play the audio file
-            audio.play();
+            if (audio !== undefined) {
+                audio.pause();
+                audio.currentTime = 0;
+                //Play the audio file
+                audio.play();
+            }
         }
 
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
@@ -286,10 +366,18 @@
             //don't forget to implement this
             return false;
         }
+        function resizeValuesAreValid(size) {
+            let min = 50;
+            let max = 150; 
+            return (size > min && size < max)
+        }
 
         function setBuddySize(newSize) {
+            console.log("newsize: " , newSize)
             checkResizeValidity();
-            console.log("hi, " , newSize)
+            if (!resizeValuesAreValid(newSize)) {
+                return;
+            }
             //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
             let newWidth = 100;
             newWidth = newSize;
