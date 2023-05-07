@@ -262,13 +262,7 @@
         function setBuddySize() {
             //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
             buddy.style.width = "50px"
-            /*
-            const percent = 75; // 50% of original size
-            const width = buddy.width;
-            const height = buddy.height;
-            buddy.style.width = (width * percent / 100) + "px";
-            buddy.style.height = (height * percent / 100) + "px";
-            */
+            
         }
         setDeploymentBackgrounds();
     }
