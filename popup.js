@@ -1,6 +1,5 @@
 //This function fires when you open the popup.
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("here");
     addElements();
     fillPlaceholders();
 
@@ -125,10 +124,11 @@ function sendMSToggle() {
 
 
 function addVolumeListener() {
+    var volDisplay = document.getElementById('volumeValDisplay');
     var slider = document.getElementById('volumeSlider');
     slider.addEventListener('change', function() {
         let newVolume = slider.value;
-
+        volDisplay.innerHTML = newVolume;
         chrome.storage.local.set({"volume": newVolume}, () => {
             //console.log('Stored volume: ' + newVolume);
             sendVolumeChange(newVolume);
