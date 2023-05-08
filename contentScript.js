@@ -115,7 +115,7 @@
         */
 
 
-        var element = buddyDiv;
+        var dragMDtarget = buddyDiv; //dragMouseDownTarget
         var startX;
         var startY;
         let originalWidth;
@@ -146,7 +146,7 @@
         updateOriginalWidth()
         updateSizeDelta()
 
-        element.addEventListener("mousedown", function(event) {
+        dragMDtarget.addEventListener("mousedown", function(event) {
             ttClicked = true;
             let resizeBGColor = "rgba(163, 151, 150, 0.7)"
             buddyDiv.style.background = resizeBGColor;
@@ -157,7 +157,7 @@
             startX = event.clientX;
             startY = event.clientY;
 
-            element.addEventListener("mousemove", mouseMoveHandler);
+            dragMDtarget.addEventListener("mousemove", mouseMoveHandler);
         });
 
         document.addEventListener("mouseup", function(event) {
@@ -198,7 +198,7 @@
                 ttClicked = false;
             }
             // remove the mousemove event listener and mouseup (this one)
-            element.removeEventListener("mousemove", mouseMoveHandler);
+            dragMDtarget.removeEventListener("mousemove", mouseMoveHandler);
             document.removeEventListener("mouseup", mouseMoveHandler);
         });
 
@@ -420,7 +420,7 @@
                     action: "togglePhase"
                 });
             } else if (type === "TOGGLEVISIBILITY") {
-                console.log("h" , value)
+                //console.log("h" , value)
                 let new_visibility = value;
                 setVisibility(new_visibility);
             } else if (type === "NEWVOLUME") {
