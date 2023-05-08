@@ -117,31 +117,6 @@
 
 
         var element = buddyDiv;
-        // add a mousedown event listener to the element
-        var cornerX;
-        var cornerY;
-
-        function setCornerValues() {
-            let img = document.getElementById("squareslo");
-            cornerX = img.offsetLeft + img.offsetWidth;
-            cornerY = img.offsetTop + img.offsetHeight;
-            //console.log("stats: " , img.offsetWidth, ", ", img.offsetHeight)
-            //console.log("stats 2: " , img.offsetLeft, ", ", img.offsetTop)
-
-            const img2 = document.querySelector('img'); // select the <img> element
-            const rect = img2.getBoundingClientRect(); // get its bounding rect
-
-            const x = rect.right + window.scrollX; // calculate the x coordinate
-            const y = rect.bottom + window.scrollY; // calculate the y coordinate
-
-            //console.log(`Bottom-right corner coordinates: (${x}, ${y})`);
-        }
-        setCornerValues()
-        //console.log("BR corner: " , cornerX, ", ", cornerY)
-
-        
-
-
         var startX;
         var startY;
         let originalWidth;
@@ -151,36 +126,32 @@
         function setOriginalWidth(oWidth) {
             //console.log("setting original width, tsd: " , totalSizeDelta)
             originalWidth = oWidth;
-            
             setBuddySize(originalWidth + totalSizeDelta);
         }
-        updateOriginalWidth()
-        updateSizeDelta()
-
-
+    
         function updateSizeDelta() {
             chrome.storage.local.get("totalSizeDelta", (result) => {
                 let res = result["totalSizeDelta"]
                 if (res !== undefined) {
                     totalSizeDelta = res;
-                    console.log("--tsd retrieved: " , totalSizeDelta) 
                 }
             })
         }
         
-
-
         function updateOriginalWidth() {
             chrome.runtime.sendMessage({
                 action: "requestOWidth",
             });
         }
 
+        updateOriginalWidth()
+        updateSizeDelta()
+
         element.addEventListener("mousedown", function(event) {
             ttClicked = true;
             let resizeBGColor = "rgba(163, 151, 150, 0.7)"
             buddyDiv.style.background = resizeBGColor;
-            startingWidth = buddy.width;
+            
             if (totalSizeDelta === undefined) {
                 //maybe important to put something here idk
             }
@@ -223,11 +194,11 @@
             
             if (ttClicked) {
                 chrome.storage.local.set({"totalSizeDelta": totalSizeDelta}, () => {
-                    console.log("--tsd set: " , totalSizeDelta)
+                    //console.log("--tsd set: " , totalSizeDelta)
                 });
                 ttClicked = false;
             }
-            // remove the mousemove event listener
+            // remove the mousemove event listener and mouseup (this one)
             element.removeEventListener("mousemove", mouseMoveHandler);
             document.removeEventListener("mouseup", mouseMoveHandler);
         });
@@ -241,13 +212,7 @@
         function mouseMoveHandler(event) {
             curX = event.clientX;
             curY = event.clientY;
-
-
             let xDist = startX - curX;
-            //console.log("Distances: ",  xDist , ", " , yDist);
-            let twidth = buddy.width;
-            //console.log("tw: " , twidth , ", " , xDist)
-
 
             /*
             console.log(
@@ -264,7 +229,6 @@
                 } else {
                     setBuddySize(originalWidth + totalSizeDelta + xDist);
                 }
-                
             } else {
                 setBuddySize(originalWidth + xDist);
             }
@@ -278,17 +242,11 @@
         }
 
         function setBuddySize(newSize) {
-            if (!resizeValuesAreValid(newSize)) {
-                //console.log("invalid size: " , newSize)
-                return;
+            if (resizeValuesAreValid(newSize)) {
+                let newWidth = 100;
+                newWidth = newSize;
+                buddy.style.width = newWidth.toString() + "px";
             }
-            //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
-            
-            //Note to self, fix this eventually.
-            let newWidth = 100;
-            newWidth = newSize;
-            
-            buddy.style.width = newWidth.toString() + "px";
         }
 
 
@@ -430,12 +388,6 @@
                 //Play the audio file
                 audio.play();
             }
-        }
-
-        function printDiag(type) {
-            console.log("vars: " , originalWidth , totalSizeDelta)
-            console.log("incoming message: " , type)
-            console.log("")
         }
         
         ///THE LISTENER BLOCK
