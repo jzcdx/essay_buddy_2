@@ -146,9 +146,9 @@
         var startY;
         let originalWidth;
         let totalSizeDelta;
-        
+        let ttClicked = false;
+
         function setOriginalWidth(oWidth) {
-            console.log("updating owidth")
             //console.log("setting original width, tsd: " , totalSizeDelta)
             originalWidth = oWidth;
             
@@ -159,13 +159,11 @@
 
 
         function updateSizeDelta() {
-            console.log("updating size delta")
             chrome.storage.local.get("totalSizeDelta", (result) => {
                 let res = result["totalSizeDelta"]
-                console.log("totalSizeDelta result: " , res)
                 if (res !== undefined) {
                     totalSizeDelta = res;
-                    //console.log("tsd retrieved: " , res , " owidth: " , originalWidth) 
+                    console.log("--tsd retrieved: " , totalSizeDelta) 
                 }
             })
         }
@@ -178,22 +176,17 @@
             });
         }
 
-
-
         element.addEventListener("mousedown", function(event) {
+            ttClicked = true;
             let resizeBGColor = "rgba(163, 151, 150, 0.7)"
             buddyDiv.style.background = resizeBGColor;
             startingWidth = buddy.width;
             if (totalSizeDelta === undefined) {
-                
+                //maybe important to put something here idk
             }
-            // get the x and y coordinates of the mouse click relative to the viewport
             startX = event.clientX;
             startY = event.clientY;
 
-            // do something with the coordinates
-
-            // add a mousemove event listener to the element
             element.addEventListener("mousemove", mouseMoveHandler);
         });
 
@@ -202,34 +195,38 @@
             if (event.target.id === undefined) {
                 //for if you max out the size and click outside bounds
                 setBuddySize(originalWidth);
-            }
-            
-            let finalWidth = buddy.width;
-            let localSizeDelta = startX - event.clientX;
-            
-            if (totalSizeDelta === undefined) {
-                totalSizeDelta = localSizeDelta;
-            } else {
-                totalSizeDelta += localSizeDelta;
-            }
-            /*
-            console.log(
-                "Mouse released, dist traveled: " , startX - event.clientX , 
-                "LocalSizeDelta: " , localSizeDelta , 
-                ", TotalSizeDelta: " , totalSizeDelta
-            )*/
-            //Now we gotta store the totalSizeDelta
-            if (totalSizeDelta < -100) {
-                totalSizeDelta = -100;
-            } else if (totalSizeDelta > 0) {
                 totalSizeDelta = 0;
-            }
-
+            } else if (ttClicked) { //basically if tt is not clicked, but you run this code anyway, it'll max out the size
+                //the next time you try to interact with the buddy
+                let localSizeDelta = startX - event.clientX;
             
-            chrome.storage.local.set({"totalSizeDelta": totalSizeDelta}, () => {
-                console.log("--tsd set: " , totalSizeDelta)
-            });
+                if (totalSizeDelta === undefined) {
+                    totalSizeDelta = localSizeDelta;
+                } else {
+                    totalSizeDelta += localSizeDelta;
+                }
+                /*
+                console.log(
+                    "Mouse released, dist traveled: " , startX - event.clientX , 
+                    "LocalSizeDelta: " , localSizeDelta , 
+                    ", TotalSizeDelta: " , totalSizeDelta
+                )*/
 
+                //Now we gotta store the totalSizeDelta
+                //console.log("tsd: " , totalSizeDelta)
+                if (totalSizeDelta < -100) {
+                    totalSizeDelta = -100;
+                } else if (totalSizeDelta > 0) {
+                    totalSizeDelta = 0;
+                }
+            }
+            
+            if (ttClicked) {
+                chrome.storage.local.set({"totalSizeDelta": totalSizeDelta}, () => {
+                    console.log("--tsd set: " , totalSizeDelta)
+                });
+                ttClicked = false;
+            }
             // remove the mousemove event listener
             element.removeEventListener("mousemove", mouseMoveHandler);
             document.removeEventListener("mouseup", mouseMoveHandler);
@@ -281,10 +278,8 @@
         }
 
         function setBuddySize(newSize) {
-            console.log("setting size")
             if (!resizeValuesAreValid(newSize)) {
                 //console.log("invalid size: " , newSize)
-                console.log("failed newsize")
                 return;
             }
             //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
@@ -469,19 +464,12 @@
                 newVolume = value;
                 setVolume(newVolume);
             } else if (type === "ORIGINALSIZE") {
-                //console.log("osize received " , value)
-                //console.log("originalSize")
                 let originalSize = value;
                 setOriginalWidth(originalSize)
             } else if (type === "UPDATESIZEDELTA") {
-                //console.log("total delta ")
                 updateSizeDelta()
             } else if (type === "UPDATESIZE") {
-                //console.log("updating ")
-                //console.log("vars: " , originalWidth , totalSizeDelta)
-                //console.log(" ")
                 setBuddySize(originalWidth + totalSizeDelta);
-                console.log(" ")
             }
         });
 
