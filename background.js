@@ -10,6 +10,7 @@ var timer;
 
 var phase = "WORK"; //WORK or BREAK
 var visible = true;
+var timerVisible = true;
 var goalType = "TIMER"; //options: TIMER or WORDS 
 var msDisplay = false;
 
@@ -272,7 +273,7 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     } else if (info.menuItemId === "hideBuddy") {
         console.log("hiding buddy");
         toggleBuddyVisibility();
-    }
+    } 
 });
 
 //Handling messages received from other parts of this codebase. Mostly popup.js, 
@@ -312,6 +313,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         toggleMSVisibility();
     } else if (request.action === "requestOWidth") {
         sendSizeMessage();
+    } else if (request.action === "hideTimer") { // from popup.js
+        toggleTimerVisibility();
     }
 });
 
@@ -367,6 +370,19 @@ function toggleBuddyVisibility() {
     // 3) update the code for tab switching to message contentScript the current state of visibility.
 }
 
+function toggleTimerVisibility() {
+    // 1) we'll toggle the variable to track visibility.
+    timerVisible = !timerVisible;
+    chrome.storage.local.set({"timerVisibility": timerVisible}, () => {
+        console.log('Stored timer visibility: ' + timerVisible)
+    });
+
+    // 2) we're gonna message our current tab to flip the visibility.
+    updateTimerVisibility()
+    // 3) update the code for tab switching to message contentScript the current state of visibility.
+}
+
+
 
 
 
@@ -391,6 +407,15 @@ function updateVisibility() {
     });
 }
 
+function updateTimerVisibility() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
+        const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+        chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
+            type: "TOGGLETIMERVISIBILITY",
+            value: timerVisible
+        });
+    });
+}
 
 function updateSpritePhase() {
     if (phase === "WORK") {

@@ -17,6 +17,9 @@ function addElements() {
     addMSListener(submitMSToggle)
 
     addVolumeListener();
+
+    const hideTimerButton = document.getElementById("hideTimerButton");
+    addHideTimerListener(hideTimerButton)    
 }
 
 function fillPlaceholders() {
@@ -101,12 +104,23 @@ function addHideListener(hideButton) {
     }
 }
 
+function addHideTimerListener(hideTimerButton) {
+    hideTimerButton.onclick = function() {
+        sendHideTimer();
+    }
+}
+
 function sendHideBuddy() {
     chrome.runtime.sendMessage({
         action: "hideBuddy"    
     })
 }
 
+function sendHideTimer() {
+    chrome.runtime.sendMessage({
+        action: "hideTimer"
+    })
+}
 
 
 function addMSListener(msButton) {

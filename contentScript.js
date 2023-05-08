@@ -76,7 +76,6 @@
         });
 
         world.addEventListener("click", function(event) {
-            //console.log("left clicked world");
             var menutarget = "bubble-img";
             var menutarget2 = "timer-label";
             if (event.target.id == menutarget || event.target.id == menutarget2) {
@@ -367,6 +366,17 @@
             }
         }
 
+        function setTimerVisibility(new_timer_visibility) {
+            worldExists = document.getElementById("buddy_world")
+            if (!new_timer_visibility && (worldExists)) {
+                bubbleDiv.removeChild(bubble);
+                bubbleDiv.removeChild(timerLabel);
+            } else if (new_timer_visibility && (worldExists)) {
+                bubbleDiv.appendChild(bubble);
+                bubbleDiv.appendChild(timerLabel);
+            }
+        }
+
         function setVolume(newVol) {
             if (newVol === 0) {
                 audio.volume = 0;
@@ -422,6 +432,9 @@
                 updateSizeDelta()
             } else if (type === "UPDATESIZE") {
                 setBuddySize(originalWidth + totalSizeDelta);
+            } else if (type === "TOGGLETIMERVISIBILITY") {
+                let new_timer_visibility = value;
+                setTimerVisibility(new_timer_visibility);
             }
         });
 
