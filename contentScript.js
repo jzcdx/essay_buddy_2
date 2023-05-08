@@ -420,6 +420,7 @@
                     action: "togglePhase"
                 });
             } else if (type === "TOGGLEVISIBILITY") {
+                console.log("h" , value)
                 let new_visibility = value;
                 setVisibility(new_visibility);
             } else if (type === "NEWVOLUME") {
@@ -433,8 +434,10 @@
             } else if (type === "UPDATESIZE") {
                 setBuddySize(originalWidth + totalSizeDelta);
             } else if (type === "TOGGLETIMERVISIBILITY") {
+                
                 let new_timer_visibility = value;
                 setTimerVisibility(new_timer_visibility);
+                
             }
         });
 

@@ -6,6 +6,7 @@ change his size depending on unknown site-specific factors
 --Implemented volume slider
 -Resizing via drag and drop with a visual indicator
 --Various resize bugs
+-Timer hiding togglable
 
 v0.3 (deployed)
 -Displaying milliseconds on timer can now be toggled on and off (maintains state between browsing sessions)

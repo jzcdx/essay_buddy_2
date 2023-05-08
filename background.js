@@ -23,14 +23,7 @@ chrome.storage.sync.set({
 
 
 getDefaultSettings()
-function getDefaultSettings() {
-    chrome.storage.local.get("visibility", (result) => {
-        if (result["visibility"] !== undefined) {
-            visible = result["visibility"]
-            updateVisibility()
-        } 
-    });
-    
+function getDefaultSettings() {    
     chrome.storage.local.get("workLen", (result) => {
         if (result["workLen"] !== undefined) {
             work_len = result["workLen"]
@@ -47,8 +40,80 @@ function getDefaultSettings() {
             msDisplay = result["msDisplay"]   
         }
     });
+    syncDefaultVisibilites()
 
-    
+    /*
+    chrome.storage.local.get("timerVisibility", (result) => {
+        if (result["timerVisibility"] !== undefined) {
+            timerVisible = result["timerVisibility"] //A
+            console.log("tv here" , timerVisible)
+            
+        } 
+    });
+
+    chrome.storage.local.get("visibility", (result) => {
+        if (result["visibility"] !== undefined) {
+            visible = result["visibility"] //C
+        } 
+    });
+    */
+}
+/*
+async function syncSize() {
+    await sendSizeDeltaMessage();
+    await sendSizeMessage()
+    sendSizeUpdate();
+}
+
+function sendSizeMessage() {
+    //sends size delta to 
+    let originalSize = curSpriteSet.width;
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, { type: "ORIGINALSIZE", value: originalSize }, function(response) {
+                resolve();
+            });
+        });
+    });
+}
+
+function sendSizeDeltaMessage() {
+    //sends size delta to 
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, { type: "UPDATESIZEDELTA" }, function(response) {
+                resolve();
+            });
+        });
+    });
+}
+*/
+
+async function syncDefaultVisibilites() {
+    await new Promise((resolve, reject) => { 
+        chrome.storage.local.get("timerVisibility", (result) => {
+            if (result["timerVisibility"] !== undefined) {
+                timerVisible = result["timerVisibility"] //A
+                console.log("tv here" , timerVisible)
+                
+            } 
+            resolve()
+        });
+    });
+    await new Promise((resolve, reject) => { 
+        chrome.storage.local.get("visibility", (result) => {
+            if (result["visibility"] !== undefined) {
+                visible = result["visibility"] //C
+                console.log("v here" , visible)
+            } 
+            resolve()
+        });
+    });
+    console.log(visible, ", " , timerVisible)
+    updateTimerVisibility() //B
+    updateVisibility() //D
 }
 
 
@@ -85,6 +150,7 @@ function updatedAndActivatedHandler() {
     
     //we're gonna make sure the visibility settings are the same between tabs when we switch by querying and msging contentscript
     updateVisibility();
+    updateTimerVisibility()
     updateContentScriptTimerDisplay()
     
     syncSize()
@@ -176,34 +242,6 @@ async function syncSize() {
     await sendSizeMessage()
     sendSizeUpdate();
 }
-
-
-/*
-async function sendSizeMessage() {
-    //sends size delta to 
-    
-    let originalSize = curSpriteSet.width;
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const activeTab = tabs[0];
-        chrome.tabs.sendMessage(activeTab.id, { type: "ORIGINALSIZE", value: originalSize }, function(response) {
-            resolve();
-        });
-    });
-    
-}
-
-
-async function sendSizeDeltaMessage() {
-    //sends size delta to 
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const activeTab = tabs[0];
-        chrome.tabs.sendMessage(activeTab.id, { type: "UPDATESIZEDELTA"}, function(response) {
-            resolve();
-        });
-    });
-    
-}
-*/
 
 function sendSizeMessage() {
     //sends size delta to 
@@ -373,8 +411,9 @@ function toggleBuddyVisibility() {
 function toggleTimerVisibility() {
     // 1) we'll toggle the variable to track visibility.
     timerVisible = !timerVisible;
+    console.log("tv: " , timerVisible)
     chrome.storage.local.set({"timerVisibility": timerVisible}, () => {
-        console.log('Stored timer visibility: ' + timerVisible)
+        //console.log('Stored timer visibility: ' + timerVisible)
     });
 
     // 2) we're gonna message our current tab to flip the visibility.
@@ -398,8 +437,10 @@ function updateContentScriptTimerDisplay() {
 }
 
 function updateVisibility() {
+    console.log("uv")
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
+        console.log(activeTab.id)
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
             type: "TOGGLEVISIBILITY",
             value: visible
@@ -408,6 +449,7 @@ function updateVisibility() {
 }
 
 function updateTimerVisibility() {
+    console.log("utv")
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
