@@ -1,5 +1,5 @@
 {
-    "name": "Tiny Timer",
+    "name": "Tiny Timer (test ver)",
     "version": "0.3",
     "description": "The Cutest Study Timer in the West",
     "permissions": ["storage", "contextMenus", "activeTab", "audio"],

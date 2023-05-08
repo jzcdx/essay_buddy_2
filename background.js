@@ -66,6 +66,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 });
 
 function updatedAndActivatedHandler() {
+    console.log("tab swap")
     //if timer is currently running or currently paused 
     if (timer !== undefined) {
         if (timer.getRunState() || timer.getPauseState()) {
@@ -84,6 +85,8 @@ function updatedAndActivatedHandler() {
     //we're gonna make sure the visibility settings are the same between tabs when we switch by querying and msging contentscript
     updateVisibility();
     updateContentScriptTimerDisplay()
+    
+    syncSize()
 }
 
 
@@ -167,7 +170,73 @@ function createNewTimer() {
     timer.updateDisplay();
 }
 
+async function syncSize() {
+    await sendSizeDeltaMessage();
+    await sendSizeMessage()
+    sendSizeUpdate();
+}
 
+
+/*
+async function sendSizeMessage() {
+    //sends size delta to 
+    
+    let originalSize = curSpriteSet.width;
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, { type: "ORIGINALSIZE", value: originalSize }, function(response) {
+            resolve();
+        });
+    });
+    
+}
+
+
+async function sendSizeDeltaMessage() {
+    //sends size delta to 
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, { type: "UPDATESIZEDELTA"}, function(response) {
+            resolve();
+        });
+    });
+    
+}
+*/
+
+function sendSizeMessage() {
+    //sends size delta to 
+    let originalSize = curSpriteSet.width;
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, { type: "ORIGINALSIZE", value: originalSize }, function(response) {
+                resolve();
+            });
+        });
+    });
+}
+
+function sendSizeDeltaMessage() {
+    //sends size delta to 
+    return new Promise((resolve, reject) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, { type: "UPDATESIZEDELTA" }, function(response) {
+                resolve();
+            });
+        });
+    });
+}
+
+function sendSizeUpdate() {
+    //sends size delta to 
+    console.log("sending SIZE UPDATE")
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        chrome.tabs.sendMessage(activeTab.id, { type: "UPDATESIZE"});
+    });
+}
 
 //Used in the contextmenu listener below
 function sendGoalChangePopupMessage() {
@@ -242,6 +311,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         toggleBuddyVisibility();
     } else if (request.action === "toggleMS") { // Also from popup.js
         toggleMSVisibility();
+    } else if (request.action === "requestOWidth") {
+        sendSizeMessage();
     }
 });
 

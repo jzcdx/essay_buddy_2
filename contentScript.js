@@ -42,7 +42,6 @@
             bubbleDiv.id = "bubble-div";
             world.prepend(bubbleDiv);
         }
-        //setBuddySize();
 
         const bubbleExists = document.getElementById("bubble-img");
         if (!bubbleExists) {
@@ -140,12 +139,54 @@
         setCornerValues()
         //console.log("BR corner: " , cornerX, ", ", cornerY)
 
+        
+
+
         var startX;
         var startY;
-        let originalWidth = buddy.width;
+        let originalWidth;
+        let totalSizeDelta;
+        
+        function setOriginalWidth(oWidth) {
+            console.log("updating owidth")
+            //console.log("setting original width, tsd: " , totalSizeDelta)
+            originalWidth = oWidth;
+            
+            setBuddySize(originalWidth + totalSizeDelta);
+        }
+        updateOriginalWidth()
+        updateSizeDelta()
+
+
+        function updateSizeDelta() {
+            console.log("updating size delta")
+            chrome.storage.local.get("totalSizeDelta", (result) => {
+                let res = result["totalSizeDelta"]
+                console.log("totalSizeDelta result: " , res)
+                if (res !== undefined) {
+                    totalSizeDelta = res;
+                    //console.log("tsd retrieved: " , res , " owidth: " , originalWidth) 
+                }
+            })
+        }
+        
+
+
+        function updateOriginalWidth() {
+            chrome.runtime.sendMessage({
+                action: "requestOWidth",
+            });
+        }
+
+
+
         element.addEventListener("mousedown", function(event) {
-            buddyDiv.style.background = "rgba(163, 151, 150, 0.7)";
-            originalWidth = buddy.width;
+            let resizeBGColor = "rgba(163, 151, 150, 0.7)"
+            buddyDiv.style.background = resizeBGColor;
+            startingWidth = buddy.width;
+            if (totalSizeDelta === undefined) {
+                
+            }
             // get the x and y coordinates of the mouse click relative to the viewport
             startX = event.clientX;
             startY = event.clientY;
@@ -157,11 +198,38 @@
         });
 
         document.addEventListener("mouseup", function(event) {
+            buddyDiv.style.background = "transparent";
             if (event.target.id === undefined) {
                 //for if you max out the size and click outside bounds
                 setBuddySize(originalWidth);
             }
-            buddyDiv.style.background = "transparent";
+            
+            let finalWidth = buddy.width;
+            let localSizeDelta = startX - event.clientX;
+            
+            if (totalSizeDelta === undefined) {
+                totalSizeDelta = localSizeDelta;
+            } else {
+                totalSizeDelta += localSizeDelta;
+            }
+            /*
+            console.log(
+                "Mouse released, dist traveled: " , startX - event.clientX , 
+                "LocalSizeDelta: " , localSizeDelta , 
+                ", TotalSizeDelta: " , totalSizeDelta
+            )*/
+            //Now we gotta store the totalSizeDelta
+            if (totalSizeDelta < -100) {
+                totalSizeDelta = -100;
+            } else if (totalSizeDelta > 0) {
+                totalSizeDelta = 0;
+            }
+
+            
+            chrome.storage.local.set({"totalSizeDelta": totalSizeDelta}, () => {
+                console.log("--tsd set: " , totalSizeDelta)
+            });
+
             // remove the mousemove event listener
             element.removeEventListener("mousemove", mouseMoveHandler);
             document.removeEventListener("mouseup", mouseMoveHandler);
@@ -174,20 +242,59 @@
         var curY;
         // function to handle mousemove events
         function mouseMoveHandler(event) {
-            console.log("")
             curX = event.clientX;
             curY = event.clientY;
 
-            console.log("Currently at (" + curX + ", " + curY + ")");
 
             let xDist = startX - curX;
-            let yDist = startY - curY;
-            console.log("Distances: ",  xDist , ", " , yDist);
+            //console.log("Distances: ",  xDist , ", " , yDist);
             let twidth = buddy.width;
-            console.log("tw: " , twidth , ", " , xDist)
-            setBuddySize(originalWidth + xDist);
+            //console.log("tw: " , twidth , ", " , xDist)
+
+
+            /*
+            console.log(
+                "owidth: " , originalWidth , 
+                ", totalsizedelta: " , totalSizeDelta , 
+                ", xdist: " , xDist
+            )*/
+
+            if (totalSizeDelta !== undefined) {
+                if (totalSizeDelta + xDist + originalWidth > originalWidth) {
+                    setBuddySize(originalWidth);
+                } else if (totalSizeDelta + xDist + originalWidth < 50) {
+                    setBuddySize(50);
+                } else {
+                    setBuddySize(originalWidth + totalSizeDelta + xDist);
+                }
+                
+            } else {
+                setBuddySize(originalWidth + xDist);
+            }
         }
 
+        function resizeValuesAreValid(size) {
+            //units in pixels
+            let min = 50;
+            let max = 152; 
+            return (size >= min && size <= max)
+        }
+
+        function setBuddySize(newSize) {
+            console.log("setting size")
+            if (!resizeValuesAreValid(newSize)) {
+                //console.log("invalid size: " , newSize)
+                console.log("failed newsize")
+                return;
+            }
+            //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
+            
+            //Note to self, fix this eventually.
+            let newWidth = 100;
+            newWidth = newSize;
+            
+            buddy.style.width = newWidth.toString() + "px";
+        }
 
 
 
@@ -308,8 +415,12 @@
         }
 
         function setVolume(newVol) {
-            let convertedVol = newVol / 100;
-            audio.volume = convertedVol;
+            if (newVol === 0) {
+                audio.volume = 0;
+            } else {
+                let convertedVol = newVol / 100;
+                audio.volume = convertedVol;
+            }
             playTransitionSound();
         }
 
@@ -326,6 +437,13 @@
             }
         }
 
+        function printDiag(type) {
+            console.log("vars: " , originalWidth , totalSizeDelta)
+            console.log("incoming message: " , type)
+            console.log("")
+        }
+        
+        ///THE LISTENER BLOCK
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, value, videoId } = obj;
             if (type === "TIMERSTARTING") {
@@ -350,6 +468,20 @@
             } else if (type === "NEWVOLUME") {
                 newVolume = value;
                 setVolume(newVolume);
+            } else if (type === "ORIGINALSIZE") {
+                //console.log("osize received " , value)
+                //console.log("originalSize")
+                let originalSize = value;
+                setOriginalWidth(originalSize)
+            } else if (type === "UPDATESIZEDELTA") {
+                //console.log("total delta ")
+                updateSizeDelta()
+            } else if (type === "UPDATESIZE") {
+                //console.log("updating ")
+                //console.log("vars: " , originalWidth , totalSizeDelta)
+                //console.log(" ")
+                setBuddySize(originalWidth + totalSizeDelta);
+                console.log(" ")
             }
         });
 
@@ -358,30 +490,6 @@
             buddy.style.background = "transparent";
             world.style.background = "transparent";
             buddyDiv.style.background = "transparent";
-        }
-        
-        function checkResizeValidity() {
-            //don't forget to implement this
-            return false;
-        }
-        function resizeValuesAreValid(size) {
-            let min = 50;
-            let max = 150; 
-            return (size > min && size < max)
-        }
-
-        function setBuddySize(newSize) {
-            console.log("newsize: " , newSize)
-            checkResizeValidity();
-            if (!resizeValuesAreValid(newSize)) {
-                return;
-            }
-            //buddy.style.width = (parseInt(buddy.style.width) * 0.25).toString() + "px";
-            let newWidth = 100;
-            newWidth = newSize;
-            buddy.style.width = newWidth.toString() + "px";
-            //bubbleDiv.style.top = newHeight.toString() + "px";
-            
         }
         setDeploymentBackgrounds();
     }
@@ -402,7 +510,6 @@
         styleEl.textContent = fontCss;
         document.head.appendChild(styleEl);
     }
-    
     
     loadFonts();
     newPageLoaded(); //important
