@@ -28,6 +28,7 @@
         const buddyExists = document.getElementById("squareslo");
         if (!buddyExists) {
             buddy = document.createElement("img");
+            buddy.setAttribute('draggable', 'false');
             buddy.src = chrome.runtime.getURL("assets/sprites/barry/active/tile000.png");
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
@@ -115,7 +116,7 @@
         */
 
 
-        var dragMDtarget = buddyDiv; //dragMouseDownTarget
+        var dragMDtarget = buddy; //dragMouseDownTarget
         var startX;
         var startY;
         let originalWidth;
@@ -123,7 +124,6 @@
         let ttClicked = false;
 
         function setOriginalWidth(oWidth) {
-            //console.log("setting original width, tsd: " , totalSizeDelta)
             originalWidth = oWidth;
             setBuddySize(originalWidth + totalSizeDelta);
         }

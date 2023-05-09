@@ -79,7 +79,7 @@
     width: 200px; 
     height: 150px; 
     background-color:rgb(195, 204, 219);
-    pointer-events: auto;
+    pointer-events: none;
     
     
     /*prevents dragging the image off*/
@@ -112,7 +112,9 @@
     
     background-color:rgb(177, 161, 161);
 
+    /*
     pointer-events: none;
+    */
     /*prevents dragging the image off*/
     -webkit-user-select: none;
     -khtml-user-select: none;
