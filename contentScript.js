@@ -183,7 +183,6 @@
                 )*/
 
                 //Now we gotta store the totalSizeDelta
-                //console.log("tsd: " , totalSizeDelta)
                 if (totalSizeDelta < -100) {
                     totalSizeDelta = -100;
                 } else if (totalSizeDelta > 0) {
