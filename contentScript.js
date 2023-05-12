@@ -16,7 +16,7 @@
         }
         
         let buddyDiv;
-        const buddyDivExists = document.getElementById("buddyDiv");
+        let buddyDivExists = document.getElementById("buddyDiv");
         if (!buddyDivExists) {
             buddyDiv = document.createElement("div");
             //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
@@ -25,7 +25,7 @@
         }
 
         let buddy;
-        const buddyExists = document.getElementById("squareslo");
+        let buddyExists = document.getElementById("squareslo");
         if (!buddyExists) {
             buddy = document.createElement("img");
             buddy.setAttribute('draggable', 'false');
@@ -37,14 +37,14 @@
         }
 
         let bubbleDiv;
-        const bubbleDivExists = document.getElementById("bubble-div");
+        let bubbleDivExists = document.getElementById("bubble-div");
         if (!bubbleDivExists) {
             bubbleDiv = document.createElement("div");
             bubbleDiv.id = "bubble-div";
             world.prepend(bubbleDiv);
         }
 
-        const bubbleExists = document.getElementById("bubble-img");
+        let bubbleExists = document.getElementById("bubble-img");
         if (!bubbleExists) {
             bubble = document.createElement("img");
             bubble.src = chrome.runtime.getURL("assets/pbubble3.png");
@@ -211,13 +211,14 @@
             curX = event.clientX;
             curY = event.clientY;
             let xDist = startX - curX;
-
-            /*
+            
+            
             console.log(
                 "owidth: " , originalWidth , 
                 ", totalsizedelta: " , totalSizeDelta , 
-                ", xdist: " , xDist
-            )*/
+                ", xdist: " , xDist , 
+                "curx: " , curX
+            )
 
             if (totalSizeDelta !== undefined) {
                 if (totalSizeDelta + xDist + originalWidth > originalWidth) {
@@ -367,10 +368,14 @@
 
         function setTimerVisibility(new_timer_visibility) {
             worldExists = document.getElementById("buddy_world")
-            if (!new_timer_visibility && (worldExists)) {
+            bubbleExists = document.getElementById("bubble-img")
+            bubbleDivExists = document.getElementById("bubble-div")
+            timerLabelExists = document.getElementById("timer-label");
+
+            if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
                 bubbleDiv.removeChild(bubble);
                 bubbleDiv.removeChild(timerLabel);
-            } else if (new_timer_visibility && (worldExists)) {
+            } else if (new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
                 bubbleDiv.appendChild(bubble);
                 bubbleDiv.appendChild(timerLabel);
             }
