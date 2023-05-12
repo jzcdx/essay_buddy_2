@@ -424,7 +424,6 @@
                     action: "togglePhase"
                 });
             } else if (type === "TOGGLEVISIBILITY") {
-                //console.log("h" , value)
                 let new_visibility = value;
                 setVisibility(new_visibility);
             } else if (type === "NEWVOLUME") {
