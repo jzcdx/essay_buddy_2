@@ -114,9 +114,6 @@
     
     background-color:rgb(177, 161, 161);
 
-    /*
-    pointer-events: none;
-    */
     /*prevents dragging the image off*/
     
     -webkit-user-select: none;
