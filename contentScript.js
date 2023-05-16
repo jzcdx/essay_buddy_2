@@ -367,15 +367,40 @@
         }
 
         function setTimerVisibility(new_timer_visibility) {
-            worldExists = document.getElementById("buddy_world")
+            //Bug here
+
+            /*worldExists = document.getElementById("buddy_world")
             bubbleExists = document.getElementById("bubble-img")
             bubbleDivExists = document.getElementById("bubble-div")
             timerLabelExists = document.getElementById("timer-label");
 
             if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
+                //worldExists.removeChild(bubbleDiv);
+                
+                bubbleDiv.removeChild(bubble);
+                bubbleDiv.removeChild(timerLabel);
+                
+            } else if (new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
+                
+                bubbleDiv.appendChild(bubble);
+                bubbleDiv.appendChild(timerLabel);
+                
+                //worldExists.appendChild(bubbleDiv);
+            }*/
+
+            worldExists = document.getElementById("buddy_world")
+            bubbleExists = document.getElementById("bubble-img")
+            bubbleDivExists = document.getElementById("bubble-div")
+            timerLabelExists = document.getElementById("timer-label");
+            console.log("here 3" , worldExists, bubbleExists, bubbleDivExists, timerLabelExists)
+            console.log("here 2" , worldExists === true , bubbleExists === true , bubbleDivExists === true , timerLabelExists === true)
+            
+            if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
+                console.log("here 1")
                 bubbleDiv.removeChild(bubble);
                 bubbleDiv.removeChild(timerLabel);
             } else if (new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
+                console.log("here")
                 bubbleDiv.appendChild(bubble);
                 bubbleDiv.appendChild(timerLabel);
             }
@@ -450,7 +475,7 @@
             world.style.background = "transparent";
             buddyDiv.style.background = "transparent";
         }
-        setDeploymentBackgrounds(); //important
+        //setDeploymentBackgrounds(); //important
     }
 
     
