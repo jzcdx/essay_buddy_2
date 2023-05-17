@@ -396,11 +396,11 @@
             //console.log("here 2" , worldExists === true , bubbleExists === true , bubbleDivExists === true , timerLabelExists === true)
             
             if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
-                console.log("here 1")
+                //console.log("here 1")
                 bubbleDiv.removeChild(bubble);
                 bubbleDiv.removeChild(timerLabel);
             } else if (new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
-                console.log("here")
+                //console.log("here")
                 bubbleDiv.appendChild(bubble);
                 bubbleDiv.appendChild(timerLabel);
             }
