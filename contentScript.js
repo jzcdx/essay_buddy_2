@@ -393,7 +393,7 @@
             bubbleDivExists = document.getElementById("bubble-div")
             timerLabelExists = document.getElementById("timer-label");
             console.log("here 3" , worldExists, bubbleExists, bubbleDivExists, timerLabelExists)
-            console.log("here 2" , worldExists === true , bubbleExists === true , bubbleDivExists === true , timerLabelExists === true)
+            //console.log("here 2" , worldExists === true , bubbleExists === true , bubbleDivExists === true , timerLabelExists === true)
             
             if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
                 console.log("here 1")
