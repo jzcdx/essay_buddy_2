@@ -342,6 +342,7 @@
 
         //updates the innerhtml of our timer label
         async function updateTimerLabel(cur_time) {
+            console.log(cur_time)
             var phase = await getPhase();
             if (phase !== undefined) {
                 var flavorString = "";
@@ -353,6 +354,8 @@
 
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
+                } else {
+                    console.log("tl dne")
                 }
             }   
         }
@@ -390,20 +393,29 @@
 
             worldExists = document.getElementById("buddy_world")
             bubbleExists = document.getElementById("bubble-img")
-            bubbleDivExists = document.getElementById("bubble-div")
+            /*bubbleDivExists = document.getElementById("bubble-div")
             timerLabelExists = document.getElementById("timer-label");
+            */
             //console.log("here 3" , worldExists, bubbleExists, bubbleDivExists, timerLabelExists)
             //console.log("here 2" , worldExists === true , bubbleExists === true , bubbleDivExists === true , timerLabelExists === true)
             
-            if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
+            if (!new_timer_visibility && (worldExists) && bubbleExists/* && bubbleDivExists && timerLabelExists*/) {
                 console.log("making invis")
+                /*
                 bubbleDiv.removeChild(bubble);
                 bubbleDiv.removeChild(timerLabel);
-            } else if (new_timer_visibility && (worldExists) && bubbleDivExists) {
+                */
+                world.removeChild(bubbleDiv)
+            } else if (new_timer_visibility && (worldExists)) {
                 //console.log("here")
+                
+                
+                world.appendChild(bubbleDiv)
                 console.log("making vis")
+                /*
                 bubbleDiv.appendChild(bubble);
                 bubbleDiv.appendChild(timerLabel);
+                */
             }
         }
 
