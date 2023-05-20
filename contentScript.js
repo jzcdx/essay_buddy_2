@@ -392,15 +392,16 @@
             bubbleExists = document.getElementById("bubble-img")
             bubbleDivExists = document.getElementById("bubble-div")
             timerLabelExists = document.getElementById("timer-label");
-            console.log("here 3" , worldExists, bubbleExists, bubbleDivExists, timerLabelExists)
+            //console.log("here 3" , worldExists, bubbleExists, bubbleDivExists, timerLabelExists)
             //console.log("here 2" , worldExists === true , bubbleExists === true , bubbleDivExists === true , timerLabelExists === true)
             
             if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
-                //console.log("here 1")
+                console.log("making invis")
                 bubbleDiv.removeChild(bubble);
                 bubbleDiv.removeChild(timerLabel);
-            } else if (new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
+            } else if (new_timer_visibility && (worldExists) && bubbleDivExists) {
                 //console.log("here")
+                console.log("making vis")
                 bubbleDiv.appendChild(bubble);
                 bubbleDiv.appendChild(timerLabel);
             }
@@ -464,6 +465,7 @@
             } else if (type === "TOGGLETIMERVISIBILITY") {
                 
                 let new_timer_visibility = value;
+                console.log("setting timer visibility: " , value)
                 setTimerVisibility(new_timer_visibility);
                 
             }
@@ -475,7 +477,7 @@
             world.style.background = "transparent";
             buddyDiv.style.background = "transparent";
         }
-        setDeploymentBackgrounds(); //important
+        //setDeploymentBackgrounds(); //important
     }
 
     
