@@ -66,12 +66,12 @@
         }
 
         buddy.addEventListener("contextmenu", function(event) {
-            console.log("context menu clicked (contentScript.js) ");
+            //console.log("context menu clicked (contentScript.js) ");
             var menutarget = "squareslo"
             if (event.target.id == menutarget) {
                 //event.preventDefault();
                 chrome.runtime.sendMessage({action: "showContextMenu"}, function(response) {
-                    console.log("response received: " , response);
+                    //console.log("response received: " , response);
                 });
             }
         });
@@ -342,7 +342,6 @@
 
         //updates the innerhtml of our timer label
         async function updateTimerLabel(cur_time) {
-            console.log(cur_time)
             var phase = await getPhase();
             if (phase !== undefined) {
                 var flavorString = "";
@@ -400,7 +399,7 @@
             //console.log("here 2" , worldExists === true , bubbleExists === true , bubbleDivExists === true , timerLabelExists === true)
             
             if (!new_timer_visibility && (worldExists) && bubbleExists/* && bubbleDivExists && timerLabelExists*/) {
-                console.log("making invis")
+                //console.log("making invis")
                 /*
                 bubbleDiv.removeChild(bubble);
                 bubbleDiv.removeChild(timerLabel);
@@ -411,7 +410,7 @@
                 
                 
                 world.appendChild(bubbleDiv)
-                console.log("making vis")
+                //console.log("making vis")
                 /*
                 bubbleDiv.appendChild(bubble);
                 bubbleDiv.appendChild(timerLabel);
@@ -419,7 +418,10 @@
             }
         }
 
+        //VOLUME STUFF//
+
         function setVolume(newVol) {
+            console.log("volume: " , newVol)
             if (newVol === 0) {
                 audio.volume = 0;
             } else {
@@ -445,6 +447,11 @@
         ///THE LISTENER BLOCK
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, value, videoId } = obj;
+            if (type === "NEWVOLUME") {
+                
+                console.log("VOLUME CHANGE: " , value)
+            }
+
             if (type === "TIMERSTARTING") {
                 chrome.storage.sync.get("startTime", (data) => {
                     const startTime = data["startTime"];
@@ -475,9 +482,8 @@
             } else if (type === "UPDATESIZE") {
                 setBuddySize(originalWidth + totalSizeDelta);
             } else if (type === "TOGGLETIMERVISIBILITY") {
-                
                 let new_timer_visibility = value;
-                console.log("setting timer visibility: " , value)
+                //console.log("setting timer visibility: " , value)
                 setTimerVisibility(new_timer_visibility);
                 
             }

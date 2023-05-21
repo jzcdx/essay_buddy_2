@@ -41,62 +41,46 @@ function getDefaultSettings() {
         }
     });
     syncDefaultVisibilites()
-
-    /*
-    chrome.storage.local.get("timerVisibility", (result) => {
-        if (result["timerVisibility"] !== undefined) {
-            timerVisible = result["timerVisibility"] //A
-            console.log("tv here" , timerVisible)
-            
-        } 
+    syncDefaultVolume()
+    
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+        //this works to send a message to the contentscript of the tab that's active
+        if (activeTab != undefined) { //Pretty sure this crashes if you don't have an active tab, I don't remember how you do that
+            chrome.tabs.sendMessage(activeTab.id, { type: "NEWSPRITE", newURL: newURLPath });
+        }
     });
-
-    chrome.storage.local.get("visibility", (result) => {
-        if (result["visibility"] !== undefined) {
-            visible = result["visibility"] //C
-        } 
-    });
-    */
-}
-/*
-async function syncSize() {
-    await sendSizeDeltaMessage();
-    await sendSizeMessage()
-    sendSizeUpdate();
 }
 
-function sendSizeMessage() {
-    //sends size delta to 
-    let originalSize = curSpriteSet.width;
-    return new Promise((resolve, reject) => {
+async function syncDefaultVolume() {
+    let oldVol = undefined;
+    await new Promise((resolve, reject) => {
+        chrome.storage.local.get("volume", (result) => {
+            oldVol = result["volume"];
+            resolve()
+        });
+    })
+    //console.log("oldvol: " , oldVol)
+    
+    if (oldVol !== undefined) {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, { type: "ORIGINALSIZE", value: originalSize }, function(response) {
-                resolve();
-            });
+            if (activeTab != undefined) {
+                chrome.tabs.sendMessage(activeTab.id, { type: "NEWVOLUME", value: oldVol });
+            } else {
+                //console.log("tab dne for vol")
+            }
         });
-    });
+    }
 }
 
-function sendSizeDeltaMessage() {
-    //sends size delta to 
-    return new Promise((resolve, reject) => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, { type: "UPDATESIZEDELTA" }, function(response) {
-                resolve();
-            });
-        });
-    });
-}
-*/
+
 
 async function syncDefaultVisibilites() {
     await new Promise((resolve, reject) => { 
         chrome.storage.local.get("timerVisibility", (result) => {
             if (result["timerVisibility"] !== undefined) {
                 timerVisible = result["timerVisibility"] //A
-                console.log("tv here" , timerVisible)
                 
             } 
             resolve()
@@ -106,12 +90,10 @@ async function syncDefaultVisibilites() {
         chrome.storage.local.get("visibility", (result) => {
             if (result["visibility"] !== undefined) {
                 visible = result["visibility"] //C
-                console.log("v here" , visible)
             } 
             resolve()
         });
     });
-    console.log(visible, ", " , timerVisible)
     updateTimerVisibility() //B
     updateVisibility() //D
 }
@@ -123,8 +105,12 @@ async function syncDefaultVisibilites() {
 //////////////////////////////////////////////////////////////////////////////
 
 //activates when we refresh a tab
-chrome.tabs.onUpdated.addListener(function() {
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+    console.log("tab status: " , changeInfo.status)
     updatedAndActivatedHandler();
+    if (changeInfo.status === "complete") {
+        syncDefaultVolume()
+    }
 })
 //activates when we switch tabs
 chrome.tabs.onActivated.addListener(function(activeInfo) {
@@ -437,10 +423,9 @@ function updateContentScriptTimerDisplay() {
 }
 
 function updateVisibility() {
-    console.log("uv")
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
-        console.log(activeTab.id)
+        //console.log("uv here: " , activeTab)
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
             type: "TOGGLEVISIBILITY",
             value: visible
@@ -449,7 +434,6 @@ function updateVisibility() {
 }
 
 function updateTimerVisibility() {
-    console.log("utv")
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
