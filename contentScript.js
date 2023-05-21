@@ -495,7 +495,7 @@
             world.style.background = "transparent";
             buddyDiv.style.background = "transparent";
         }
-        //setDeploymentBackgrounds(); //important
+        setDeploymentBackgrounds(); //important
     }
 
     

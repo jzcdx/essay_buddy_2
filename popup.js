@@ -163,28 +163,3 @@ function sendVolumeChange(newVol) {
 
 
 
-
-//testing functions
-var saveF = function() {
-    var myVal = 12;
-    myVal = document.getElementById("testField").value
-    
-    chrome.storage.local.set({"test": myVal}, () => {
-        console.log('Stored name: ' + myVal)
-    });
-}
-
-var retrieveF = function() {
-    chrome.storage.local.get("test", (result) => {
-        console.log(result)
-        console.log(result["test"]);
-    });
-    
-}
-
-function testFunctions() {
-    /*var save = document.getElementById("saveButton")
-    var retrieve = document.getElementById("retrieveButton")
-    save.onclick = saveF;
-    retrieve.onclick = retrieveF;*/
-}
