@@ -1,6 +1,6 @@
 {
-    "name": "Tiny Timer (test ver)",
-    "version": "0.3",
+    "name": "Tiny Timer",
+    "version": "0.5",
     "description": "The Cutest Study Timer in the West",
     "permissions": ["storage", "contextMenus", "activeTab", "audio"],
     "host_permissions": ["<all_urls>"],

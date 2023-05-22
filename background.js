@@ -106,7 +106,7 @@ async function syncDefaultVisibilites() {
 
 //activates when we refresh a tab
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
-    console.log("tab status: " , changeInfo.status)
+    //console.log("tab status: " , changeInfo.status)
     updatedAndActivatedHandler();
     if (changeInfo.status === "complete") {
         syncDefaultVolume()
@@ -118,7 +118,7 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 });
 
 function updatedAndActivatedHandler() {
-    console.log("tab swap")
+    //console.log("tab swap")
     //if timer is currently running or currently paused 
     if (timer !== undefined) {
         if (timer.getRunState() || timer.getPauseState()) {
@@ -282,20 +282,20 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     } else if (info.menuItemId === "startTimer") {
         handleStartToggling();
     } else if (info.menuItemId === "pauseTimer") {
-        console.log("pausing timer");
+        //console.log("pausing timer");
         handleStartToggling();
     } else if (info.menuItemId === "restartTimer") {
-        console.log("(bg js) resetting Timer");
+        //console.log("(bg js) resetting Timer");
         handleTimerReset();
     } else if (info.menuItemId === "changeGoal") {
-        console.log("changing goal from ctx menu");
+        //console.log("changing goal from ctx menu");
         /*
         //opens popup.html in a new tab (maybe we can use this instead of the modal)
         chrome.tabs.create({url : "popup.html"}); 
         */
         sendGoalChangePopupMessage();
     } else if (info.menuItemId === "hideBuddy") {
-        console.log("hiding buddy");
+        //console.log("hiding buddy");
         toggleBuddyVisibility();
     } 
 });
@@ -312,7 +312,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else if (request.action === "changeGoal") { //this is from popup.js
         work_len = request.value;
         chrome.storage.local.set({"workLen": work_len}, () => {
-            console.log('Stored work Length: ' + work_len)
+            //console.log('Stored work Length: ' + work_len)
         });
         if (phase === "WORK") {
             timer_len = work_len;
@@ -322,7 +322,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else if (request.action === "changeBreak") { //this is also from popup.js
         break_len = request.value;
         chrome.storage.local.set({"breakLen": break_len}, () => {
-            console.log('Stored work Length: ' + break_len)
+            //console.log('Stored work Length: ' + break_len)
         });
         if (phase === "BREAK") {
             timer_len = break_len;
@@ -377,7 +377,7 @@ function toggleMSVisibility() {
     timer.toggleMSDisplay();
     msDisplay = timer.getMSDisplay();
     chrome.storage.local.set({"msDisplay": msDisplay}, () => {
-        console.log('Stored msDisplay state: ' + msDisplay)
+        //console.log('Stored msDisplay state: ' + msDisplay)
     });
     timer.updateDisplay();
 }
@@ -386,7 +386,7 @@ function toggleBuddyVisibility() {
     // 1) we'll toggle the variable to track visibility.
     visible = !visible;
     chrome.storage.local.set({"visibility": visible}, () => {
-        console.log('Stored visibility: ' + visible)
+        //console.log('Stored visibility: ' + visible)
     });
 
     // 2) we're gonna message our current tab to flip the visibility.
@@ -397,7 +397,7 @@ function toggleBuddyVisibility() {
 function toggleTimerVisibility() {
     // 1) we'll toggle the variable to track visibility.
     timerVisible = !timerVisible;
-    console.log("tv: " , timerVisible)
+    //console.log("tv: " , timerVisible)
     chrome.storage.local.set({"timerVisibility": timerVisible}, () => {
         //console.log('Stored timer visibility: ' + timerVisible)
     });

@@ -30,7 +30,7 @@
             buddy = document.createElement("img");
             buddy.setAttribute('draggable', 'false');
             buddy.src = chrome.runtime.getURL("assets/sprites/barry/active/tile000.png");
-            //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
+            ///buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddy.title = "it's your lil pal";
             buddy.id = "squareslo";
             buddyDiv.prepend(buddy)            
@@ -82,7 +82,7 @@
             if (event.target.id == menutarget || event.target.id == menutarget2) {
                 //event.preventDefault();
                 chrome.runtime.sendMessage({action: "toggleStart"}, function(response) { //First click to start timer
-                    console.log("response received: " , response);
+                    //console.log("response received: " , response);
                 });
             }
             
@@ -212,14 +212,14 @@
             curY = event.clientY;
             let xDist = startX - curX;
             
-            
+            /*
             console.log(
                 "owidth: " , originalWidth , 
                 ", totalsizedelta: " , totalSizeDelta , 
                 ", xdist: " , xDist , 
                 "curx: " , curX
             )
-
+            */
             if (totalSizeDelta !== undefined) {
                 if (totalSizeDelta + xDist + originalWidth > originalWidth) {
                     setBuddySize(originalWidth);
@@ -354,7 +354,7 @@
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
                 } else {
-                    console.log("tl dne")
+                    //console.log("tl dne")
                 }
             }   
         }
@@ -421,7 +421,7 @@
         //VOLUME STUFF//
 
         function setVolume(newVol) {
-            console.log("volume: " , newVol)
+            //console.log("volume: " , newVol)
             if (newVol === 0) {
                 audio.volume = 0;
             } else {
@@ -449,7 +449,7 @@
             const {type, value, videoId } = obj;
             if (type === "NEWVOLUME") {
                 
-                console.log("VOLUME CHANGE: " , value)
+                //console.log("VOLUME CHANGE: " , value)
             }
 
             if (type === "TIMERSTARTING") {
