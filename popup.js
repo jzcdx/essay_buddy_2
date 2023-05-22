@@ -62,25 +62,12 @@ function addGoalListener(submitGoalChange) {
         var goalInput = document.getElementById("newGoal"); //newGoal is made in the html file
         var goalValue = goalInput.value; //so no input gives you an empty string
         if (goalValue !== "") {
-            /*
-            if (!goalValue.match(/[^$,.\d]/)) {
-                sendNewGoal(goalValue);
-            } else {
-                alert("contains strings 1")
-                //contains strings
-            }*/
             sendNewGoal(goalValue.replace(/[^\d.-]/g, ''));
         }
         
         var breakInput = document.getElementById("newBreak"); //newBreak is made in the html file
         var breakValue = breakInput.value; 
         if (breakValue !== "") {
-            /*
-            if (!breakValue.match(/[^$,.\d]/)) {
-                sendNewBreak(breakValue);
-            } else {
-                //alert("contains strings 2")
-            }*/
             sendNewBreak(breakValue.replace(/[^\d.-]/g, ''));
         }
         
@@ -89,21 +76,12 @@ function addGoalListener(submitGoalChange) {
         //removes the confirmation text after 2 seconds
         if (breakValue !== "" | goalValue !== "") {
             let goalsSavedLabel = document.getElementById("goals-saved")
-            /*
-            alert(goalValue + " " + breakValue)
-            if (!breakValue.match(/[^$,.\d]/) | !goalValue.match(/[^$,.\d]/)) {
-                goalsSavedLabel.innerHTML = "Invalid input, only whole numbers and decimals are valid";
-            } else {
-                goalsSavedLabel.innerHTML = "Goals Saved";
-            }*/
 
-            goalsSavedLabel.innerHTML = "Goals Saved";
-            
             goalsSavedLabel.style.display = "inline";
 
             setTimeout(() => {
                 goalsSavedLabel.style.display = "none";
-            }, 3000); // change 5000 to the number of milliseconds you want to wait before hiding the label
+            }, 2500); // change 5000 to the number of milliseconds you want to wait before hiding the label
         }
     }
 }
