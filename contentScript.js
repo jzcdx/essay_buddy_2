@@ -369,27 +369,6 @@
         }
 
         function setTimerVisibility(new_timer_visibility) {
-            //Bug here
-
-            /*worldExists = document.getElementById("buddy_world")
-            bubbleExists = document.getElementById("bubble-img")
-            bubbleDivExists = document.getElementById("bubble-div")
-            timerLabelExists = document.getElementById("timer-label");
-
-            if (!new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
-                //worldExists.removeChild(bubbleDiv);
-                
-                bubbleDiv.removeChild(bubble);
-                bubbleDiv.removeChild(timerLabel);
-                
-            } else if (new_timer_visibility && (worldExists) && bubbleExists && bubbleDivExists && timerLabelExists) {
-                
-                bubbleDiv.appendChild(bubble);
-                bubbleDiv.appendChild(timerLabel);
-                
-                //worldExists.appendChild(bubbleDiv);
-            }*/
-
             worldExists = document.getElementById("buddy_world")
             bubbleExists = document.getElementById("bubble-img")
             /*bubbleDivExists = document.getElementById("bubble-div")
