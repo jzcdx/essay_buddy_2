@@ -371,11 +371,8 @@
         function setTimerVisibility(new_timer_visibility) {
             worldExists = document.getElementById("buddy_world")
             bubbleExists = document.getElementById("bubble-img")
-            /*bubbleDivExists = document.getElementById("bubble-div")
-            timerLabelExists = document.getElementById("timer-label");
-            */
             
-            if (!new_timer_visibility && (worldExists) && bubbleExists/* && bubbleDivExists && timerLabelExists*/) {
+            if (!new_timer_visibility && (worldExists) && bubbleExists) {
                 //console.log("making invis")
                 /*
                 bubbleDiv.removeChild(bubble);
