@@ -384,7 +384,6 @@
                 
                 
                 world.appendChild(bubbleDiv)
-                //console.log("making vis")
                 /*
                 bubbleDiv.appendChild(bubble);
                 bubbleDiv.appendChild(timerLabel);
