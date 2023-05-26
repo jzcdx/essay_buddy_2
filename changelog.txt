@@ -1,4 +1,4 @@
-v0.5 (work in progress)
+v0.5 (LIVE: Deployed [May 23, 2023]) 
 Features:
 -Implemented sound system for phase transition noises (tentatively a meow noise)
 --Implemented volume slider
@@ -13,18 +13,18 @@ change his size depending on unknown site-specific factors
 -Various resizing related bugs
 -Various sync bugs
 
-v0.3 (deployed)
+v0.3 (Deployed [April 23, 2023])  
 -Displaying milliseconds on timer can now be toggled on and off (maintains state between browsing sessions)
 -Launched Promotional Site (www.tinytimer.ca)
 -New speech bubble
 -New font for speech bubble
 -Bug fixes for msdisplay and visibility settings
 
-v0.2 
+v0.2 (Deployed [April 18, 2023])
 -Fixed barry's hitbox
 -Implemented state syncing between browsing sessions (work/break, and visibility)
 -Various Bug Fixes
 
-v0.1
+v0.1 (Deployed [April 6, 2023])
 -We're on the app store!
 
