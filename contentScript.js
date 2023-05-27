@@ -373,16 +373,12 @@
             bubbleExists = document.getElementById("bubble-img")
             
             if (!new_timer_visibility && (worldExists) && bubbleExists) {
-                //console.log("making invis")
                 /*
                 bubbleDiv.removeChild(bubble);
                 bubbleDiv.removeChild(timerLabel);
                 */
                 world.removeChild(bubbleDiv)
             } else if (new_timer_visibility && (worldExists)) {
-                //console.log("here")
-                
-                
                 world.appendChild(bubbleDiv)
                 /*
                 bubbleDiv.appendChild(bubble);
