@@ -382,7 +382,6 @@
         //VOLUME STUFF//
 
         function setVolume(newVol) {
-            //console.log("volume: " , newVol)
             if (newVol === 0) {
                 audio.volume = 0;
             } else {
