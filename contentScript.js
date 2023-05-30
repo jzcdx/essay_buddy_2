@@ -407,11 +407,6 @@
         ///THE LISTENER BLOCK
         chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
             const {type, value, videoId } = obj;
-            if (type === "NEWVOLUME") {
-                
-                //console.log("VOLUME CHANGE: " , value)
-            }
-
             if (type === "TIMERSTARTING") {
                 chrome.storage.sync.get("startTime", (data) => {
                     const startTime = data["startTime"];
