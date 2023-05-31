@@ -438,7 +438,6 @@
                 setBuddySize(originalWidth + totalSizeDelta);
             } else if (type === "TOGGLETIMERVISIBILITY") {
                 let new_timer_visibility = value;
-                //console.log("setting timer visibility: " , value)
                 setTimerVisibility(new_timer_visibility);
                 
             }
