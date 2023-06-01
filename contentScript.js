@@ -354,7 +354,6 @@
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
                 } else {
-                    //console.log("tl dne")
                 }
             }   
         }
