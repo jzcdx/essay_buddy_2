@@ -192,7 +192,6 @@
             
             if (ttClicked) {
                 chrome.storage.local.set({"totalSizeDelta": totalSizeDelta}, () => {
-                    //console.log("--tsd set: " , totalSizeDelta)
                 });
                 ttClicked = false;
             }
@@ -353,7 +352,6 @@
 
                 if (timerLabelExists) {
                     timerLabel.innerHTML = flavorString + cur_time;
-                } else {
                 }
             }   
         }
