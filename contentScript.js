@@ -66,7 +66,6 @@
         }
 
         buddy.addEventListener("contextmenu", function(event) {
-            //console.log("context menu clicked (contentScript.js) ");
             var menutarget = "squareslo"
             if (event.target.id == menutarget) {
                 //event.preventDefault();
@@ -82,7 +81,6 @@
             if (event.target.id == menutarget || event.target.id == menutarget2) {
                 //event.preventDefault();
                 chrome.runtime.sendMessage({action: "toggleStart"}, function(response) { //First click to start timer
-                    //console.log("response received: " , response);
                 });
             }
             
