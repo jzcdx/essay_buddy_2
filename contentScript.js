@@ -60,7 +60,6 @@
             timerLabel = document.createElement("label");
             timerLabel.id = "timer-label";
             timerLabel.innerHTML = "Click Me <br>To Start";
-            //timerLabel.innerHTML = "START";
             bubbleDiv.append(timerLabel);
             timerLabelExists = document.getElementById("timer-label");
         }
