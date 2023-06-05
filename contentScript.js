@@ -19,7 +19,6 @@
         let buddyDivExists = document.getElementById("buddyDiv");
         if (!buddyDivExists) {
             buddyDiv = document.createElement("div");
-            //buddy.src = chrome.runtime.getURL("assets/sprites/potion/inactive/1-inactive.png");
             buddyDiv.id = "buddyDiv";
             world.prepend(buddyDiv);
         }
