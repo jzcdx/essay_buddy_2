@@ -397,7 +397,6 @@ function toggleBuddyVisibility() {
 function toggleTimerVisibility() {
     // 1) we'll toggle the variable to track visibility.
     timerVisible = !timerVisible;
-    //console.log("tv: " , timerVisible)
     chrome.storage.local.set({"timerVisibility": timerVisible}, () => {
         //console.log('Stored timer visibility: ' + timerVisible)
     });
