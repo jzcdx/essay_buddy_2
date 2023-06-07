@@ -424,7 +424,6 @@ function updateContentScriptTimerDisplay() {
 function updateVisibility() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { //Gets all active tabs in the current windows
         const activeTab = tabs[0]; //there should only be one tab that fulfills the above criteria
-        //console.log("uv here: " , activeTab)
         chrome.tabs.sendMessage(activeTab.id, { //We're going to update the timer on that tab when we switch to it by sending a message.
             type: "TOGGLEVISIBILITY",
             value: visible
