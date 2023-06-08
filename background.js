@@ -377,7 +377,6 @@ function toggleMSVisibility() {
     timer.toggleMSDisplay();
     msDisplay = timer.getMSDisplay();
     chrome.storage.local.set({"msDisplay": msDisplay}, () => {
-        //console.log('Stored msDisplay state: ' + msDisplay)
     });
     timer.updateDisplay();
 }
