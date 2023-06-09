@@ -285,7 +285,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         //console.log("pausing timer");
         handleStartToggling();
     } else if (info.menuItemId === "restartTimer") {
-        //console.log("(bg js) resetting Timer");
         handleTimerReset();
     } else if (info.menuItemId === "changeGoal") {
         //console.log("changing goal from ctx menu");
