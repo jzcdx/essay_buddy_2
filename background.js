@@ -282,7 +282,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     } else if (info.menuItemId === "startTimer") {
         handleStartToggling();
     } else if (info.menuItemId === "pauseTimer") {
-        //console.log("pausing timer");
         handleStartToggling();
     } else if (info.menuItemId === "restartTimer") {
         handleTimerReset();
