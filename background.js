@@ -286,7 +286,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
     } else if (info.menuItemId === "restartTimer") {
         handleTimerReset();
     } else if (info.menuItemId === "changeGoal") {
-        //console.log("changing goal from ctx menu");
         /*
         //opens popup.html in a new tab (maybe we can use this instead of the modal)
         chrome.tabs.create({url : "popup.html"}); 
