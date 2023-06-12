@@ -292,7 +292,6 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         */
         sendGoalChangePopupMessage();
     } else if (info.menuItemId === "hideBuddy") {
-        //console.log("hiding buddy");
         toggleBuddyVisibility();
     } 
 });
