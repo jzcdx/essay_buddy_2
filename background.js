@@ -196,7 +196,6 @@ function handleStartToggling() {
     chrome.storage.sync.set({
         ["startTime"]: JSON.stringify(Date.now())
     }, function() {
-        //console.log("Stored this: " + storeMe);
     });
     //We're gonna let our contentscript know that we're starting the timer here
     
