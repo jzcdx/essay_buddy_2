@@ -106,7 +106,6 @@ async function syncDefaultVisibilites() {
 
 //activates when we refresh a tab
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
-    //console.log("tab status: " , changeInfo.status)
     updatedAndActivatedHandler();
     if (changeInfo.status === "complete") {
         syncDefaultVolume()
