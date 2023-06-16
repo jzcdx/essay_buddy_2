@@ -60,7 +60,6 @@ async function syncDefaultVolume() {
             resolve()
         });
     })
-    //console.log("oldvol: " , oldVol)
     
     if (oldVol !== undefined) {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
