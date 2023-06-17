@@ -5,7 +5,6 @@ var work_len = 25;
 var break_len = 5;
 
 var timer_len; //in minutes
-//var timer = new Timer(timer_len);
 var timer;
 
 var phase = "WORK"; //WORK or BREAK
