@@ -389,7 +389,6 @@ function toggleTimerVisibility() {
     // 1) we'll toggle the variable to track visibility.
     timerVisible = !timerVisible;
     chrome.storage.local.set({"timerVisibility": timerVisible}, () => {
-        //console.log('Stored timer visibility: ' + timerVisible)
     });
 
     // 2) we're gonna message our current tab to flip the visibility.
