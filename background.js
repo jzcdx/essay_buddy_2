@@ -377,7 +377,6 @@ function toggleBuddyVisibility() {
     // 1) we'll toggle the variable to track visibility.
     visible = !visible;
     chrome.storage.local.set({"visibility": visible}, () => {
-        //console.log('Stored visibility: ' + visible)
     });
 
     // 2) we're gonna message our current tab to flip the visibility.
