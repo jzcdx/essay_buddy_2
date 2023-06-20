@@ -127,7 +127,6 @@ function updatedAndActivatedHandler() {
                 });
             });
         } else {
-            //console.log("tab switching, timer not running (bg.js)")
         }
     }
     
