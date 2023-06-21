@@ -115,7 +115,6 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 });
 
 function updatedAndActivatedHandler() {
-    //console.log("tab swap")
     //if timer is currently running or currently paused 
     if (timer !== undefined) {
         if (timer.getRunState() || timer.getPauseState()) {
