@@ -51,7 +51,6 @@ function fillPlaceholders() {
 
     chrome.storage.local.get("volume", (result) => {
         let savedVolume = result["volume"];
-        //console.log(savedVolume);
         volumeSlider.setAttribute("value", savedVolume);
     });
 
