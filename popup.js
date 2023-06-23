@@ -146,7 +146,6 @@ function addVolumeListener() {
         let newVolume = slider.value;
         volDisplay.innerHTML = newVolume + "%";
         chrome.storage.local.set({"volume": newVolume}, () => {
-            //console.log('Stored volume: ' + newVolume);
             sendVolumeChange(newVolume);
         });
     });
