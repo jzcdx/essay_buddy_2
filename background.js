@@ -302,7 +302,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else if (request.action === "changeGoal") { //this is from popup.js
         work_len = request.value;
         chrome.storage.local.set({"workLen": work_len}, () => {
-            //console.log('Stored work Length: ' + work_len)
         });
         if (phase === "WORK") {
             timer_len = work_len;
