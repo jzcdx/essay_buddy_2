@@ -311,7 +311,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else if (request.action === "changeBreak") { //this is also from popup.js
         break_len = request.value;
         chrome.storage.local.set({"breakLen": break_len}, () => {
-            //console.log('Stored work Length: ' + break_len)
         });
         if (phase === "BREAK") {
             timer_len = break_len;
