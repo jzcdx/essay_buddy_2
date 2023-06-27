@@ -249,7 +249,7 @@ function sendSizeDeltaMessage() {
 }
 
 function sendSizeUpdate() {
-    //sends size delta to 
+    //sends size delta to current tab
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const activeTab = tabs[0];
         chrome.tabs.sendMessage(activeTab.id, { type: "UPDATESIZE"});
