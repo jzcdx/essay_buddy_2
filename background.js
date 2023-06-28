@@ -224,7 +224,7 @@ async function syncSize() {
 }
 
 function sendSizeMessage() {
-    //sends size delta to 
+    //sends original size to current tab 
     let originalSize = curSpriteSet.width;
     return new Promise((resolve, reject) => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -237,7 +237,7 @@ function sendSizeMessage() {
 }
 
 function sendSizeDeltaMessage() {
-    //sends size delta to 
+    //sends size delta to current tab
     return new Promise((resolve, reject) => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const activeTab = tabs[0];
