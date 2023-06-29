@@ -65,8 +65,6 @@ async function syncDefaultVolume() {
             const activeTab = tabs[0];
             if (activeTab != undefined) {
                 chrome.tabs.sendMessage(activeTab.id, { type: "NEWVOLUME", value: oldVol });
-            } else {
-                //tab does not exist for volume
             }
         });
     }
