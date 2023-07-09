@@ -9,7 +9,7 @@
 #timer-label {
     /*note to self, set the font lol*/
     text-align: center;
-    /*font-family: 'Courier New';*/ /*so changing to a monospace font like courier new fixes the number jiggling problem lol*/
+    /*changing to a monospace font like courier new fixes the number jiggling problem lol*/
     
     font-family: "Press Start 2P";
     margin-top:5px;
