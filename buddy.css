@@ -25,6 +25,7 @@
     font-weight: 300;
 }
 
+/*the speech bubble sprite itself*/
 #bubble-img {
     position: absolute;
     right: 0px; top: 0px;
