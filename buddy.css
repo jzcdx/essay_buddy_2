@@ -53,6 +53,7 @@
     background-color:rgb(137, 109, 109);
     pointer-events: auto;
 }
+
 /*the largest containing div, contains everything else*/
 #buddy_world {
     position: fixed; 
@@ -68,6 +69,7 @@
     pointer-events: none;
 }
 
+/*the div that contains the buddy's sprite*/
 #buddyDiv {
     position: absolute;
     left: 0px; bottom: 0px;
