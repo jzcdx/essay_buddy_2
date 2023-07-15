@@ -134,6 +134,7 @@
     margin:5px;
 }
 
+/*for the modal close button alone*/
 #goal-change-close {
     position: absolute;
     top: 0px;
