@@ -130,6 +130,7 @@
     flex-direction:column;
 }
 
+/*For everything that the goal-change modal contains*/
 #goal-change-popup * {
     margin:5px;
 }
