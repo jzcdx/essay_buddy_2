@@ -97,12 +97,9 @@
     z-index: 18999;
     
     
-
-   
-    
     background-color:rgb(177, 161, 161);
 
-    /*prevents dragging the image off*/
+    /*prevents dragging the image off (interferes with the click listeners and also looks weird)*/
     
     -webkit-user-select: none;
     -khtml-user-select: none;
